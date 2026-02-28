@@ -165,6 +165,7 @@ jobs:
             -configuration "$CONFIGURATION" \
             -project "$PROJECT" \
             -scheme "$SCHEME" \
+            ARCHS=arm64 \
             CODE_SIGN_IDENTITY="" \
             CODE_SIGNING_REQUIRED=NO \
             CODE_SIGN_ENTITLEMENTS="" \
