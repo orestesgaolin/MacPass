@@ -263,13 +263,31 @@ jobs:
           ditto -c -k --keepParent "$APP" "$BUILD_DIR/$APP_NAME-notarize.zip"
 
           echo "Submitting to Apple notarization service..."
-          xcrun notarytool submit "$BUILD_DIR/$APP_NAME-notarize.zip" \
+          RESULT=$(xcrun notarytool submit "$BUILD_DIR/$APP_NAME-notarize.zip" \
             --apple-id "$APPLE_ID" \
             --team-id "$TEAM_ID" \
             --password "$APP_PWD" \
             --wait \
-            --timeout 30m
+            --timeout 30m \
+            --output-format json) || true
 
+          echo "$RESULT"
+          STATUS=$(echo "$RESULT" | python3 -c "import sys,json; print(json.load(sys.stdin).get('status','Unknown'))")
+          SUB_ID=$(echo "$RESULT" | python3 -c "import sys,json; print(json.load(sys.stdin).get('id',''))")
+
+          if [ "$STATUS" != "Accepted" ]; then
+            echo "❌ Notarization failed with status: $STATUS"
+            if [ -n "$SUB_ID" ]; then
+              echo "Fetching notarization log..."
+              xcrun notarytool log "$SUB_ID" \
+                --apple-id "$APPLE_ID" \
+                --team-id "$TEAM_ID" \
+                --password "$APP_PWD"
+            fi
+            exit 1
+          fi
+
+          echo "✅ Notarization accepted"
           echo "Stapling notarization ticket..."
           xcrun stapler staple "$APP"
 
