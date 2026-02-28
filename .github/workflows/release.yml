@@ -57,11 +57,15 @@ jobs:
           mkdir -p Carthage/Build/Mac
 
           # Build KeePassKit macOS directly (bypassing Carthage's scheme discovery)
+          # KeePassKit expects KissXML in its own Carthage/Build/Mac/ - symlink it
+          mkdir -p Carthage/Checkouts/KeePassKit/Carthage/Build/Mac
+          ln -sf "$(pwd)/Carthage/Build/Mac/KissXML.framework" \
+            Carthage/Checkouts/KeePassKit/Carthage/Build/Mac/KissXML.framework
           xcodebuild build \
             -project Carthage/Checkouts/KeePassKit/KeePassKit.xcodeproj \
             -target "KeePassKit macOS" \
             -configuration Release \
-            ONLY_ACTIVE_ARCH=NO \
+            ARCHS=arm64 \
             CODE_SIGNING_REQUIRED=NO \
             CODE_SIGN_IDENTITY="" \
             SDKROOT=macosx \
@@ -76,7 +80,7 @@ jobs:
             -scheme "TransformerKit macOS" \
             -configuration Release \
             -derivedDataPath /tmp/TransformerKit-build \
-            ONLY_ACTIVE_ARCH=NO \
+            ARCHS=arm64 \
             CODE_SIGNING_REQUIRED=NO \
             CODE_SIGN_IDENTITY="" \
             SDKROOT=macosx
