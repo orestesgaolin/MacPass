@@ -220,16 +220,34 @@ jobs:
 
           echo "::group::Signing embedded frameworks"
 
-          # Sign Sparkle components (deep first)
+          # Sign Sparkle 2.x components (innermost first)
           SPARKLE="$FRAMEWORKS/Sparkle.framework"
           if [ -d "$SPARKLE" ]; then
-            AUTOUPDATE="$SPARKLE/Resources/Autoupdate.app"
-            if [ -d "$AUTOUPDATE" ]; then
-              FILEOP="$AUTOUPDATE/Contents/MacOS/fileop"
-              [ -f "$FILEOP" ] && codesign --sign "$CERT_NAME" --options runtime --force --entitlements "$ENTITLEMENTS" "$FILEOP"
-              codesign --sign "$CERT_NAME" --options runtime --force --entitlements "$ENTITLEMENTS" "$AUTOUPDATE"
+            echo "Signing Sparkle components..."
+
+            # XPC Services
+            for xpc in "$SPARKLE/Versions/B/XPCServices/"*.xpc; do
+              if [ -d "$xpc" ]; then
+                echo "  Signing $(basename "$xpc")..."
+                codesign --sign "$CERT_NAME" --options runtime --force --timestamp "$xpc"
+              fi
+            done
+
+            # Autoupdate helper
+            if [ -f "$SPARKLE/Versions/B/Autoupdate" ]; then
+              echo "  Signing Autoupdate..."
+              codesign --sign "$CERT_NAME" --options runtime --force --timestamp "$SPARKLE/Versions/B/Autoupdate"
             fi
-            codesign --sign "$CERT_NAME" --options runtime --force --entitlements "$ENTITLEMENTS" "$SPARKLE"
+
+            # Updater.app
+            if [ -d "$SPARKLE/Versions/B/Updater.app" ]; then
+              echo "  Signing Updater.app..."
+              codesign --sign "$CERT_NAME" --options runtime --force --timestamp "$SPARKLE/Versions/B/Updater.app"
+            fi
+
+            # Sign the framework itself
+            echo "  Signing Sparkle.framework..."
+            codesign --sign "$CERT_NAME" --options runtime --force --timestamp "$SPARKLE"
           fi
 
           # Sign remaining frameworks
@@ -237,14 +255,14 @@ jobs:
             FW_PATH="$FRAMEWORKS/${fw}.framework"
             if [ -d "$FW_PATH" ]; then
               echo "Signing $fw..."
-              codesign --sign "$CERT_NAME" --options runtime --force --entitlements "$ENTITLEMENTS" "$FW_PATH"
+              codesign --sign "$CERT_NAME" --options runtime --force --timestamp --entitlements "$ENTITLEMENTS" "$FW_PATH"
             fi
           done
 
           echo "::endgroup::"
 
           echo "Signing $APP_NAME.app..."
-          codesign --sign "$CERT_NAME" --options runtime --force --entitlements "$ENTITLEMENTS" "$APP"
+          codesign --sign "$CERT_NAME" --options runtime --force --timestamp --entitlements "$ENTITLEMENTS" "$APP"
 
           echo "Verifying signature..."
           codesign --verify --deep --strict "$APP"
