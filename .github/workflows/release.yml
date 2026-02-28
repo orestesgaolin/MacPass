@@ -34,30 +34,48 @@ jobs:
       - name: Install Carthage
         run: brew install carthage
 
-      - name: Carthage Checkout
+      - name: Fetch Dependencies
         env:
           GITHUB_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: carthage checkout
+        run: |
+          # Resolve, checkout sources, and download binary deps (Sparkle)
+          # without building anything — Carthage's build is broken on arm64 Xcode 16
+          carthage bootstrap --no-build
 
       - name: Fix TransformerKit Compatibility
         run: |
           chmod +x scripts/fix_transformerkit.sh
           ./scripts/fix_transformerkit.sh
 
-      - name: Carthage Build
-        env:
-          GITHUB_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build Frameworks
         run: |
-          # --platform macOS avoids arm64 lipo conflicts for iOS fat frameworks,
-          # but Carthage still tries iOS-only schemes (e.g. "KeePassKit iOS") and fails.
-          # Let it build what it can (HNHUi, KissXML), then build the rest manually.
-          carthage build --platform macOS || true
-
-          # Ensure output directory exists
+          set -euo pipefail
           mkdir -p Carthage/Build/Mac
 
-          # Build KeePassKit macOS directly (bypassing Carthage's scheme discovery)
-          # KeePassKit expects KissXML in its own Carthage/Build/Mac/ - symlink it
+          echo "::group::Building HNHUi"
+          xcodebuild build \
+            -project Carthage/Checkouts/HNHUi/HNHUi.xcodeproj \
+            -scheme HNHUi \
+            -configuration Release \
+            ARCHS=arm64 SDKROOT=macosx \
+            CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY="" \
+            SYMROOT=/tmp/HNHUi-build OBJROOT=/tmp/HNHUi-obj
+          cp -R /tmp/HNHUi-build/Release/HNHUi.framework Carthage/Build/Mac/
+          echo "::endgroup::"
+
+          echo "::group::Building KissXML"
+          xcodebuild build \
+            -project Carthage/Checkouts/KissXML/KissXML.xcodeproj \
+            -scheme "KissXML (macOS)" \
+            -configuration Release \
+            ARCHS=arm64 SDKROOT=macosx \
+            CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY="" \
+            SYMROOT=/tmp/KissXML-build OBJROOT=/tmp/KissXML-obj
+          cp -R /tmp/KissXML-build/Release/KissXML.framework Carthage/Build/Mac/
+          echo "::endgroup::"
+
+          echo "::group::Building KeePassKit"
+          # KeePassKit looks for KissXML in its own Carthage/Build/Mac/
           mkdir -p Carthage/Checkouts/KeePassKit/Carthage/Build/Mac
           ln -sf "$(pwd)/Carthage/Build/Mac/KissXML.framework" \
             Carthage/Checkouts/KeePassKit/Carthage/Build/Mac/KissXML.framework
@@ -65,37 +83,34 @@ jobs:
             -project Carthage/Checkouts/KeePassKit/KeePassKit.xcodeproj \
             -target "KeePassKit macOS" \
             -configuration Release \
-            ARCHS=arm64 \
-            CODE_SIGNING_REQUIRED=NO \
-            CODE_SIGN_IDENTITY="" \
-            SDKROOT=macosx \
-            SYMROOT=/tmp/KeePassKit-build \
-            OBJROOT=/tmp/KeePassKit-obj
-          cp -R /tmp/KeePassKit-build/Release/KeePassKit.framework \
-            Carthage/Build/Mac/KeePassKit.framework
+            ARCHS=arm64 SDKROOT=macosx \
+            CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY="" \
+            SYMROOT=/tmp/KeePassKit-build OBJROOT=/tmp/KeePassKit-obj
+          cp -R /tmp/KeePassKit-build/Release/KeePassKit.framework Carthage/Build/Mac/
+          echo "::endgroup::"
 
-          # Build TransformerKit macOS scheme directly
+          echo "::group::Building TransformerKit"
           xcodebuild build \
             -workspace Carthage/Checkouts/TransformerKit/TransformerKit.xcworkspace \
             -scheme "TransformerKit macOS" \
             -configuration Release \
             -derivedDataPath /tmp/TransformerKit-build \
-            ARCHS=arm64 \
-            CODE_SIGNING_REQUIRED=NO \
-            CODE_SIGN_IDENTITY="" \
-            SDKROOT=macosx
+            ARCHS=arm64 SDKROOT=macosx \
+            CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY=""
           cp -R /tmp/TransformerKit-build/Build/Products/Release/TransformerKit.framework \
-            Carthage/Build/Mac/TransformerKit.framework
+            Carthage/Build/Mac/
+          echo "::endgroup::"
 
-          # Verify all required frameworks exist
+          # Verify all required frameworks
+          echo "Checking frameworks..."
           for fw in KeePassKit HNHUi TransformerKit KissXML Sparkle; do
             if [ ! -d "Carthage/Build/Mac/$fw.framework" ]; then
-              echo "❌ $fw.framework not found in Carthage/Build/Mac/"
+              echo "❌ $fw.framework not found"
               ls -la Carthage/Build/Mac/ || true
               exit 1
             fi
+            echo "  ✅ $fw.framework"
           done
-          echo "✅ All frameworks built successfully"
 
       # ── Import Signing Certificates ─────────────────────────────
       - name: Import Certificates
