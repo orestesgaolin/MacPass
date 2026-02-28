@@ -12,7 +12,7 @@ env:
   PROJECT: MacPass.xcodeproj
   CONFIGURATION: Release
   APP_NAME: MacPass
-  BUNDLE_ID: com.hicknhacksoftware.MacPass
+  BUNDLE_ID: dev.roszkowski.macpass
 
 jobs:
   build-sign-notarize:
@@ -123,6 +123,16 @@ jobs:
       - name: Build MacPass
         run: |
           set -o pipefail
+
+          # Version from tag (strip leading 'v' if present), build number from GH run
+          if [[ "$GITHUB_REF_TYPE" == "tag" ]]; then
+            VERSION="${GITHUB_REF_NAME#v}"
+          else
+            VERSION="0.0.0-dev"
+          fi
+          BUILD_NUMBER="${{ github.run_number }}"
+          echo "Building version $VERSION (build $BUILD_NUMBER)"
+
           xcodebuild build \
             -configuration "$CONFIGURATION" \
             -project "$PROJECT" \
@@ -130,8 +140,22 @@ jobs:
             CODE_SIGN_IDENTITY="" \
             CODE_SIGNING_REQUIRED=NO \
             CODE_SIGN_ENTITLEMENTS="" \
+            CURRENT_PROJECT_VERSION="$VERSION" \
+            MARKETING_VERSION="$VERSION" \
             -derivedDataPath ./build \
             | xcpretty -c
+
+          # Stamp version and build number into the built app
+          APP_PLIST="./build/Build/Products/$CONFIGURATION/$APP_NAME.app/Contents/Info.plist"
+          /usr/libexec/PlistBuddy -c "Set :CFBundleShortVersionString $VERSION" "$APP_PLIST"
+          /usr/libexec/PlistBuddy -c "Set :CFBundleVersion $BUILD_NUMBER" "$APP_PLIST"
+          echo "Stamped version: $VERSION, build: $BUILD_NUMBER"
+
+          # Make version available to later steps
+          {
+            echo "VERSION=$VERSION"
+            echo "BUILD_NUMBER=$BUILD_NUMBER"
+          } >> "$GITHUB_ENV"
 
       # ── Code Sign ───────────────────────────────────────────────
       - name: Code Sign Frameworks and App
@@ -209,9 +233,6 @@ jobs:
           BUILD_DIR="./build/Build/Products/$CONFIGURATION"
           APP="$BUILD_DIR/$APP_NAME.app"
 
-          # Determine version from tag or build
-          VERSION="${GITHUB_REF_NAME:-0.0.0}"
-
           echo "Creating component pkg..."
           pkgbuild \
             --component "$APP" \
@@ -232,7 +253,6 @@ jobs:
           {
             echo "PKG_PATH=$BUILD_DIR/$APP_NAME-$VERSION.pkg"
             echo "ZIP_PATH=$BUILD_DIR/$APP_NAME-$VERSION.zip"
-            echo "VERSION=$VERSION"
           } >> "$GITHUB_ENV"
 
       # ── Notarize PKG ────────────────────────────────────────────
