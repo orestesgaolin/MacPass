@@ -47,7 +47,7 @@ jobs:
       - name: Carthage Build
         env:
           GITHUB_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: carthage build --platform macOS
+        run: carthage build
 
       # ── Import Signing Certificates ─────────────────────────────
       - name: Import Certificates
