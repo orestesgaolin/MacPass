@@ -17,6 +17,7 @@ env:
 jobs:
   build-sign-notarize:
     runs-on: macos-15
+    environment: Production
     permissions:
       contents: write
       id-token: write
