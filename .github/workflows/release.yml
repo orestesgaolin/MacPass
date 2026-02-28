@@ -4,6 +4,7 @@ on:
   push:
     tags:
       - "*.*.*"
+      - "*.*.*-*"
   workflow_dispatch:
 
 env:
@@ -35,7 +36,11 @@ jobs:
       - name: Carthage Bootstrap
         env:
           GITHUB_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: carthage bootstrap --platform macOS
+        run: |
+          # Carthage may fail on iOS schemes (KeePassKit iOS, TransformerKit iOS)
+          # but the macOS frameworks will still be built successfully.
+          # TransformerKit macOS is rebuilt in the next step after applying fixes.
+          carthage bootstrap --platform macOS || true
 
       - name: Fix TransformerKit Compatibility
         run: |
@@ -112,16 +117,19 @@ jobs:
           echo "KEYCHAIN_PATH=$KEYCHAIN_PATH" >> "$GITHUB_ENV"
 
       # ── Build ───────────────────────────────────────────────────
+      - name: Install xcpretty
+        run: gem install xcpretty --no-document --quiet
+
       - name: Build MacPass
-        env:
-          CERT_NAME: ${{ secrets.MACOS_CERTIFICATE_NAME }}
         run: |
+          set -o pipefail
           xcodebuild build \
             -configuration "$CONFIGURATION" \
             -project "$PROJECT" \
             -scheme "$SCHEME" \
-            CODE_SIGN_IDENTITY="$CERT_NAME" \
+            CODE_SIGN_IDENTITY="" \
             CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGN_ENTITLEMENTS="" \
             -derivedDataPath ./build \
             | xcpretty -c
 
@@ -337,16 +345,15 @@ jobs:
 
           # Query all releases and generate items
           gh api "repos/${REPO}/releases" --paginate --jq '.[] | select(.draft == false)' | \
-          jq -r --arg repo "$REPO" '
+          jq -r '
             . as $release |
             ($release.assets // []) | map(select(.name | endswith(".zip"))) | first // empty |
-            "<item>\n" +
+            "    <item>\n" +
             "      <title>\($release.name // $release.tag_name)</title>\n" +
             "      <pubDate>\($release.published_at)</pubDate>\n" +
             "      <sparkle:version>\($release.tag_name)</sparkle:version>\n" +
             "      <sparkle:shortVersionString>\($release.tag_name)</sparkle:shortVersionString>\n" +
             "      <sparkle:minimumSystemVersion>10.13</sparkle:minimumSystemVersion>\n" +
-            "      <description><![CDATA[\($release.body // "")]]></description>\n" +
             "      <enclosure\n" +
             "        url=\"\(.browser_download_url)\"\n" +
             "        length=\"\(.size)\"\n" +
@@ -363,14 +370,18 @@ jobs:
           </rss>
           FOOTER
 
+          # Move to a dedicated directory for gh-pages deployment
+          mkdir -p _site
+          mv appcast.xml _site/appcast.xml
+
           echo "Generated appcast.xml:"
-          cat appcast.xml
+          cat _site/appcast.xml
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: .
+          publish_dir: ./_site
           publish_branch: gh-pages
           keep_files: false
           force_orphan: true
