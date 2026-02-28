@@ -216,7 +216,7 @@ jobs:
           BUILD_DIR="./build/Build/Products/$CONFIGURATION"
           APP="$BUILD_DIR/$APP_NAME.app"
           FRAMEWORKS="$APP/Contents/Frameworks"
-          ENTITLEMENTS="MacPass/MacPass.entitlements"
+          ENTITLEMENTS="MacPass/MacPass-Developer-ID.entitlements"
 
           echo "::group::Signing embedded frameworks"
 
