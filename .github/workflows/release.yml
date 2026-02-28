@@ -34,41 +34,20 @@ jobs:
       - name: Install Carthage
         run: brew install carthage
 
-      - name: Carthage Bootstrap
+      - name: Carthage Checkout
         env:
           GITHUB_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          # Carthage may fail on iOS schemes (KeePassKit iOS, TransformerKit iOS)
-          # but the macOS frameworks will still be built successfully.
-          # TransformerKit macOS is rebuilt in the next step after applying fixes.
-          carthage bootstrap --platform macOS || true
+        run: carthage checkout
 
       - name: Fix TransformerKit Compatibility
         run: |
           chmod +x scripts/fix_transformerkit.sh
           ./scripts/fix_transformerkit.sh
 
-      - name: Rebuild TransformerKit (macOS only)
-        run: |
-          xcodebuild \
-            -workspace Carthage/Checkouts/TransformerKit/TransformerKit.xcworkspace \
-            -scheme "TransformerKit macOS" \
-            -configuration Release \
-            -derivedDataPath /tmp/TransformerKit-build \
-            ONLY_ACTIVE_ARCH=NO \
-            CODE_SIGNING_REQUIRED=NO \
-            CODE_SIGN_IDENTITY= \
-            CARTHAGE=YES \
-            archive \
-            VALIDATE_WORKSPACE=NO \
-            -archivePath /tmp/TransformerKit-archive \
-            SKIP_INSTALL=YES \
-            GCC_INSTRUMENT_PROGRAM_FLOW_ARCS=NO \
-            CLANG_ENABLE_CODE_COVERAGE=NO \
-            STRIP_INSTALLED_PRODUCT=NO
-
-          cp -R "/tmp/TransformerKit-build/Build/Intermediates.noindex/ArchiveIntermediates/TransformerKit macOS/IntermediateBuildFilesPath/UninstalledProducts/macosx/TransformerKit.framework" \
-            Carthage/Build/Mac/TransformerKit.framework
+      - name: Carthage Build
+        env:
+          GITHUB_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: carthage build --platform macOS
 
       # ── Import Signing Certificates ─────────────────────────────
       - name: Import Certificates
