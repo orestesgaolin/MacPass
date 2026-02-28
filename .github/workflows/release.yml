@@ -1,0 +1,364 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "*.*.*"
+  workflow_dispatch:
+
+env:
+  SCHEME: MacPass
+  PROJECT: MacPass.xcodeproj
+  CONFIGURATION: Release
+  APP_NAME: MacPass
+  BUNDLE_ID: com.hicknhacksoftware.MacPass
+
+jobs:
+  build-sign-notarize:
+    runs-on: macos-15
+    permissions:
+      contents: write
+      id-token: write
+      attestations: write
+
+    steps:
+      # ── Checkout ────────────────────────────────────────────────
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      # ── Dependencies ────────────────────────────────────────────
+      - name: Install Carthage
+        run: brew install carthage
+
+      - name: Carthage Bootstrap
+        env:
+          GITHUB_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: carthage bootstrap --platform macOS
+
+      - name: Fix TransformerKit Compatibility
+        run: |
+          chmod +x scripts/fix_transformerkit.sh
+          ./scripts/fix_transformerkit.sh
+
+      - name: Rebuild TransformerKit (macOS only)
+        run: |
+          xcodebuild \
+            -workspace Carthage/Checkouts/TransformerKit/TransformerKit.xcworkspace \
+            -scheme "TransformerKit macOS" \
+            -configuration Release \
+            -derivedDataPath /tmp/TransformerKit-build \
+            ONLY_ACTIVE_ARCH=NO \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGN_IDENTITY= \
+            CARTHAGE=YES \
+            archive \
+            VALIDATE_WORKSPACE=NO \
+            -archivePath /tmp/TransformerKit-archive \
+            SKIP_INSTALL=YES \
+            GCC_INSTRUMENT_PROGRAM_FLOW_ARCS=NO \
+            CLANG_ENABLE_CODE_COVERAGE=NO \
+            STRIP_INSTALLED_PRODUCT=NO
+
+          cp -R "/tmp/TransformerKit-build/Build/Intermediates.noindex/ArchiveIntermediates/TransformerKit macOS/IntermediateBuildFilesPath/UninstalledProducts/macosx/TransformerKit.framework" \
+            Carthage/Build/Mac/TransformerKit.framework
+
+      # ── Import Signing Certificate ──────────────────────────────
+      - name: Import Certificate
+        env:
+          MACOS_CERTIFICATE_P12: ${{ secrets.MACOS_CERTIFICATE_P12 }}
+          MACOS_CERTIFICATE_PWD: ${{ secrets.MACOS_CERTIFICATE_PWD }}
+        run: |
+          CERTIFICATE_PATH=$RUNNER_TEMP/build_certificate.p12
+          KEYCHAIN_PATH=$RUNNER_TEMP/app-signing.keychain-db
+          KEYCHAIN_PWD=$(openssl rand -hex 16)
+
+          # Decode certificate
+          echo "$MACOS_CERTIFICATE_P12" | base64 --decode > "$CERTIFICATE_PATH"
+
+          # Create temporary keychain
+          security create-keychain -p "$KEYCHAIN_PWD" "$KEYCHAIN_PATH"
+          security set-keychain-settings -lut 21600 "$KEYCHAIN_PATH"
+          security unlock-keychain -p "$KEYCHAIN_PWD" "$KEYCHAIN_PATH"
+
+          # Import certificate
+          security import "$CERTIFICATE_PATH" \
+            -P "$MACOS_CERTIFICATE_PWD" \
+            -A \
+            -t cert \
+            -f pkcs12 \
+            -k "$KEYCHAIN_PATH"
+
+          # Allow codesign to access the keychain
+          security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k "$KEYCHAIN_PWD" "$KEYCHAIN_PATH"
+
+          # Add to search list
+          security list-keychain -d user -s "$KEYCHAIN_PATH"
+
+          # Export for later steps
+          echo "KEYCHAIN_PATH=$KEYCHAIN_PATH" >> "$GITHUB_ENV"
+
+      # ── Build ───────────────────────────────────────────────────
+      - name: Build MacPass
+        env:
+          CERT_NAME: ${{ secrets.MACOS_CERTIFICATE_NAME }}
+        run: |
+          xcodebuild build \
+            -configuration "$CONFIGURATION" \
+            -project "$PROJECT" \
+            -scheme "$SCHEME" \
+            CODE_SIGN_IDENTITY="$CERT_NAME" \
+            CODE_SIGNING_REQUIRED=NO \
+            -derivedDataPath ./build \
+            | xcpretty -c
+
+      # ── Code Sign ───────────────────────────────────────────────
+      - name: Code Sign Frameworks and App
+        env:
+          CERT_NAME: ${{ secrets.MACOS_CERTIFICATE_NAME }}
+        run: |
+          BUILD_DIR="./build/Build/Products/$CONFIGURATION"
+          APP="$BUILD_DIR/$APP_NAME.app"
+          FRAMEWORKS="$APP/Contents/Frameworks"
+          ENTITLEMENTS="MacPass/MacPass.entitlements"
+
+          echo "::group::Signing embedded frameworks"
+
+          # Sign Sparkle components (deep first)
+          SPARKLE="$FRAMEWORKS/Sparkle.framework"
+          if [ -d "$SPARKLE" ]; then
+            AUTOUPDATE="$SPARKLE/Resources/Autoupdate.app"
+            if [ -d "$AUTOUPDATE" ]; then
+              FILEOP="$AUTOUPDATE/Contents/MacOS/fileop"
+              [ -f "$FILEOP" ] && codesign --sign "$CERT_NAME" --options runtime --force --entitlements "$ENTITLEMENTS" "$FILEOP"
+              codesign --sign "$CERT_NAME" --options runtime --force --entitlements "$ENTITLEMENTS" "$AUTOUPDATE"
+            fi
+            codesign --sign "$CERT_NAME" --options runtime --force --entitlements "$ENTITLEMENTS" "$SPARKLE"
+          fi
+
+          # Sign remaining frameworks
+          for fw in TransformerKit KeePassKit KissXML HNHUi; do
+            FW_PATH="$FRAMEWORKS/${fw}.framework"
+            if [ -d "$FW_PATH" ]; then
+              echo "Signing $fw..."
+              codesign --sign "$CERT_NAME" --options runtime --force --entitlements "$ENTITLEMENTS" "$FW_PATH"
+            fi
+          done
+
+          echo "::endgroup::"
+
+          echo "Signing $APP_NAME.app..."
+          codesign --sign "$CERT_NAME" --options runtime --force --entitlements "$ENTITLEMENTS" "$APP"
+
+          echo "Verifying signature..."
+          codesign --verify --deep --strict "$APP"
+
+      # ── Notarize ────────────────────────────────────────────────
+      - name: Notarize
+        env:
+          APPLE_ID: ${{ secrets.NOTARIZATION_APPLE_ID }}
+          TEAM_ID: ${{ secrets.NOTARIZATION_TEAM_ID }}
+          APP_PWD: ${{ secrets.NOTARIZATION_PWD }}
+        run: |
+          BUILD_DIR="./build/Build/Products/$CONFIGURATION"
+          APP="$BUILD_DIR/$APP_NAME.app"
+
+          echo "Creating zip for notarization submission..."
+          ditto -c -k --keepParent "$APP" "$BUILD_DIR/$APP_NAME-notarize.zip"
+
+          echo "Submitting to Apple notarization service..."
+          xcrun notarytool submit "$BUILD_DIR/$APP_NAME-notarize.zip" \
+            --apple-id "$APPLE_ID" \
+            --team-id "$TEAM_ID" \
+            --password "$APP_PWD" \
+            --wait \
+            --timeout 30m
+
+          echo "Stapling notarization ticket..."
+          xcrun stapler staple "$APP"
+
+          echo "Verifying notarization..."
+          spctl --assess --type exec -vvv "$APP"
+
+      # ── Package as PKG ──────────────────────────────────────────
+      - name: Create PKG Installer
+        env:
+          CERT_NAME: ${{ secrets.MACOS_INSTALLER_CERTIFICATE_NAME }}
+        run: |
+          BUILD_DIR="./build/Build/Products/$CONFIGURATION"
+          APP="$BUILD_DIR/$APP_NAME.app"
+
+          # Determine version from tag or build
+          VERSION="${GITHUB_REF_NAME:-0.0.0}"
+
+          echo "Creating component pkg..."
+          pkgbuild \
+            --component "$APP" \
+            --install-location /Applications \
+            --version "$VERSION" \
+            "$BUILD_DIR/$APP_NAME-component.pkg"
+
+          echo "Creating distribution pkg..."
+          productbuild \
+            --package "$BUILD_DIR/$APP_NAME-component.pkg" \
+            --sign "$CERT_NAME" \
+            "$BUILD_DIR/$APP_NAME-$VERSION.pkg"
+
+          # Also create an unsigned zip of the .app for users who prefer it
+          echo "Creating zip archive..."
+          ditto -c -k --keepParent "$APP" "$BUILD_DIR/$APP_NAME-$VERSION.zip"
+
+          {
+            echo "PKG_PATH=$BUILD_DIR/$APP_NAME-$VERSION.pkg"
+            echo "ZIP_PATH=$BUILD_DIR/$APP_NAME-$VERSION.zip"
+            echo "VERSION=$VERSION"
+          } >> "$GITHUB_ENV"
+
+      # ── Notarize PKG ────────────────────────────────────────────
+      - name: Notarize PKG
+        env:
+          APPLE_ID: ${{ secrets.NOTARIZATION_APPLE_ID }}
+          TEAM_ID: ${{ secrets.NOTARIZATION_TEAM_ID }}
+          APP_PWD: ${{ secrets.NOTARIZATION_PWD }}
+        run: |
+          echo "Submitting PKG to Apple notarization service..."
+          xcrun notarytool submit "$PKG_PATH" \
+            --apple-id "$APPLE_ID" \
+            --team-id "$TEAM_ID" \
+            --password "$APP_PWD" \
+            --wait \
+            --timeout 30m
+
+          echo "Stapling notarization ticket to PKG..."
+          xcrun stapler staple "$PKG_PATH"
+
+      # ── SHA256 ──────────────────────────────────────────────────
+      - name: Generate SHA256 Hashes
+        run: |
+          shasum -a 256 "$PKG_PATH" > "$PKG_PATH.sha256"
+          shasum -a 256 "$ZIP_PATH" > "$ZIP_PATH.sha256"
+
+          {
+            echo "### SHA256 Checksums"
+            echo '```'
+            cat "$PKG_PATH.sha256"
+            cat "$ZIP_PATH.sha256"
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      # ── Attestation ─────────────────────────────────────────────
+      - name: Attest Build Provenance (PKG)
+        uses: actions/attest-build-provenance@v2
+        with:
+          subject-path: ${{ env.PKG_PATH }}
+
+      - name: Attest Build Provenance (ZIP)
+        uses: actions/attest-build-provenance@v2
+        with:
+          subject-path: ${{ env.ZIP_PATH }}
+
+      # ── Publish ─────────────────────────────────────────────────
+      - name: Publish to GitHub Release
+        uses: softprops/action-gh-release@v2
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          tag_name: ${{ github.ref_name }}
+          name: MacPass ${{ env.VERSION }}
+          generate_release_notes: true
+          files: |
+            ${{ env.PKG_PATH }}
+            ${{ env.PKG_PATH }}.sha256
+            ${{ env.ZIP_PATH }}
+            ${{ env.ZIP_PATH }}.sha256
+
+      # ── Upload Artifacts (for workflow_dispatch) ────────────────
+      - name: Upload Build Artifacts
+        if: ${{ !startsWith(github.ref, 'refs/tags/') }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: MacPass-${{ github.sha }}
+          path: |
+            ${{ env.PKG_PATH }}
+            ${{ env.PKG_PATH }}.sha256
+            ${{ env.ZIP_PATH }}
+            ${{ env.ZIP_PATH }}.sha256
+
+      # ── Cleanup ─────────────────────────────────────────────────
+      - name: Cleanup Keychain
+        if: always()
+        run: |
+          if [ -f "$KEYCHAIN_PATH" ]; then
+            security delete-keychain "$KEYCHAIN_PATH"
+          fi
+
+  # ════════════════════════════════════════════════════════════════
+  # Update Sparkle Appcast
+  # ════════════════════════════════════════════════════════════════
+  update-appcast:
+    needs: build-sign-notarize
+    if: startsWith(github.ref, 'refs/tags/')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Generate Appcast XML
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          REPO="${{ github.repository }}"
+
+          # Start appcast XML
+          cat > appcast.xml << 'HEADER'
+          <?xml version="1.0" encoding="utf-8"?>
+          <rss version="2.0" xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle" xmlns:dc="http://purl.org/dc/elements/1.1/">
+            <channel>
+              <title>MacPass Updates</title>
+              <link>https://github.com/$REPO</link>
+              <description>Most recent changes with links to updates.</description>
+              <language>en</language>
+          HEADER
+
+          # Rewrite the repo URL into the template
+          sed -i "s|\$REPO|${REPO}|g" appcast.xml
+
+          # Query all releases and generate items
+          gh api "repos/${REPO}/releases" --paginate --jq '.[] | select(.draft == false)' | \
+          jq -r --arg repo "$REPO" '
+            . as $release |
+            ($release.assets // []) | map(select(.name | endswith(".zip"))) | first // empty |
+            "<item>\n" +
+            "      <title>\($release.name // $release.tag_name)</title>\n" +
+            "      <pubDate>\($release.published_at)</pubDate>\n" +
+            "      <sparkle:version>\($release.tag_name)</sparkle:version>\n" +
+            "      <sparkle:shortVersionString>\($release.tag_name)</sparkle:shortVersionString>\n" +
+            "      <sparkle:minimumSystemVersion>10.13</sparkle:minimumSystemVersion>\n" +
+            "      <description><![CDATA[\($release.body // "")]]></description>\n" +
+            "      <enclosure\n" +
+            "        url=\"\(.browser_download_url)\"\n" +
+            "        length=\"\(.size)\"\n" +
+            "        type=\"application/octet-stream\"\n" +
+            "        sparkle:version=\"\($release.tag_name)\"\n" +
+            "        sparkle:shortVersionString=\"\($release.tag_name)\"\n" +
+            "      />\n" +
+            "    </item>"
+          ' >> appcast.xml
+
+          # Close appcast XML
+          cat >> appcast.xml << 'FOOTER'
+            </channel>
+          </rss>
+          FOOTER
+
+          echo "Generated appcast.xml:"
+          cat appcast.xml
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: .
+          publish_branch: gh-pages
+          keep_files: false
+          force_orphan: true

@@ -94,7 +94,7 @@
 	<key>NSUserNotificationAlertStyle</key>
 	<string>banner</string>
 	<key>SUFeedURL</key>
-	<string>https://raw.githubusercontent.com/MacPass/MacPassUpdates/master/appcast_macpass.xml</string>
+	<string>https://orestesgaolin.github.io/MacPass/appcast.xml</string>
 	<key>UTExportedTypeDeclarations</key>
 	<array>
 		<dict>
