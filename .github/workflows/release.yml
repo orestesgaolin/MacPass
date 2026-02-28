@@ -56,10 +56,10 @@ jobs:
           # Ensure output directory exists
           mkdir -p Carthage/Build/Mac
 
-          # Build KeePassKit macOS scheme directly (bypassing Carthage's scheme discovery)
+          # Build KeePassKit macOS directly (bypassing Carthage's scheme discovery)
           xcodebuild build \
             -project Carthage/Checkouts/KeePassKit/KeePassKit.xcodeproj \
-            -scheme KeePassKit \
+            -target "KeePassKit macOS" \
             -configuration Release \
             -derivedDataPath /tmp/KeePassKit-build \
             ONLY_ACTIVE_ARCH=NO \
