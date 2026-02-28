@@ -64,34 +64,46 @@ jobs:
           cp -R "/tmp/TransformerKit-build/Build/Intermediates.noindex/ArchiveIntermediates/TransformerKit macOS/IntermediateBuildFilesPath/UninstalledProducts/macosx/TransformerKit.framework" \
             Carthage/Build/Mac/TransformerKit.framework
 
-      # ── Import Signing Certificate ──────────────────────────────
-      - name: Import Certificate
+      # ── Import Signing Certificates ─────────────────────────────
+      - name: Import Certificates
         env:
           MACOS_CERTIFICATE_P12: ${{ secrets.MACOS_CERTIFICATE_P12 }}
           MACOS_CERTIFICATE_PWD: ${{ secrets.MACOS_CERTIFICATE_PWD }}
+          MACOS_INSTALLER_CERTIFICATE_P12: ${{ secrets.MACOS_INSTALLER_CERTIFICATE_P12 }}
+          MACOS_INSTALLER_CERTIFICATE_PWD: ${{ secrets.MACOS_INSTALLER_CERTIFICATE_PWD }}
         run: |
-          CERTIFICATE_PATH=$RUNNER_TEMP/build_certificate.p12
+          APP_CERT_PATH=$RUNNER_TEMP/app_certificate.p12
+          INSTALLER_CERT_PATH=$RUNNER_TEMP/installer_certificate.p12
           KEYCHAIN_PATH=$RUNNER_TEMP/app-signing.keychain-db
           KEYCHAIN_PWD=$(openssl rand -hex 16)
 
-          # Decode certificate
-          echo "$MACOS_CERTIFICATE_P12" | base64 --decode > "$CERTIFICATE_PATH"
+          # Decode certificates
+          echo "$MACOS_CERTIFICATE_P12" | base64 --decode > "$APP_CERT_PATH"
+          echo "$MACOS_INSTALLER_CERTIFICATE_P12" | base64 --decode > "$INSTALLER_CERT_PATH"
 
           # Create temporary keychain
           security create-keychain -p "$KEYCHAIN_PWD" "$KEYCHAIN_PATH"
           security set-keychain-settings -lut 21600 "$KEYCHAIN_PATH"
           security unlock-keychain -p "$KEYCHAIN_PWD" "$KEYCHAIN_PATH"
 
-          # Import certificate
-          security import "$CERTIFICATE_PATH" \
+          # Import Developer ID Application certificate
+          security import "$APP_CERT_PATH" \
             -P "$MACOS_CERTIFICATE_PWD" \
             -A \
             -t cert \
             -f pkcs12 \
             -k "$KEYCHAIN_PATH"
 
-          # Allow codesign to access the keychain
-          security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k "$KEYCHAIN_PWD" "$KEYCHAIN_PATH"
+          # Import Developer ID Installer certificate
+          security import "$INSTALLER_CERT_PATH" \
+            -P "$MACOS_INSTALLER_CERTIFICATE_PWD" \
+            -A \
+            -t cert \
+            -f pkcs12 \
+            -k "$KEYCHAIN_PATH"
+
+          # Allow codesign and productbuild to access the keychain
+          security set-key-partition-list -S apple-tool:,apple:,codesign:,productbuild: -s -k "$KEYCHAIN_PWD" "$KEYCHAIN_PATH"
 
           # Add to search list
           security list-keychain -d user -s "$KEYCHAIN_PATH"
