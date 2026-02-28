@@ -52,6 +52,13 @@ jobs:
           set -euo pipefail
           mkdir -p Carthage/Build/Mac
 
+          # Download Sparkle binary (not handled by --no-build)
+          SPARKLE_VERSION=$(grep -i sparkle Cartfile.resolved | grep -oE '"[0-9][^"]*"' | tail -1 | tr -d '"')
+          echo "Downloading Sparkle $SPARKLE_VERSION..."
+          curl -sSL "https://github.com/sparkle-project/Sparkle/releases/download/${SPARKLE_VERSION}/Sparkle-${SPARKLE_VERSION}.tar.xz" -o /tmp/Sparkle.tar.xz
+          mkdir -p /tmp/Sparkle && tar xf /tmp/Sparkle.tar.xz -C /tmp/Sparkle
+          cp -R /tmp/Sparkle/Sparkle.framework Carthage/Build/Mac/
+
           echo "::group::Building HNHUi"
           xcodebuild build \
             -project Carthage/Checkouts/HNHUi/HNHUi.xcodeproj \
