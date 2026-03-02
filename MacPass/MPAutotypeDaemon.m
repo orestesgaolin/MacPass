@@ -45,6 +45,10 @@
 
 #import "KeePassKit/KeePassKit.h"
 #import <Carbon/Carbon.h>
+#import <ApplicationServices/ApplicationServices.h>
+
+/* Private API to get CGWindowID from an AXUIElementRef window */
+extern AXError _AXUIElementGetWindow(AXUIElementRef element, CGWindowID *outWindowID);
 
 @interface MPAutotypeDaemon ()
 
@@ -171,7 +175,7 @@ static MPAutotypeDaemon *_sharedInstance;
     [NSApplication.sharedApplication hide:nil];
   }
   if(environment.pid) {
-    [self _orderApplicationToFront:environment.pid completionHandler:nil];
+    [self _orderApplicationToFront:environment completionHandler:nil];
   }
 }
 
@@ -317,7 +321,7 @@ static MPAutotypeDaemon *_sharedInstance;
     return; // No context to work with
   }
   __weak MPAutotypeDaemon *welf = self;
-  BOOL appIsFrontmost = [self _orderApplicationToFront:environment.pid completionHandler:^{
+  BOOL appIsFrontmost = [self _orderApplicationToFront:environment completionHandler:^{
     [welf _runAutotypeWithEnvironment:environment forContext:context];
   }];
   if(!appIsFrontmost) {
@@ -401,14 +405,18 @@ static MPAutotypeDaemon *_sharedInstance;
 
 #pragma mark -
 #pragma mark Application information
-//- (BOOL)_orderApplicationToFront:(pid_t)processIdentifier inEnvironment:(MPAutotypeEnvironment *) environment {
-- (BOOL)_orderApplicationToFront:(pid_t)processIdentifier completionHandler:(void (^_Nullable)(void))completionHandler {
+- (BOOL)_orderApplicationToFront:(MPAutotypeEnvironment *)environment completionHandler:(void (^_Nullable)(void))completionHandler {
+  pid_t processIdentifier = environment.pid;
   NSRunningApplication *runingApplication = [NSRunningApplication runningApplicationWithProcessIdentifier:processIdentifier];
   NSRunningApplication *frontApplication = NSWorkspace.sharedWorkspace.frontmostApplication;
   if(frontApplication.processIdentifier == processIdentifier) {
+    /* App is already frontmost, but we still need to raise the correct window */
+    [self _raiseWindowWithID:environment.windowId forApplication:processIdentifier];
     return YES;
   }
 
+  __weak MPAutotypeDaemon *welf = self;
+  CGWindowID targetWindowId = environment.windowId;
   NSNotificationCenter * __weak nc = NSWorkspace.sharedWorkspace.notificationCenter;
   id __block didActivateToken; // silence init value never read analyzer warning
   didActivateToken = [nc addObserverForName:NSWorkspaceDidActivateApplicationNotification
@@ -416,11 +424,48 @@ static MPAutotypeDaemon *_sharedInstance;
                                             queue:NSOperationQueue.mainQueue
                                        usingBlock:^(NSNotification *notification) {
     [nc removeObserver:didActivateToken];
+    /* After the app comes to front, raise the specific target window */
+    [welf _raiseWindowWithID:targetWindowId forApplication:processIdentifier];
     if(completionHandler) {
       completionHandler();
     }
   }];
   [runingApplication activateWithOptions:NSApplicationActivateIgnoringOtherApps];
   return NO;
+}
+
+#pragma mark -
+#pragma mark Window Targeting
+- (void)_raiseWindowWithID:(CGWindowID)targetWindowId forApplication:(pid_t)pid {
+  if(targetWindowId == 0 || targetWindowId == (CGWindowID)-1) {
+    return; // no valid window ID, fall back to default activation behavior
+  }
+  
+  AXUIElementRef appElement = AXUIElementCreateApplication(pid);
+  if(!appElement) {
+    return;
+  }
+  
+  CFArrayRef windowList = NULL;
+  AXError err = AXUIElementCopyAttributeValues(appElement, kAXWindowsAttribute, 0, 100, &windowList);
+  CFRelease(appElement);
+  
+  if(err != kAXErrorSuccess || !windowList) {
+    return;
+  }
+  
+  for(CFIndex i = 0; i < CFArrayGetCount(windowList); i++) {
+    AXUIElementRef window = (AXUIElementRef)CFArrayGetValueAtIndex(windowList, i);
+    CGWindowID windowId = 0;
+    AXError windowErr = _AXUIElementGetWindow(window, &windowId);
+    if(windowErr == kAXErrorSuccess && windowId == targetWindowId) {
+      /* Found the target window — raise it and make it the main window */
+      AXUIElementPerformAction(window, kAXRaiseAction);
+      AXUIElementSetAttributeValue(window, kAXMainAttribute, kCFBooleanTrue);
+      break;
+    }
+  }
+  
+  CFRelease(windowList);
 }
 @end
