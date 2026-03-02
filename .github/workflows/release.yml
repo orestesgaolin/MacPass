@@ -387,17 +387,39 @@ jobs:
 
       # ── Publish ─────────────────────────────────────────────────
       - name: Publish to GitHub Release
-        uses: softprops/action-gh-release@v2
         if: startsWith(github.ref, 'refs/tags/')
-        with:
-          tag_name: ${{ github.ref_name }}
-          name: MacPass ${{ env.VERSION }}
-          generate_release_notes: true
-          files: |
-            ${{ env.PKG_PATH }}
-            ${{ env.PKG_PATH }}.sha256
-            ${{ env.ZIP_PATH }}
-            ${{ env.ZIP_PATH }}.sha256
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          # Build release body with attestation info
+          cat > /tmp/release-body.md << 'EOF'
+          ## Verification
+
+          This release was built with GitHub Actions and includes [SLSA build provenance attestations](https://docs.github.com/en/actions/security-for-github-actions/using-artifact-attestations/using-artifact-attestations-to-establish-provenance-for-builds).
+
+          To verify the artifacts:
+
+          ```bash
+          gh attestation verify MacPass-${{ env.VERSION }}.pkg --owner ${{ github.repository_owner }}
+          gh attestation verify MacPass-${{ env.VERSION }}.zip --owner ${{ github.repository_owner }}
+          ```
+
+          ### Build Info
+          - **Version**: ${{ env.VERSION }}
+          - **Build**: ${{ env.BUILD_NUMBER }}
+          - **Runner**: macOS 15 (arm64)
+          - **Commit**: ${{ github.sha }}
+          EOF
+
+          # Create release with generated notes + attestation info
+          gh release create "${{ github.ref_name }}" \
+            --title "MacPass ${{ env.VERSION }}" \
+            --generate-notes \
+            --notes-file /tmp/release-body.md \
+            "${{ env.PKG_PATH }}" \
+            "${{ env.PKG_PATH }}.sha256" \
+            "${{ env.ZIP_PATH }}" \
+            "${{ env.ZIP_PATH }}.sha256"
 
       # ── Upload Artifacts (for workflow_dispatch) ────────────────
       - name: Upload Build Artifacts
@@ -460,7 +482,7 @@ jobs:
             "      <pubDate>\($release.published_at)</pubDate>\n" +
             "      <sparkle:version>\($release.tag_name)</sparkle:version>\n" +
             "      <sparkle:shortVersionString>\($release.tag_name)</sparkle:shortVersionString>\n" +
-            "      <sparkle:minimumSystemVersion>10.13</sparkle:minimumSystemVersion>\n" +
+            "      <sparkle:minimumSystemVersion>10.15</sparkle:minimumSystemVersion>\n" +
             "      <enclosure\n" +
             "        url=\"\(.browser_download_url)\"\n" +
             "        length=\"\(.size)\"\n" +
