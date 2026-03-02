@@ -411,6 +411,9 @@ jobs:
           - **Commit**: ${{ github.sha }}
           EOF
 
+          # Store build number for Sparkle appcast (sparkle:version must be numeric)
+          echo "$BUILD_NUMBER" > /tmp/build-number.txt
+
           # Create release with generated notes + attestation info
           gh release create "${{ github.ref_name }}" \
             --title "MacPass ${{ env.VERSION }}" \
@@ -419,7 +422,8 @@ jobs:
             "${{ env.PKG_PATH }}" \
             "${{ env.PKG_PATH }}.sha256" \
             "${{ env.ZIP_PATH }}" \
-            "${{ env.ZIP_PATH }}.sha256"
+            "${{ env.ZIP_PATH }}.sha256" \
+            /tmp/build-number.txt
 
       # ── Upload Artifacts (for workflow_dispatch) ────────────────
       - name: Upload Build Artifacts
@@ -452,6 +456,11 @@ jobs:
       contents: write
 
     steps:
+      - name: Wait for release to propagate
+        run: |
+          echo "Waiting 30s for the GitHub release to become visible via the API..."
+          sleep 30
+
       - name: Generate Appcast XML
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -473,25 +482,45 @@ jobs:
           sed -i "s|\$REPO|${REPO}|g" appcast.xml
 
           # Query all releases and generate items
+          # sparkle:version must be numeric (for version comparison).
+          # We use the build number from build-number.txt, falling back to release ID.
           gh api "repos/${REPO}/releases" --paginate --jq '.[] | select(.draft == false)' | \
-          jq -r '
-            . as $release |
-            ($release.assets // []) | map(select(.name | endswith(".zip"))) | first // empty |
-            "    <item>\n" +
-            "      <title>\($release.name // $release.tag_name)</title>\n" +
-            "      <pubDate>\($release.published_at)</pubDate>\n" +
-            "      <sparkle:version>\($release.tag_name)</sparkle:version>\n" +
-            "      <sparkle:shortVersionString>\($release.tag_name)</sparkle:shortVersionString>\n" +
-            "      <sparkle:minimumSystemVersion>10.15</sparkle:minimumSystemVersion>\n" +
-            "      <enclosure\n" +
-            "        url=\"\(.browser_download_url)\"\n" +
-            "        length=\"\(.size)\"\n" +
-            "        type=\"application/octet-stream\"\n" +
-            "        sparkle:version=\"\($release.tag_name)\"\n" +
-            "        sparkle:shortVersionString=\"\($release.tag_name)\"\n" +
-            "      />\n" +
-            "    </item>"
-          ' >> appcast.xml
+          jq -c '.' | while read -r release; do
+            TAG=$(echo "$release" | jq -r '.tag_name')
+            NAME=$(echo "$release" | jq -r '.name // .tag_name')
+            PUB_DATE=$(echo "$release" | jq -r '.published_at')
+            RELEASE_ID=$(echo "$release" | jq -r '.id')
+
+            # Find the .zip asset
+            ZIP_URL=$(echo "$release" | jq -r '[.assets // [] | .[] | select(.name | endswith(".zip"))] | first // empty | .browser_download_url')
+            ZIP_SIZE=$(echo "$release" | jq -r '[.assets // [] | .[] | select(.name | endswith(".zip"))] | first // empty | .size')
+            if [ -z "$ZIP_URL" ] || [ "$ZIP_URL" = "null" ]; then
+              continue
+            fi
+
+            # Get numeric build number from build-number.txt asset, fall back to release ID
+            BUILD_NUM_URL=$(echo "$release" | jq -r '[.assets // [] | .[] | select(.name == "build-number.txt")] | first // empty | .url')
+            if [ -n "$BUILD_NUM_URL" ] && [ "$BUILD_NUM_URL" != "null" ]; then
+              BUILD_NUM=$(curl -sSL -H "Authorization: token $GH_TOKEN" -H "Accept: application/octet-stream" "$BUILD_NUM_URL" | tr -d '[:space:]')
+            else
+              BUILD_NUM="$RELEASE_ID"
+            fi
+
+            printf '    <item>\n' >> appcast.xml
+            printf '      <title>%s</title>\n' "$NAME" >> appcast.xml
+            printf '      <pubDate>%s</pubDate>\n' "$PUB_DATE" >> appcast.xml
+            printf '      <sparkle:version>%s</sparkle:version>\n' "$BUILD_NUM" >> appcast.xml
+            printf '      <sparkle:shortVersionString>%s</sparkle:shortVersionString>\n' "$TAG" >> appcast.xml
+            printf '      <sparkle:minimumSystemVersion>10.15</sparkle:minimumSystemVersion>\n' >> appcast.xml
+            printf '      <enclosure\n' >> appcast.xml
+            printf '        url="%s"\n' "$ZIP_URL" >> appcast.xml
+            printf '        length="%s"\n' "$ZIP_SIZE" >> appcast.xml
+            printf '        type="application/octet-stream"\n' >> appcast.xml
+            printf '        sparkle:version="%s"\n' "$BUILD_NUM" >> appcast.xml
+            printf '        sparkle:shortVersionString="%s"\n' "$TAG" >> appcast.xml
+            printf '      />\n' >> appcast.xml
+            printf '    </item>\n' >> appcast.xml
+          done
 
           # Close appcast XML
           cat >> appcast.xml << 'FOOTER'
