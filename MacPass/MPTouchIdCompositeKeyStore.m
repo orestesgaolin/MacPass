@@ -292,10 +292,7 @@
   NSString* privateKeyLabel = @"MacPass TouchID Feature Private Key";
   NSData* privateKeyTag = [MPTouchIdUnlockPrivateKeyTag dataUsingEncoding:NSUTF8StringEncoding];
   if (@available(macOS 10.13.4, *)) {
-    SecAccessControlCreateFlags flags = kSecAccessControlBiometryCurrentSet;
-    if (@available(macOS 10.15, *)) {
-      flags |= kSecAccessControlWatch | kSecAccessControlOr;
-    }
+    SecAccessControlCreateFlags flags = kSecAccessControlUserPresence;
     CFErrorRef createError = NULL;
 
     SecAccessControlRef access = SecAccessControlCreateWithFlags(kCFAllocatorDefault,
