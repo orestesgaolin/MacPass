@@ -200,6 +200,7 @@
 		4C7BD07619FE94C900C7AA5C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4C7BD07519FE94C900C7AA5C /* Assets.xcassets */; };
 		4C7D4BE52DA91C1C00B04C10 /* MPSecurityPreferencesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C7D4BE32DA91C1C00B04C10 /* MPSecurityPreferencesController.m */; };
 		4C7D4BE62DA91C1C00B04C10 /* MPSecurityPreferencesController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C7D4BE42DA91C1C00B04C10 /* MPSecurityPreferencesController.xib */; };
+		4C9F2A512DAA111100B04C10 /* MPSecurityPreferencesController.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4C9F2A522DAA111100B04C10 /* pl */; };
 		4C7D9D5424ABE6FD00907034 /* MPTabViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C7D9D5324ABE6FD00907034 /* MPTabViewController.m */; };
 		4C7F8B681A10B68400CCB83D /* WelcomeView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C7F8B6A1A10B68400CCB83D /* WelcomeView.xib */; };
 		4C80304A1E2FBAA300133E4C /* MPTestKeyMapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C8030491E2FBAA300133E4C /* MPTestKeyMapper.m */; };
@@ -719,6 +720,7 @@
 		4C7D4BE22DA91C1C00B04C10 /* MPSecurityPreferencesController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MPSecurityPreferencesController.h; sourceTree = "<group>"; };
 		4C7D4BE32DA91C1C00B04C10 /* MPSecurityPreferencesController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MPSecurityPreferencesController.m; sourceTree = "<group>"; };
 		4C7D4BE42DA91C1C00B04C10 /* MPSecurityPreferencesController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MPSecurityPreferencesController.xib; sourceTree = "<group>"; };
+		4C9F2A522DAA111100B04C10 /* pl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pl; path = pl.lproj/MPSecurityPreferencesController.strings; sourceTree = "<group>"; };
 		4C7D9D5224ABE6FD00907034 /* MPTabViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MPTabViewController.h; sourceTree = "<group>"; };
 		4C7D9D5324ABE6FD00907034 /* MPTabViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MPTabViewController.m; sourceTree = "<group>"; };
 		4C7F8B691A10B68400CCB83D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/WelcomeView.xib; sourceTree = "<group>"; };
@@ -2146,6 +2148,7 @@
 				4C0B533F205C1561003D277E /* PickfieldView.xib in Resources */,
 				4C3826C21AD04D8E007D7D67 /* 55_ThumbnailTemplate.pdf in Resources */,
 				4C7D4BE62DA91C1C00B04C10 /* MPSecurityPreferencesController.xib in Resources */,
+				4C9F2A512DAA111100B04C10 /* MPSecurityPreferencesController.strings in Resources */,
 				4C3826A61AD04D8E007D7D67 /* 22_ASCIITemplate.pdf in Resources */,
 				4CD78ABC16D155FF00768A1D /* 07_NotepadTemplate.pdf in Resources */,
 				4C3826C11AD04D8E007D7D67 /* 54_SignatureTemplate.pdf in Resources */,

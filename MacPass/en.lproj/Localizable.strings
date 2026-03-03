@@ -418,6 +418,9 @@
 /* General Settings Label */
 "GENERAL_PREFERENCES" = "General";
 
+/* Security Settings Label */
+"SECURITY_PREFERENCES" = "Security";
+
 /* Group column title */
 "GROUP" = "Group";
 

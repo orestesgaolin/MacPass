@@ -102,8 +102,14 @@
 /* Menu item for automatic trash creation */
 "AUTOCREATE_TRASH_FOLDER" = "Utwórz Automatycznie";
 
+/* Message text in the autotype confirmation window. Placeholder is %1 - applicationName, %2 windowTitle */
+"AUTOTYPE_CANDIDATE_CONFIRMATION_WINDOW_MESSAGE_%@_%@" = "Autouzupełnianie znalazło dopasowanie dla okna \"%2$@\" aplikacji \"%1$@\". Potwierdź, aby kontynuować wykonanie.";
+
 /* Message text in the autotype selection window. Placeholder is %1 - windowTitle */
 "AUTOTYPE_CANDIDATE_SELECTION_WINDOW_MESSAGE_%@" = "Istnieje wiele dopasowań dla bieżącego okna: %@. Wybierz, którego dopasowania należy użyć.";
+
+/* Message text in the autotype selection window. Placeholder is %1 - applicationName, %2 windowTitle */
+"AUTOTYPE_CANDIDATE_SELECTION_WINDOW_MESSAGE_%@_%@" = "Istnieje wiele dopasowań dla okna \"%2$@\" aplikacji \"%1$@\". Wybierz, którego dopasowania należy użyć.";
 
 /* Window title for the stand-alone password creator window */
 "AUTOTYPE_DOCTOR_RESULTS_WINDOW_TITLE" = "Inspektor Autouzupełniania";
@@ -217,6 +223,10 @@
 /* Context menu that copies reference to username */
 "COPIED_USERNAME_REFERENCE" = "Odwołanie do nazwy użytkownika zostało skopiowane!";
 
+/* Button to copy the value of an Attribute
+   Copy the TOTP value to the clipboard */
+"COPY" = "Kopiuj";
+
 /* Submenu to copy attributes as reference */
 "COPY_AS_REFERENCE" = "Kopiuj odwołanie do…";
 
@@ -264,6 +274,10 @@
 
 /* Context menu that copies reference to username */
 "COPY_USERNAME_REFERENCE" = "Nazwa użytkownika";
+
+/* Creating date column title
+   Menu item to toggle display of created date column in entry table */
+"CREATED" = "Utworzono";
 
 /* Custom attribute reference item */
 "CUSTOM_ATTRIBUTE" = "Własna właściwość";
@@ -417,6 +431,9 @@
 /* General Settings Label */
 "GENERAL_PREFERENCES" = "Ogólne";
 
+/* Security Settings Label */
+"SECURITY_PREFERENCES" = "Bezpieczeństwo";
+
 /* Group column title */
 "GROUP" = "Grupa";
 
@@ -493,6 +510,9 @@
    Toolbar item new entry */
 "NEW_ENTRY" = "Nowy wpis";
 
+/* Submen to create entries from tempaltes */
+"NEW_ENTRY_FROM_TEMPLATE" = "Nowy wpis…";
+
 /* Submenu to add an entry via template */
 "NEW_ENTRY_WITH_TEMPLATE_%@" = "Dodaj wpis używając szablonu %@";
 
@@ -558,6 +578,12 @@
 
 /*  */
 "OTP_CUSTOM" = "Własne ustawienia";
+
+/* OTP type RFC  */
+"OTP_RFC" = "RFC 6238";
+
+/* OTP type Steam  */
+"OTP_STEAM" = "Steam";
 
 /* Value field for reference lookup */
 "OUTPUT_VALUE" = "Wartość wyjściowa";
@@ -736,6 +762,9 @@
 /* Action button in Notification to show the Autotype Doctor */
 "SHOW_AUTOTYPE_DOCTOR" = "Pokaż Inspektora Autouzupełniania";
 
+/* Menu item to toggle display type of passwords */
+"SHOW_CLEAR_TEXT_PASSWORDS" = "Pokaż hasła";
+
 /* Menu item to show the entries group in the outline view */
 "SHOW_GROUP_IN_OUTLINE" = "Pokaż grupę w konspekcie";
 
@@ -754,6 +783,12 @@
 
 /* Toolbar item to perform autotype */
 "TOOLBAR_PERFORM_AUTOTYPE_FOR_ENTRY" = "Autouzupełnianie";
+
+/* Field TOTP was copied to the pasteboard */
+"TOTP" = "TOTP";
+
+/* Time in seconds remaining for a valid TOTP string, format should be %ld */
+"TOTP_REMAINING_TIME_%ld_SECONDS" = "%ld s";
 
 /* Touchbar button label for choosing the keyfile */
 "TOUCHBAR_CHOOSE_KEYFILE" = "Wybierz plik klucza";
@@ -835,6 +870,13 @@
 
 /* Error message displayed when a keepass database file is set as the key file */
 "WARNING_DATABASE_FILE_SELECTED_AS_KEY_FILE" = "Nie należy używać innego pliku bazy danych jako pliku klucza, ponieważ może on ulec zmianie i uniemożliwić ponowne otwarcie bieżącego pliku.";
+
+/* No key file is set
+ Warning tha no key file is set when chaning the password */
+"WARNING_NO_KEYFILE" = "Nie ustawiono pliku klucza.";
+
+/* Warning if no password is set when chaning the password */
+"WARNING_NO_PASSWORD" = "Nie ustawiono hasła.";
 
 /* No Key or Password */
 "WARNING_NO_PASSWORD_OR_KEYFILE" = "Brak hasła lub pliku z kluczem!";

@@ -1,0 +1,68 @@
+/* Class = "NSMenuItem"; title = "Never"; ObjectID = "3PG-ge-sez"; */
+"3PG-ge-sez.title" = "Nigdy";
+
+/* Class = "NSMenu"; title = "LockTimes"; ObjectID = "3SU-Tz-vNr"; */
+"3SU-Tz-vNr.title" = "Czas blokady";
+
+/* Class = "NSTextFieldCell"; title = "Enabling this compromises security. If enabled, your preferences will contain mappings from database to keyfile. Key locations for databases without a password will not be saved."; ObjectID = "5aM-bw-1qA"; */
+"5aM-bw-1qA.title" = "Włączenie tej opcji narusza bezpieczeństwo. Gdy jest włączona, ustawienia będą zawierały mapowania baz danych do plików klucza. Lokalizacje plików klucza dla baz bez hasła nie będą zapisywane.";
+
+/* Class = "NSButtonCell"; title = "Allow Window Screenshots"; ObjectID = "8Ik-1T-6SR"; */
+"8Ik-1T-6SR.title" = "Zezwalaj na zrzuty ekranu okna";
+
+/* Class = "NSButtonCell"; title = "Lock after screen sleep"; ObjectID = "8mt-iT-q7d"; */
+"8mt-iT-q7d.title" = "Zablokuj po uśpieniu ekranu";
+
+/* Class = "NSMenuItem"; title = "for 5 Minutes"; ObjectID = "DUt-fV-xPf"; */
+"DUt-fV-xPf.title" = "na 5 minut";
+
+/* Class = "NSMenuItem"; title = "Never"; ObjectID = "Eho-b6-2r3"; */
+"Eho-b6-2r3.title" = "Nigdy";
+
+/* Class = "NSMenuItem"; title = "after 5 Minutes"; ObjectID = "GOb-x5-v3v"; */
+"GOb-x5-v3v.title" = "po 5 minutach";
+
+/* Class = "NSMenuItem"; title = "after 1 Minute"; ObjectID = "GjO-Rq-CcJ"; */
+"GjO-Rq-CcJ.title" = "po 1 minucie";
+
+/* Class = "NSMenuItem"; title = "after 10 Seconds"; ObjectID = "KPs-XT-xJQ"; */
+"KPs-XT-xJQ.title" = "po 10 sekundach";
+
+/* Class = "NSButtonCell"; title = "Prevent Universal Clipboard support"; ObjectID = "KvW-RN-z6j"; */
+"KvW-RN-z6j.title" = "Zapobiegaj obsłudze uniwersalnego schowka";
+
+/* Class = "NSTextFieldCell"; title = "Clear Copied Items"; ObjectID = "NMx-H8-qw1"; */
+"NMx-H8-qw1.title" = "Wyczyść skopiowane elementy";
+
+/* Class = "NSMenu"; title = "ClipboardClearInterval"; ObjectID = "OvT-46-ItY"; */
+"OvT-46-ItY.title" = "Czas czyszczenia schowka";
+
+/* Class = "NSButtonCell"; title = "Remember Keyfile for Databases"; ObjectID = "Q9B-M0-yCP"; */
+"Q9B-M0-yCP.title" = "Zapamiętaj plik klucza dla baz danych";
+
+/* Class = "NSButtonCell"; title = "Lock after log out"; ObjectID = "fdI-0a-VRg"; */
+"fdI-0a-VRg.title" = "Zablokuj po wylogowaniu";
+
+/* Class = "NSMenuItem"; title = "for 1 Minute"; ObjectID = "hcu-tg-UHB"; */
+"hcu-tg-UHB.title" = "na 1 minutę";
+
+/* Class = "NSTextFieldCell"; title = "Lock while idle"; ObjectID = "mJZ-10-3aY"; */
+"mJZ-10-3aY.title" = "Zablokuj przy bezczynności";
+
+/* Class = "NSMenuItem"; title = "after 30 Seconds"; ObjectID = "nXQ-XQ-OjR"; */
+"nXQ-XQ-OjR.title" = "po 30 sekundach";
+
+/* Class = "NSMenuItem"; title = "for 15 Minutes"; ObjectID = "pPY-4B-V6t"; */
+"pPY-4B-V6t.title" = "na 15 minut";
+
+/* Class = "NSButtonCell"; title = "Clear Clipboard on Quit"; ObjectID = "t4Z-bK-KMl"; */
+"t4Z-bK-KMl.title" = "Wyczyść schowek przy wyjściu";
+
+/* Class = "NSButtonCell"; title = "Clear all stored locations"; ObjectID = "uaC-TX-Vza"; */
+"uaC-TX-Vza.title" = "Wyczyść wszystkie zapisane lokalizacje";
+
+/* Class = "NSTextFieldCell"; title = "Disabling this compromises security. If enabled, anything copied to the Clipboard in MacPass will be available on your connected iOS devices. You should clear the clipboard on those devices manually."; ObjectID = "vCZ-9c-5s7"; */
+"vCZ-9c-5s7.title" = "Wyłączenie tej opcji obniża bezpieczeństwo. Po włączeniu wszystko skopiowane do schowka w MacPass będzie dostępne na podłączonych urządzeniach iOS. Na tych urządzeniach należy ręcznie wyczyścić schowek.";
+
+/* Class = "NSButtonCell"; title = "Lock after sleep"; ObjectID = "zjF-CD-1DV"; */
+"zjF-CD-1DV.title" = "Zablokuj po uśpieniu";
