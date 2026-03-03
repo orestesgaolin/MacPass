@@ -225,20 +225,18 @@ jobs:
           cp "MacPass/MacPass-Developer-ID.entitlements" "$ENTITLEMENTS_APP"
 
           if [ -n "${MACOS_PROVISIONING_PROFILE_BASE64:-}" ]; then
-            echo "Provisioning profile secret detected; enabling profile-backed restricted entitlements."
+            echo "Provisioning profile secret detected; embedding profile."
             APP_ID="${TEAM_ID}.${BUNDLE_ID}"
             PROFILE_PATH="$RUNNER_TEMP/macpass.provisionprofile"
             echo "$MACOS_PROVISIONING_PROFILE_BASE64" | base64 --decode > "$PROFILE_PATH"
             cp "$PROFILE_PATH" "$APP/Contents/embedded.provisionprofile"
 
+            # Only add com.apple.application-identifier (required for profile matching).
+            # Do NOT add com.apple.developer.team-identifier or keychain-access-groups —
+            # these are restricted entitlements that cause AMFI validation failures
+            # ("Unsatisfied entitlements") if the profile can't fully authorize them.
             /usr/libexec/PlistBuddy -c "Set :com.apple.application-identifier $APP_ID" "$ENTITLEMENTS_APP" || \
               /usr/libexec/PlistBuddy -c "Add :com.apple.application-identifier string $APP_ID" "$ENTITLEMENTS_APP"
-            /usr/libexec/PlistBuddy -c "Set :com.apple.developer.team-identifier $TEAM_ID" "$ENTITLEMENTS_APP" || \
-              /usr/libexec/PlistBuddy -c "Add :com.apple.developer.team-identifier string $TEAM_ID" "$ENTITLEMENTS_APP"
-            /usr/libexec/PlistBuddy -c "Set :keychain-access-groups:0 $APP_ID" "$ENTITLEMENTS_APP" || {
-              /usr/libexec/PlistBuddy -c "Add :keychain-access-groups array" "$ENTITLEMENTS_APP"
-              /usr/libexec/PlistBuddy -c "Add :keychain-access-groups:0 string $APP_ID" "$ENTITLEMENTS_APP"
-            }
           else
             echo "No provisioning profile secret set; signing with Developer ID baseline entitlements only."
           fi
@@ -433,7 +431,7 @@ jobs:
           cp "MacPass/MacPass-Developer-ID.entitlements" "$ENTITLEMENTS_APP"
 
           if [ -n "${MACOS_PROVISIONING_PROFILE_BASE64:-}" ]; then
-            echo "Provisioning profile secret detected; enabling profile-backed restricted entitlements."
+            echo "Provisioning profile secret detected; embedding profile."
             APP_ID="${TEAM_ID}.${BUNDLE_ID}"
             NS_PROFILE_PATH="$RUNNER_TEMP/macpass-no-sparkle.provisionprofile"
             echo "$MACOS_PROVISIONING_PROFILE_BASE64" | base64 --decode > "$NS_PROFILE_PATH"
@@ -441,12 +439,6 @@ jobs:
 
             /usr/libexec/PlistBuddy -c "Set :com.apple.application-identifier $APP_ID" "$ENTITLEMENTS_APP" || \
               /usr/libexec/PlistBuddy -c "Add :com.apple.application-identifier string $APP_ID" "$ENTITLEMENTS_APP"
-            /usr/libexec/PlistBuddy -c "Set :com.apple.developer.team-identifier $TEAM_ID" "$ENTITLEMENTS_APP" || \
-              /usr/libexec/PlistBuddy -c "Add :com.apple.developer.team-identifier string $TEAM_ID" "$ENTITLEMENTS_APP"
-            /usr/libexec/PlistBuddy -c "Set :keychain-access-groups:0 $APP_ID" "$ENTITLEMENTS_APP" || {
-              /usr/libexec/PlistBuddy -c "Add :keychain-access-groups array" "$ENTITLEMENTS_APP"
-              /usr/libexec/PlistBuddy -c "Add :keychain-access-groups:0 string $APP_ID" "$ENTITLEMENTS_APP"
-            }
           else
             echo "No provisioning profile secret set; signing with Developer ID baseline entitlements only."
           fi
