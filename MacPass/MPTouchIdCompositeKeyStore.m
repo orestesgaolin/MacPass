@@ -15,6 +15,7 @@
 @interface MPTouchIdCompositeKeyStore ()
 @property (readonly, strong) NSMutableDictionary* keys;
 @property (nonatomic) MPTouchIDKeyStorage touchIdEnabledState;
+- (void)_deleteTouchIdKeyPair;
 @end
 
 @implementation MPTouchIdCompositeKeyStore
@@ -167,9 +168,10 @@
   SecKeyRef publicKey = NULL;
   OSStatus status = SecItemCopyMatching((__bridge CFDictionaryRef)getquery, (CFTypeRef *)&publicKey);
   if (status != errSecSuccess) {
+    [self _deleteTouchIdKeyPair];
     [self _createAndAddRSAKeyPair];
-    OSStatus status = SecItemCopyMatching((__bridge CFDictionaryRef)getquery, (CFTypeRef *)&publicKey);
-    if (status != errSecSuccess) {
+    status = SecItemCopyMatching((__bridge CFDictionaryRef)getquery, (CFTypeRef *)&publicKey);
+    if(status != errSecSuccess) {
       NSString* description = CFBridgingRelease(SecCopyErrorMessageString(status, NULL));
       NSLog(@"Error while trying to query public key from Keychain: %@", description);
       return nil;
@@ -184,15 +186,67 @@
     if (!encryptedKey) {
       NSError *err = CFBridgingRelease(error);
       NSLog(@"Error while trying to decrypt the CompositeKey for TouchID unlock: %@", [err description]);
+
+      if(publicKey) {
+        CFRelease(publicKey);
+        publicKey = NULL;
+      }
+
+      [self _deleteTouchIdKeyPair];
+      [self _createAndAddRSAKeyPair];
+      status = SecItemCopyMatching((__bridge CFDictionaryRef)getquery, (CFTypeRef *)&publicKey);
+      if(status == errSecSuccess && SecKeyIsAlgorithmSupported(publicKey, kSecKeyOperationTypeEncrypt, algorithm)) {
+        CFErrorRef retryError = NULL;
+        encryptedKey = (NSData*)CFBridgingRelease(SecKeyCreateEncryptedData(publicKey, algorithm, (__bridge CFDataRef)keyData, &retryError));
+        if(!encryptedKey && retryError && error != NULL) {
+          *error = CFBridgingRelease(retryError);
+        }
+      }
     }
   }
   else {
     NSLog(@"The key retreived from the Keychain is unable to encrypt data");
+
+    if(publicKey) {
+      CFRelease(publicKey);
+      publicKey = NULL;
+    }
+
+    [self _deleteTouchIdKeyPair];
+    [self _createAndAddRSAKeyPair];
+    status = SecItemCopyMatching((__bridge CFDictionaryRef)getquery, (CFTypeRef *)&publicKey);
+    if(status == errSecSuccess && SecKeyIsAlgorithmSupported(publicKey, kSecKeyOperationTypeEncrypt, algorithm)) {
+      CFErrorRef retryError = NULL;
+      encryptedKey = (NSData*)CFBridgingRelease(SecKeyCreateEncryptedData(publicKey, algorithm, (__bridge CFDataRef)keyData, &retryError));
+      if(!encryptedKey && retryError && error != NULL) {
+        *error = CFBridgingRelease(retryError);
+      }
+    }
   }
   if (publicKey)  {
     CFRelease(publicKey);
   }
   return encryptedKey;
+}
+
+- (void)_deleteTouchIdKeyPair {
+  NSData *publicKeyTag = [MPTouchIdUnlockPublicKeyTag dataUsingEncoding:NSUTF8StringEncoding];
+  NSData *privateKeyTag = [MPTouchIdUnlockPrivateKeyTag dataUsingEncoding:NSUTF8StringEncoding];
+
+  NSDictionary *publicQuery = @{
+    (id)kSecClass: (id)kSecClassKey,
+    (id)kSecAttrApplicationTag: publicKeyTag,
+    (id)kSecAttrKeyType: (id)kSecAttrKeyTypeRSA,
+  };
+
+  NSDictionary *privateQuery = @{
+    (id)kSecClass: (id)kSecClassKey,
+    (id)kSecAttrApplicationTag: privateKeyTag,
+    (id)kSecAttrKeyType: (id)kSecAttrKeyTypeRSA,
+  };
+
+  SecItemDelete((__bridge CFDictionaryRef)publicQuery);
+  SecItemDelete((__bridge CFDictionaryRef)privateQuery);
 }
 
 - (void)_createAndAddRSAKeyPair {
