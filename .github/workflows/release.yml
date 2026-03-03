@@ -509,7 +509,7 @@ jobs:
             printf '      <pubDate>%s</pubDate>\n' "$PUB_DATE" >> appcast.xml
             printf '      <sparkle:version>%s</sparkle:version>\n' "$BUILD_NUM" >> appcast.xml
             printf '      <sparkle:shortVersionString>%s</sparkle:shortVersionString>\n' "$TAG" >> appcast.xml
-            printf '      <sparkle:minimumSystemVersion>10.15</sparkle:minimumSystemVersion>\n' >> appcast.xml
+            printf '      <sparkle:minimumSystemVersion>10.14</sparkle:minimumSystemVersion>\n' >> appcast.xml
             printf '      <enclosure\n' >> appcast.xml
             printf '        url="%s"\n' "$ZIP_URL" >> appcast.xml
             printf '        length="%s"\n' "$ZIP_SIZE" >> appcast.xml
