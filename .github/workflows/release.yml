@@ -363,17 +363,168 @@ jobs:
           echo "Stapling notarization ticket to PKG..."
           xcrun stapler staple "$PKG_PATH"
 
+      # ══════════════════════════════════════════════════════════════
+      # No-Sparkle Build (macOS 10.14 compatible)
+      # ══════════════════════════════════════════════════════════════
+
+      - name: Build MacPass (no Sparkle)
+        run: |
+          set -o pipefail
+
+          echo "Building version $VERSION (build $BUILD_NUMBER) without Sparkle..."
+
+          xcodebuild build \
+            -configuration "$CONFIGURATION" \
+            -project "$PROJECT" \
+            -scheme "$SCHEME" \
+            ARCHS=arm64 \
+            CODE_SIGN_IDENTITY="" \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGN_ENTITLEMENTS="" \
+            NO_SPARKLE=NO_SPARKLE \
+            CURRENT_PROJECT_VERSION="$VERSION" \
+            MARKETING_VERSION="$VERSION" \
+            -derivedDataPath ./build-no-sparkle \
+            | xcpretty -c
+
+          # Stamp version and build number
+          NS_APP="./build-no-sparkle/Build/Products/$CONFIGURATION/$APP_NAME.app"
+          /usr/libexec/PlistBuddy -c "Set :CFBundleShortVersionString $VERSION" "$NS_APP/Contents/Info.plist"
+          /usr/libexec/PlistBuddy -c "Set :CFBundleVersion $BUILD_NUMBER" "$NS_APP/Contents/Info.plist"
+
+          # Remove Sparkle.framework from the app bundle (linked but unused)
+          rm -rf "$NS_APP/Contents/Frameworks/Sparkle.framework"
+          echo "Removed Sparkle.framework from no-Sparkle build"
+
+      - name: Code Sign App (no Sparkle)
+        env:
+          CERT_NAME: ${{ secrets.MACOS_CERTIFICATE_NAME }}
+        run: |
+          NS_BUILD_DIR="./build-no-sparkle/Build/Products/$CONFIGURATION"
+          NS_APP="$NS_BUILD_DIR/$APP_NAME.app"
+          FRAMEWORKS="$NS_APP/Contents/Frameworks"
+          ENTITLEMENTS="$RUNNER_TEMP/MacPass-Developer-ID.entitlements"
+
+          echo "::group::Signing embedded frameworks (no Sparkle)"
+          for fw in TransformerKit KeePassKit KissXML HNHUi; do
+            FW_PATH="$FRAMEWORKS/${fw}.framework"
+            if [ -d "$FW_PATH" ]; then
+              echo "Signing $fw..."
+              codesign --sign "$CERT_NAME" --options runtime --force --timestamp --entitlements "$ENTITLEMENTS" "$FW_PATH"
+            fi
+          done
+          echo "::endgroup::"
+
+          echo "Signing $APP_NAME.app (no Sparkle)..."
+          codesign --sign "$CERT_NAME" --options runtime --force --timestamp --entitlements "$ENTITLEMENTS" "$NS_APP"
+
+          echo "Verifying signature..."
+          codesign --verify --deep --strict "$NS_APP"
+
+      - name: Notarize (no Sparkle)
+        env:
+          APPLE_ID: ${{ secrets.NOTARIZATION_APPLE_ID }}
+          TEAM_ID: ${{ secrets.NOTARIZATION_TEAM_ID }}
+          APP_PWD: ${{ secrets.NOTARIZATION_PWD }}
+        run: |
+          NS_BUILD_DIR="./build-no-sparkle/Build/Products/$CONFIGURATION"
+          NS_APP="$NS_BUILD_DIR/$APP_NAME.app"
+
+          echo "Creating zip for notarization submission (no Sparkle)..."
+          ditto -c -k --keepParent "$NS_APP" "$NS_BUILD_DIR/$APP_NAME-noSparkle-notarize.zip"
+
+          echo "Submitting to Apple notarization service..."
+          RESULT=$(xcrun notarytool submit "$NS_BUILD_DIR/$APP_NAME-noSparkle-notarize.zip" \
+            --apple-id "$APPLE_ID" \
+            --team-id "$TEAM_ID" \
+            --password "$APP_PWD" \
+            --wait \
+            --timeout 30m \
+            --output-format json) || true
+
+          echo "$RESULT"
+          STATUS=$(echo "$RESULT" | python3 -c "import sys,json; print(json.load(sys.stdin).get('status','Unknown'))")
+          SUB_ID=$(echo "$RESULT" | python3 -c "import sys,json; print(json.load(sys.stdin).get('id',''))")
+
+          if [ "$STATUS" != "Accepted" ]; then
+            echo "❌ Notarization failed (no Sparkle) with status: $STATUS"
+            if [ -n "$SUB_ID" ]; then
+              echo "Fetching notarization log..."
+              xcrun notarytool log "$SUB_ID" \
+                --apple-id "$APPLE_ID" \
+                --team-id "$TEAM_ID" \
+                --password "$APP_PWD"
+            fi
+            exit 1
+          fi
+
+          echo "✅ Notarization accepted (no Sparkle)"
+          echo "Stapling notarization ticket..."
+          xcrun stapler staple "$NS_APP"
+
+          echo "Verifying notarization..."
+          spctl --assess --type exec -vvv "$NS_APP"
+
+      - name: Create PKG Installer (no Sparkle)
+        env:
+          CERT_NAME: ${{ secrets.MACOS_INSTALLER_CERTIFICATE_NAME }}
+        run: |
+          NS_BUILD_DIR="./build-no-sparkle/Build/Products/$CONFIGURATION"
+          NS_APP="$NS_BUILD_DIR/$APP_NAME.app"
+
+          echo "Creating component pkg (no Sparkle)..."
+          pkgbuild \
+            --component "$NS_APP" \
+            --install-location /Applications \
+            --version "$VERSION" \
+            "$NS_BUILD_DIR/$APP_NAME-noSparkle-component.pkg"
+
+          echo "Creating distribution pkg (no Sparkle)..."
+          productbuild \
+            --package "$NS_BUILD_DIR/$APP_NAME-noSparkle-component.pkg" \
+            --sign "$CERT_NAME" \
+            "$NS_BUILD_DIR/$APP_NAME-noSparkle-$VERSION.pkg"
+
+          echo "Creating zip archive (no Sparkle)..."
+          ditto -c -k --keepParent "$NS_APP" "$NS_BUILD_DIR/$APP_NAME-noSparkle-$VERSION.zip"
+
+          {
+            echo "NS_PKG_PATH=$NS_BUILD_DIR/$APP_NAME-noSparkle-$VERSION.pkg"
+            echo "NS_ZIP_PATH=$NS_BUILD_DIR/$APP_NAME-noSparkle-$VERSION.zip"
+          } >> "$GITHUB_ENV"
+
+      - name: Notarize PKG (no Sparkle)
+        env:
+          APPLE_ID: ${{ secrets.NOTARIZATION_APPLE_ID }}
+          TEAM_ID: ${{ secrets.NOTARIZATION_TEAM_ID }}
+          APP_PWD: ${{ secrets.NOTARIZATION_PWD }}
+        run: |
+          echo "Submitting PKG to Apple notarization service (no Sparkle)..."
+          xcrun notarytool submit "$NS_PKG_PATH" \
+            --apple-id "$APPLE_ID" \
+            --team-id "$TEAM_ID" \
+            --password "$APP_PWD" \
+            --wait \
+            --timeout 30m
+
+          echo "Stapling notarization ticket to PKG (no Sparkle)..."
+          xcrun stapler staple "$NS_PKG_PATH"
+
       # ── SHA256 ──────────────────────────────────────────────────
       - name: Generate SHA256 Hashes
         run: |
           shasum -a 256 "$PKG_PATH" > "$PKG_PATH.sha256"
           shasum -a 256 "$ZIP_PATH" > "$ZIP_PATH.sha256"
+          shasum -a 256 "$NS_PKG_PATH" > "$NS_PKG_PATH.sha256"
+          shasum -a 256 "$NS_ZIP_PATH" > "$NS_ZIP_PATH.sha256"
 
           {
             echo "### SHA256 Checksums"
             echo '```'
             cat "$PKG_PATH.sha256"
             cat "$ZIP_PATH.sha256"
+            cat "$NS_PKG_PATH.sha256"
+            cat "$NS_ZIP_PATH.sha256"
             echo '```'
           } >> "$GITHUB_STEP_SUMMARY"
 
@@ -387,6 +538,16 @@ jobs:
         uses: actions/attest-build-provenance@v2
         with:
           subject-path: ${{ env.ZIP_PATH }}
+
+      - name: Attest Build Provenance (PKG, no Sparkle)
+        uses: actions/attest-build-provenance@v2
+        with:
+          subject-path: ${{ env.NS_PKG_PATH }}
+
+      - name: Attest Build Provenance (ZIP, no Sparkle)
+        uses: actions/attest-build-provenance@v2
+        with:
+          subject-path: ${{ env.NS_ZIP_PATH }}
 
       # ── Publish ─────────────────────────────────────────────────
       - name: Publish to GitHub Release
@@ -405,7 +566,13 @@ jobs:
           ```bash
           gh attestation verify MacPass-${{ env.VERSION }}.pkg --owner ${{ github.repository_owner }}
           gh attestation verify MacPass-${{ env.VERSION }}.zip --owner ${{ github.repository_owner }}
+          gh attestation verify MacPass-noSparkle-${{ env.VERSION }}.pkg --owner ${{ github.repository_owner }}
+          gh attestation verify MacPass-noSparkle-${{ env.VERSION }}.zip --owner ${{ github.repository_owner }}
           ```
+
+          ### Downloads
+          - **MacPass** — includes Sparkle for automatic updates
+          - **MacPass-noSparkle** — without Sparkle auto-updater (for macOS 10.14 Mojave compatibility)
 
           ### Build Info
           - **Version**: ${{ env.VERSION }}
@@ -422,7 +589,11 @@ jobs:
             "${{ env.PKG_PATH }}" \
             "${{ env.PKG_PATH }}.sha256" \
             "${{ env.ZIP_PATH }}" \
-            "${{ env.ZIP_PATH }}.sha256"
+            "${{ env.ZIP_PATH }}.sha256" \
+            "${{ env.NS_PKG_PATH }}" \
+            "${{ env.NS_PKG_PATH }}.sha256" \
+            "${{ env.NS_ZIP_PATH }}" \
+            "${{ env.NS_ZIP_PATH }}.sha256"
 
       # ── Upload Artifacts (for workflow_dispatch) ────────────────
       - name: Upload Build Artifacts
@@ -435,6 +606,10 @@ jobs:
             ${{ env.PKG_PATH }}.sha256
             ${{ env.ZIP_PATH }}
             ${{ env.ZIP_PATH }}.sha256
+            ${{ env.NS_PKG_PATH }}
+            ${{ env.NS_PKG_PATH }}.sha256
+            ${{ env.NS_ZIP_PATH }}
+            ${{ env.NS_ZIP_PATH }}.sha256
 
       # ── Cleanup ─────────────────────────────────────────────────
       - name: Cleanup Keychain
@@ -490,9 +665,9 @@ jobs:
             NAME=$(echo "$release" | jq -r '.name // .tag_name')
             PUB_DATE=$(echo "$release" | jq -r '.published_at')
 
-            # Find the .zip asset
-            ZIP_URL=$(echo "$release" | jq -r '[.assets // [] | .[] | select(.name | endswith(".zip"))] | first // empty | .browser_download_url')
-            ZIP_SIZE=$(echo "$release" | jq -r '[.assets // [] | .[] | select(.name | endswith(".zip"))] | first // empty | .size')
+            # Find the .zip asset (exclude noSparkle variant — appcast is for Sparkle updates only)
+            ZIP_URL=$(echo "$release" | jq -r '[.assets // [] | .[] | select((.name | endswith(".zip")) and (.name | contains("noSparkle") | not))] | first // empty | .browser_download_url')
+            ZIP_SIZE=$(echo "$release" | jq -r '[.assets // [] | .[] | select((.name | endswith(".zip")) and (.name | contains("noSparkle") | not))] | first // empty | .size')
             if [ -z "$ZIP_URL" ] || [ "$ZIP_URL" = "null" ]; then
               continue
             fi
