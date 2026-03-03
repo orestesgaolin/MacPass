@@ -213,13 +213,35 @@ jobs:
       - name: Code Sign Frameworks and App
         env:
           CERT_NAME: ${{ secrets.MACOS_CERTIFICATE_NAME }}
+          TEAM_ID: ${{ secrets.NOTARIZATION_TEAM_ID }}
+          MACOS_PROVISIONING_PROFILE_BASE64: ${{ secrets.MACOS_PROVISIONING_PROFILE_BASE64 }}
         run: |
           BUILD_DIR="./build/Build/Products/$CONFIGURATION"
           APP="$BUILD_DIR/$APP_NAME.app"
           FRAMEWORKS="$APP/Contents/Frameworks"
-          # Copy Developer ID entitlements
-          ENTITLEMENTS="$RUNNER_TEMP/MacPass-Developer-ID.entitlements"
-          cp "MacPass/MacPass-Developer-ID.entitlements" "$ENTITLEMENTS"
+          ENTITLEMENTS_FRAMEWORK="$RUNNER_TEMP/MacPass-Developer-ID-framework.entitlements"
+          ENTITLEMENTS_APP="$RUNNER_TEMP/MacPass-Developer-ID-app.entitlements"
+          cp "MacPass/MacPass-Developer-ID.entitlements" "$ENTITLEMENTS_FRAMEWORK"
+          cp "MacPass/MacPass-Developer-ID.entitlements" "$ENTITLEMENTS_APP"
+
+          if [ -n "${MACOS_PROVISIONING_PROFILE_BASE64:-}" ]; then
+            echo "Provisioning profile secret detected; enabling profile-backed restricted entitlements."
+            APP_ID="${TEAM_ID}.${BUNDLE_ID}"
+            PROFILE_PATH="$RUNNER_TEMP/macpass.provisionprofile"
+            echo "$MACOS_PROVISIONING_PROFILE_BASE64" | base64 --decode > "$PROFILE_PATH"
+            cp "$PROFILE_PATH" "$APP/Contents/embedded.provisionprofile"
+
+            /usr/libexec/PlistBuddy -c "Set :com.apple.application-identifier $APP_ID" "$ENTITLEMENTS_APP" || \
+              /usr/libexec/PlistBuddy -c "Add :com.apple.application-identifier string $APP_ID" "$ENTITLEMENTS_APP"
+            /usr/libexec/PlistBuddy -c "Set :com.apple.developer.team-identifier $TEAM_ID" "$ENTITLEMENTS_APP" || \
+              /usr/libexec/PlistBuddy -c "Add :com.apple.developer.team-identifier string $TEAM_ID" "$ENTITLEMENTS_APP"
+            /usr/libexec/PlistBuddy -c "Set :keychain-access-groups:0 $APP_ID" "$ENTITLEMENTS_APP" || {
+              /usr/libexec/PlistBuddy -c "Add :keychain-access-groups array" "$ENTITLEMENTS_APP"
+              /usr/libexec/PlistBuddy -c "Add :keychain-access-groups:0 string $APP_ID" "$ENTITLEMENTS_APP"
+            }
+          else
+            echo "No provisioning profile secret set; signing with Developer ID baseline entitlements only."
+          fi
 
           echo "::group::Signing embedded frameworks"
 
@@ -258,14 +280,14 @@ jobs:
             FW_PATH="$FRAMEWORKS/${fw}.framework"
             if [ -d "$FW_PATH" ]; then
               echo "Signing $fw..."
-              codesign --sign "$CERT_NAME" --options runtime --force --timestamp --entitlements "$ENTITLEMENTS" "$FW_PATH"
+              codesign --sign "$CERT_NAME" --options runtime --force --timestamp --entitlements "$ENTITLEMENTS_FRAMEWORK" "$FW_PATH"
             fi
           done
 
           echo "::endgroup::"
 
           echo "Signing $APP_NAME.app..."
-          codesign --sign "$CERT_NAME" --options runtime --force --timestamp --entitlements "$ENTITLEMENTS" "$APP"
+          codesign --sign "$CERT_NAME" --options runtime --force --timestamp --entitlements "$ENTITLEMENTS_APP" "$APP"
 
           echo "Verifying signature..."
           codesign --verify --deep --strict "$APP"
@@ -399,24 +421,48 @@ jobs:
       - name: Code Sign App (no Sparkle)
         env:
           CERT_NAME: ${{ secrets.MACOS_CERTIFICATE_NAME }}
+          TEAM_ID: ${{ secrets.NOTARIZATION_TEAM_ID }}
+          MACOS_PROVISIONING_PROFILE_BASE64: ${{ secrets.MACOS_PROVISIONING_PROFILE_BASE64 }}
         run: |
           NS_BUILD_DIR="./build-no-sparkle/Build/Products/$CONFIGURATION"
           NS_APP="$NS_BUILD_DIR/$APP_NAME.app"
           FRAMEWORKS="$NS_APP/Contents/Frameworks"
-          ENTITLEMENTS="$RUNNER_TEMP/MacPass-Developer-ID.entitlements"
+          ENTITLEMENTS_FRAMEWORK="$RUNNER_TEMP/MacPass-Developer-ID-framework-no-sparkle.entitlements"
+          ENTITLEMENTS_APP="$RUNNER_TEMP/MacPass-Developer-ID-app-no-sparkle.entitlements"
+          cp "MacPass/MacPass-Developer-ID.entitlements" "$ENTITLEMENTS_FRAMEWORK"
+          cp "MacPass/MacPass-Developer-ID.entitlements" "$ENTITLEMENTS_APP"
+
+          if [ -n "${MACOS_PROVISIONING_PROFILE_BASE64:-}" ]; then
+            echo "Provisioning profile secret detected; enabling profile-backed restricted entitlements."
+            APP_ID="${TEAM_ID}.${BUNDLE_ID}"
+            NS_PROFILE_PATH="$RUNNER_TEMP/macpass-no-sparkle.provisionprofile"
+            echo "$MACOS_PROVISIONING_PROFILE_BASE64" | base64 --decode > "$NS_PROFILE_PATH"
+            cp "$NS_PROFILE_PATH" "$NS_APP/Contents/embedded.provisionprofile"
+
+            /usr/libexec/PlistBuddy -c "Set :com.apple.application-identifier $APP_ID" "$ENTITLEMENTS_APP" || \
+              /usr/libexec/PlistBuddy -c "Add :com.apple.application-identifier string $APP_ID" "$ENTITLEMENTS_APP"
+            /usr/libexec/PlistBuddy -c "Set :com.apple.developer.team-identifier $TEAM_ID" "$ENTITLEMENTS_APP" || \
+              /usr/libexec/PlistBuddy -c "Add :com.apple.developer.team-identifier string $TEAM_ID" "$ENTITLEMENTS_APP"
+            /usr/libexec/PlistBuddy -c "Set :keychain-access-groups:0 $APP_ID" "$ENTITLEMENTS_APP" || {
+              /usr/libexec/PlistBuddy -c "Add :keychain-access-groups array" "$ENTITLEMENTS_APP"
+              /usr/libexec/PlistBuddy -c "Add :keychain-access-groups:0 string $APP_ID" "$ENTITLEMENTS_APP"
+            }
+          else
+            echo "No provisioning profile secret set; signing with Developer ID baseline entitlements only."
+          fi
 
           echo "::group::Signing embedded frameworks (no Sparkle)"
           for fw in TransformerKit KeePassKit KissXML HNHUi; do
             FW_PATH="$FRAMEWORKS/${fw}.framework"
             if [ -d "$FW_PATH" ]; then
               echo "Signing $fw..."
-              codesign --sign "$CERT_NAME" --options runtime --force --timestamp --entitlements "$ENTITLEMENTS" "$FW_PATH"
+              codesign --sign "$CERT_NAME" --options runtime --force --timestamp --entitlements "$ENTITLEMENTS_FRAMEWORK" "$FW_PATH"
             fi
           done
           echo "::endgroup::"
 
           echo "Signing $APP_NAME.app (no Sparkle)..."
-          codesign --sign "$CERT_NAME" --options runtime --force --timestamp --entitlements "$ENTITLEMENTS" "$NS_APP"
+          codesign --sign "$CERT_NAME" --options runtime --force --timestamp --entitlements "$ENTITLEMENTS_APP" "$NS_APP"
 
           echo "Verifying signature..."
           codesign --verify --deep --strict "$NS_APP"
