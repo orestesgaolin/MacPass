@@ -64,7 +64,7 @@ jobs:
             -project Carthage/Checkouts/HNHUi/HNHUi.xcodeproj \
             -scheme HNHUi \
             -configuration Release \
-            ARCHS=arm64 SDKROOT=macosx \
+            ARCHS="arm64 x86_64" SDKROOT=macosx \
             CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY="" \
             SYMROOT=/tmp/HNHUi-build OBJROOT=/tmp/HNHUi-obj
           cp -R /tmp/HNHUi-build/Release/HNHUi.framework Carthage/Build/Mac/
@@ -75,7 +75,7 @@ jobs:
             -project Carthage/Checkouts/KissXML/KissXML.xcodeproj \
             -scheme "KissXML (macOS)" \
             -configuration Release \
-            ARCHS=arm64 SDKROOT=macosx \
+            ARCHS="arm64 x86_64" SDKROOT=macosx \
             CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY="" \
             SYMROOT=/tmp/KissXML-build OBJROOT=/tmp/KissXML-obj
           cp -R /tmp/KissXML-build/Release/KissXML.framework Carthage/Build/Mac/
@@ -90,7 +90,7 @@ jobs:
             -project Carthage/Checkouts/KeePassKit/KeePassKit.xcodeproj \
             -target "KeePassKit macOS" \
             -configuration Release \
-            ARCHS=arm64 SDKROOT=macosx \
+            ARCHS="arm64 x86_64" SDKROOT=macosx \
             CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY="" \
             SYMROOT=/tmp/KeePassKit-build OBJROOT=/tmp/KeePassKit-obj
           cp -R /tmp/KeePassKit-build/Release/KeePassKit.framework Carthage/Build/Mac/
@@ -102,7 +102,7 @@ jobs:
             -scheme "TransformerKit macOS" \
             -configuration Release \
             -derivedDataPath /tmp/TransformerKit-build \
-            ARCHS=arm64 SDKROOT=macosx \
+            ARCHS="arm64 x86_64" SDKROOT=macosx \
             CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY=""
           cp -R /tmp/TransformerKit-build/Build/Products/Release/TransformerKit.framework \
             Carthage/Build/Mac/
@@ -187,7 +187,7 @@ jobs:
             -configuration "$CONFIGURATION" \
             -project "$PROJECT" \
             -scheme "$SCHEME" \
-            ARCHS=arm64 \
+            ARCHS="arm64 x86_64" \
             CODE_SIGN_IDENTITY="" \
             CODE_SIGNING_REQUIRED=NO \
             CODE_SIGN_ENTITLEMENTS="" \
@@ -399,7 +399,7 @@ jobs:
             -configuration "$CONFIGURATION" \
             -project "$PROJECT" \
             -scheme "$SCHEME" \
-            ARCHS=arm64 \
+            ARCHS="arm64 x86_64" \
             CODE_SIGN_IDENTITY="" \
             CODE_SIGNING_REQUIRED=NO \
             CODE_SIGN_ENTITLEMENTS="" \
