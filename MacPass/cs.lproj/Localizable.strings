@@ -807,6 +807,24 @@
 /* Touchbar button label for unlocking the database */
 "TOUCHBAR_UNLOCK_DATABASE" = "Odemknout databázi";
 
+/* menu item to disable touchid key storage */
+"TOUCHID_DISABLED" = "Vypnuto";
+
+/* menu item to enable persisntent touchid key storage */
+"TOUCHID_PERSISTENT_KEY_STORAGE" = "Trvalé";
+
+/* menu item to enable transient touchid key storage */
+"TOUCHID_TRANSIENT_KEY_STORAGE" = "Dočasné";
+
+/* Tooltip displayed when TouchID is disabled */
+"TOOLTIP_TOUCHID_DISABLED" = "TouchID je vypnuto";
+
+/* Tooltip displayed when TouchID is is fully enabeld */
+"TOOLTIP_TOUCHID_ENABELD" = "TouchID je zapnuto";
+
+/* Tooltip displayed when TouchID is in transient (inmemory) mode */
+"TOOLTIP_TOUCHID_TRANSIENT" = "TouchID je v dočasném režimu (klíče uloženy pouze v paměti)";
+
 /* Move Entry to Trash */
 "TRASH_ENTRY" = "Smazat záznam";
 

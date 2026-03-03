@@ -810,6 +810,24 @@
 /* Touchbar button label for unlocking the database */
 "TOUCHBAR_UNLOCK_DATABASE" = "Unlock Database";
 
+/* menu item to disable touchid key storage */
+"TOUCHID_DISABLED" = "Disabled";
+
+/* menu item to enable persisntent touchid key storage */
+"TOUCHID_PERSISTENT_KEY_STORAGE" = "Persistent";
+
+/* menu item to enable transient touchid key storage */
+"TOUCHID_TRANSIENT_KEY_STORAGE" = "Transient";
+
+/* Tooltip displayed when TouchID is disabled */
+"TOOLTIP_TOUCHID_DISABLED" = "TouchID is disabled";
+
+/* Tooltip displayed when TouchID is is fully enabeld */
+"TOOLTIP_TOUCHID_ENABELD" = "TouchID is enabled";
+
+/* Tooltip displayed when TouchID is in transient (inmemory) mode */
+"TOOLTIP_TOUCHID_TRANSIENT" = "TouchID is in transient mode (keys stored in memory only)";
+
 /* Move Entry to Trash */
 "TRASH_ENTRY" = "Trash Entry";
 

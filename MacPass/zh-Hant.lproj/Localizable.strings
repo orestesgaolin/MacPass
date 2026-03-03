@@ -653,6 +653,24 @@
 /* Touchbar button label for unlocking the database */
 "TOUCHBAR_UNLOCK_DATABASE" = "解鎖資料庫";
 
+/* menu item to disable touchid key storage */
+"TOUCHID_DISABLED" = "已停用";
+
+/* menu item to enable persisntent touchid key storage */
+"TOUCHID_PERSISTENT_KEY_STORAGE" = "持久儲存";
+
+/* menu item to enable transient touchid key storage */
+"TOUCHID_TRANSIENT_KEY_STORAGE" = "暫時儲存";
+
+/* Tooltip displayed when TouchID is disabled */
+"TOOLTIP_TOUCHID_DISABLED" = "TouchID已停用";
+
+/* Tooltip displayed when TouchID is is fully enabeld */
+"TOOLTIP_TOUCHID_ENABELD" = "TouchID已啟用";
+
+/* Tooltip displayed when TouchID is in transient (inmemory) mode */
+"TOOLTIP_TOUCHID_TRANSIENT" = "TouchID處於暫時模式（金鑰僅儲存在記憶體中）";
+
 /* Move Entry to Trash */
 "TRASH_ENTRY" = "將項目移入廢紙簍";
 

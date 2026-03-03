@@ -652,6 +652,24 @@
 /* Toolbar item to perform autotype */
 "TOOLBAR_PERFORM_AUTOTYPE_FOR_ENTRY" = "Log automatisch in";
 
+/* menu item to disable touchid key storage */
+"TOUCHID_DISABLED" = "Uitgeschakeld";
+
+/* menu item to enable persisntent touchid key storage */
+"TOUCHID_PERSISTENT_KEY_STORAGE" = "Permanent";
+
+/* menu item to enable transient touchid key storage */
+"TOUCHID_TRANSIENT_KEY_STORAGE" = "Tijdelijk";
+
+/* Tooltip displayed when TouchID is disabled */
+"TOOLTIP_TOUCHID_DISABLED" = "TouchID is uitgeschakeld";
+
+/* Tooltip displayed when TouchID is is fully enabeld */
+"TOOLTIP_TOUCHID_ENABELD" = "TouchID is ingeschakeld";
+
+/* Tooltip displayed when TouchID is in transient (inmemory) mode */
+"TOOLTIP_TOUCHID_TRANSIENT" = "TouchID is in tijdelijke modus (sleutels alleen in geheugen opgeslagen)";
+
 /* Move Entry to Trash */
 "TRASH_ENTRY" = "Verplaats onderdeel naar prullenmand";
 

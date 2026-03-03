@@ -547,6 +547,24 @@
 /* Toolbar item to perform autotype */
 "TOOLBAR_PERFORM_AUTOTYPE_FOR_ENTRY" = "Auto-ifyllning";
 
+/* menu item to disable touchid key storage */
+"TOUCHID_DISABLED" = "Inaktiverad";
+
+/* menu item to enable persisntent touchid key storage */
+"TOUCHID_PERSISTENT_KEY_STORAGE" = "Permanent";
+
+/* menu item to enable transient touchid key storage */
+"TOUCHID_TRANSIENT_KEY_STORAGE" = "Tillfällig";
+
+/* Tooltip displayed when TouchID is disabled */
+"TOOLTIP_TOUCHID_DISABLED" = "TouchID är inaktiverad";
+
+/* Tooltip displayed when TouchID is is fully enabeld */
+"TOOLTIP_TOUCHID_ENABELD" = "TouchID är aktiverad";
+
+/* Tooltip displayed when TouchID is in transient (inmemory) mode */
+"TOOLTIP_TOUCHID_TRANSIENT" = "TouchID är i tillfälligt läge (nycklar lagras bara i minnet)";
+
 /* Move Entry to Trash */
 "TRASH_ENTRY" = "Släng konto";
 

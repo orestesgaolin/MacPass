@@ -769,6 +769,24 @@
 /* Touchbar button label for unlocking the database */
 "TOUCHBAR_UNLOCK_DATABASE" = "データベースのロック解除";
 
+/* menu item to disable touchid key storage */
+"TOUCHID_DISABLED" = "無効";
+
+/* menu item to enable persisntent touchid key storage */
+"TOUCHID_PERSISTENT_KEY_STORAGE" = "永続的";
+
+/* menu item to enable transient touchid key storage */
+"TOUCHID_TRANSIENT_KEY_STORAGE" = "一時的";
+
+/* Tooltip displayed when TouchID is disabled */
+"TOOLTIP_TOUCHID_DISABLED" = "TouchIDは無効です";
+
+/* Tooltip displayed when TouchID is is fully enabeld */
+"TOOLTIP_TOUCHID_ENABELD" = "TouchIDは有効です";
+
+/* Tooltip displayed when TouchID is in transient (inmemory) mode */
+"TOOLTIP_TOUCHID_TRANSIENT" = "TouchIDは一時モードです（キーはメモリにのみ保存されます）";
+
 /* Move Entry to Trash */
 "TRASH_ENTRY" = "項目をゴミ箱に移動";
 
