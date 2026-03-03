@@ -86,6 +86,12 @@ NSString *const kMPSettingsKeyPasswordCustomString                              
 
 NSString *const kMPSettingsKeyPasswordDefaultsForEntry                          = @"PasswordDefaultsForEntry";
 
+NSString *const kMPSettingsKeyUsePassphraseGenerator                            = @"UsePassphraseGenerator";
+NSString *const kMPSettingsKeyPassphraseWordCount                               = @"PassphraseWordCount";
+NSString *const kMPSettingsKeyPassphraseSeparator                               = @"PassphraseSeparator";
+NSString *const kMPSettingsKeyPassphraseCapitalize                              = @"PassphraseCapitalize";
+NSString *const kMPSettingsKeyPassphraseIncludeNumbers                          = @"PassphraseIncludeNumbers";
+
 NSString *const kMPSettingsKeyDoubleClickURLAction                              = @"DoubleClickURLAction";
 NSString *const kMPSettingsKeyDoubleClickTitleAction                            = @"DoubleClickTitleAction";
 NSString *const kMPSettingsKeyUpdatePasswordOnTemplateEntries                   = @"UpdatePasswordOnTemplateEntries";
@@ -174,6 +180,11 @@ NSString *const kMPDepricatedSettingsKeyEntryTouchIdDatabaseEncryptedKeyFormat  
       kMPSettingsKeyPasswordUseCustomString: @NO,
       kMPSettingsKeyPasswordCustomString: @"",
       kMPSettingsKeyPasswordEnsureOccurance: @NO,
+      kMPSettingsKeyUsePassphraseGenerator: @NO,
+      kMPSettingsKeyPassphraseWordCount: @6,
+      kMPSettingsKeyPassphraseSeparator: @0,
+      kMPSettingsKeyPassphraseCapitalize: @NO,
+      kMPSettingsKeyPassphraseIncludeNumbers: @NO,
       kMPSettingsKeyDoubleClickURLAction: @(MPDoubleClickURLActionCopy),
       kMPSettingsKeyDoubleClickTitleAction: @(MPDoubleClickTitleActionInspect),
       kMPSettingsKeyLoadUnsecurePlugins: @NO,

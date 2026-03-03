@@ -326,6 +326,8 @@
 		FA13910C1F9CD9EB0033D256 /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = FA13910A1F9CD9EB0033D256 /* Localizable.stringsdict */; };
 		FA9FD3271FB5E8F4003CEDD6 /* AutotypeCandidateSelectionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA9FD3291FB5E8F4003CEDD6 /* AutotypeCandidateSelectionView.xib */; };
 		FA9FD32C1FB5EDD3003CEDD6 /* AutotypeBuilderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA9FD32E1FB5EDD3003CEDD6 /* AutotypeBuilderView.xib */; };
+		DA12345600040000000A0004 /* MPPassphraseGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = DA12345600020000000A0002 /* MPPassphraseGenerator.m */; };
+		DA12345600050000000A0005 /* eff_large_wordlist.txt in Resources */ = {isa = PBXBuildFile; fileRef = DA12345600030000000A0003 /* eff_large_wordlist.txt */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -1220,6 +1222,9 @@
 		FA9FD32D1FB5EDD3003CEDD6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/AutotypeBuilderView.xib; sourceTree = "<group>"; };
 		FA9FD32F1FB5EDDE003CEDD6 /* pl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pl; path = pl.lproj/AutotypeBuilderView.strings; sourceTree = "<group>"; };
 		FAA9109A1F9A95A500F7CB90 /* pl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pl; path = pl.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		DA12345600010000000A0001 /* MPPassphraseGenerator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MPPassphraseGenerator.h; sourceTree = "<group>"; };
+		DA12345600020000000A0002 /* MPPassphraseGenerator.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MPPassphraseGenerator.m; sourceTree = "<group>"; };
+		DA12345600030000000A0003 /* eff_large_wordlist.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = eff_large_wordlist.txt; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1396,6 +1401,8 @@
 				AF105CF125FE5B2000C4FD3C /* MPTouchIdCompositeKeyStore.m */,
 				4C52197F273D192C00C719D3 /* MPOpenURLHandler.h */,
 				4C521980273D192C00C719D3 /* MPOpenURLHandler.m */,
+				DA12345600010000000A0001 /* MPPassphraseGenerator.h */,
+				DA12345600020000000A0002 /* MPPassphraseGenerator.m */,
 			);
 			name = Helper;
 			sourceTree = "<group>";
@@ -1738,6 +1745,7 @@
 			children = (
 				4C8EAF20236720090025CC00 /* MacPass.entitlements */,
 				4C8E889322C227270002C7C8 /* plugins.json */,
+				DA12345600030000000A0003 /* eff_large_wordlist.txt */,
 				FA13910A1F9CD9EB0033D256 /* Localizable.stringsdict */,
 				4C888C8E16EB6C91003D34A1 /* Localizable.strings */,
 				4CB9339716D3A0DD00A13B5D /* Credits.rtf */,
@@ -2231,6 +2239,7 @@
 				4CF6653820E67A140008A25C /* PluginDataView.xib in Resources */,
 				4C7F8B681A10B68400CCB83D /* WelcomeView.xib in Resources */,
 				4C9328D0273E6A83000DCBEE /* MPTOTPViewController.xib in Resources */,
+				DA12345600050000000A0005 /* eff_large_wordlist.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2438,6 +2447,7 @@
 				4C00E33817D8FA3500F37192 /* DDHotKeyCenter.m in Sources */,
 				4C5EF816218CA03F0003C00E /* MPAutotypeParser.m in Sources */,
 				4C224B4217DFCB2400FF6AEE /* MPNumericalInputFormatter.m in Sources */,
+				DA12345600040000000A0004 /* MPPassphraseGenerator.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

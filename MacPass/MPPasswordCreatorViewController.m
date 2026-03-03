@@ -28,7 +28,7 @@
 #import "MPDocument.h"
 #import "MPModelChangeObserving.h"
 #import "MPPrettyPasswordTransformer.h"
-
+#import "MPPassphraseGenerator.h"
 
 #import "MPFlagsHelper.h"
 
@@ -59,6 +59,7 @@ typedef NS_ENUM(NSUInteger, MPPasswordRating) {
 
 @property (nonatomic, copy) NSString *password;
 
+/* Existing Password UI */
 @property (strong) IBOutlet NSTextField *passwordTextField;
 @property (strong) IBOutlet NSTextField *passwordLengthTextField;
 @property (strong) IBOutlet NSTextField *customCharactersTextField;
@@ -75,6 +76,7 @@ typedef NS_ENUM(NSUInteger, MPPasswordRating) {
 @property (strong) IBOutlet NSLevelIndicator *entropyIndicator;
 @property (strong) IBOutlet NSButton *useEntryDefaultsButton;
 
+/* Password mode properties */
 @property (nonatomic, copy) NSString *customString;
 @property (nonatomic, assign) BOOL useCustomString;
 @property (nonatomic, assign) BOOL ensureOccurance;
@@ -83,6 +85,29 @@ typedef NS_ENUM(NSUInteger, MPPasswordRating) {
 
 @property (nonatomic, assign) BOOL useEntryDefaults;
 @property (nonatomic, assign) MPPasswordCharacterFlags characterFlags;
+
+/* Passphrase mode toggle */
+@property (nonatomic, assign) BOOL usePassphraseMode;
+
+/* Passphrase UI - connected via XIB */
+@property (strong) IBOutlet NSSegmentedControl *modeToggle;
+@property (strong) IBOutlet NSTextField *wordCountLabel;
+@property (strong) IBOutlet NSSlider *wordCountSlider;
+@property (strong) IBOutlet NSTextField *wordCountTextField;
+@property (strong) IBOutlet NSBox *passphraseOptionsBox;
+@property (strong) IBOutlet NSButton *capitalizeButton;
+@property (strong) IBOutlet NSButton *includeNumbersButton;
+@property (strong) IBOutlet NSPopUpButton *separatorPopUp;
+
+/* Password-mode controls connected via XIB */
+@property (strong) IBOutlet NSTextField *lengthLabel;
+@property (strong) IBOutlet NSBox *characterOptionsBox;
+
+/* Passphrase mode properties */
+@property (nonatomic, assign) NSUInteger passphraseWordCount;
+@property (nonatomic, assign) MPPassphraseSeparator passphraseSeparator;
+@property (nonatomic, assign) BOOL passphraseCapitalize;
+@property (nonatomic, assign) BOOL passphraseIncludeNumbers;
 
 @end
 
@@ -100,6 +125,11 @@ typedef NS_ENUM(NSUInteger, MPPasswordRating) {
     _useEntryDefaults = NO;
     _allowsEntryDefaults = NO;
     _ensureOccurance = NO;
+    _usePassphraseMode = NO;
+    _passphraseWordCount = 6;
+    _passphraseSeparator = MPPassphraseSeparatorDash;
+    _passphraseCapitalize = NO;
+    _passphraseIncludeNumbers = NO;
     [self _setupDefaults];
   }
   return self;
@@ -147,6 +177,14 @@ typedef NS_ENUM(NSUInteger, MPPasswordRating) {
   self.lowerCaseButton.tag = MPPasswordCharactersLowerCase;
   self.symbolsButton.tag = MPPasswordCharactersSymbols;
   
+  /* Bind passphrase word count controls */
+  [self.wordCountSlider bind:NSValueBinding toObject:self withKeyPath:NSStringFromSelector(@selector(passphraseWordCount)) options:nil];
+  [self.wordCountTextField bind:NSValueBinding toObject:self withKeyPath:NSStringFromSelector(@selector(passphraseWordCount)) options:nil];
+  self.wordCountTextField.delegate = self;
+  
+  /* Apply initial mode visibility */
+  [self _updateModeVisibility];
+  
   [self reset];
 }
 
@@ -170,10 +208,19 @@ typedef NS_ENUM(NSUInteger, MPPasswordRating) {
 #pragma mark Actions
 
 - (IBAction)_generatePassword:(id)sender {
-  self.password = [NSString passwordWithCharactersets:self.characterFlags
-                                 withCustomCharacters:self._customCharacters
-                                      ensureOccurence:self.ensureOccurance
-                                               length:self.passwordLength];
+  if(self.usePassphraseMode) {
+    MPPassphraseGenerator *generator = MPPassphraseGenerator.sharedGenerator;
+    self.password = [generator passphraseWithWordCount:self.passphraseWordCount
+                                            separator:self.passphraseSeparator
+                                           capitalize:self.passphraseCapitalize
+                                       includeNumbers:self.passphraseIncludeNumbers];
+  }
+  else {
+    self.password = [NSString passwordWithCharactersets:self.characterFlags
+                                   withCustomCharacters:self._customCharacters
+                                        ensureOccurence:self.ensureOccurance
+                                                 length:self.passwordLength];
+  }
 }
 
 - (NSString *)_customCharacters{
@@ -230,6 +277,11 @@ typedef NS_ENUM(NSUInteger, MPPasswordRating) {
     entryDefaults[kMPSettingsKeyPasswordUseCustomString] = @(self.useCustomString);
     entryDefaults[kMPSettingsKeyPasswordCustomString] = self.customCharactersTextField.stringValue;
     entryDefaults[kMPSettingsKeyPasswordEnsureOccurance] = @(self.ensureOccurance);
+    entryDefaults[kMPSettingsKeyUsePassphraseGenerator] = @(self.usePassphraseMode);
+    entryDefaults[kMPSettingsKeyPassphraseWordCount] = @(self.passphraseWordCount);
+    entryDefaults[kMPSettingsKeyPassphraseSeparator] = @(self.passphraseSeparator);
+    entryDefaults[kMPSettingsKeyPassphraseCapitalize] = @(self.passphraseCapitalize);
+    entryDefaults[kMPSettingsKeyPassphraseIncludeNumbers] = @(self.passphraseIncludeNumbers);
     NSMutableDictionary *availableDefaults = [[self _availableEntryDefaults] mutableCopy];
     if(!availableDefaults) {
       availableDefaults = [[NSMutableDictionary alloc] initWithCapacity:1];
@@ -243,6 +295,11 @@ typedef NS_ENUM(NSUInteger, MPPasswordRating) {
     [NSUserDefaults.standardUserDefaults setBool:self.useCustomString forKey:kMPSettingsKeyPasswordUseCustomString];
     [NSUserDefaults.standardUserDefaults setObject:self.customCharactersTextField.stringValue forKey:kMPSettingsKeyPasswordCustomString];
     [NSUserDefaults.standardUserDefaults setBool:self.ensureOccurance forKey:kMPSettingsKeyPasswordEnsureOccurance];
+    [NSUserDefaults.standardUserDefaults setBool:self.usePassphraseMode forKey:kMPSettingsKeyUsePassphraseGenerator];
+    [NSUserDefaults.standardUserDefaults setInteger:self.passphraseWordCount forKey:kMPSettingsKeyPassphraseWordCount];
+    [NSUserDefaults.standardUserDefaults setInteger:self.passphraseSeparator forKey:kMPSettingsKeyPassphraseSeparator];
+    [NSUserDefaults.standardUserDefaults setBool:self.passphraseCapitalize forKey:kMPSettingsKeyPassphraseCapitalize];
+    [NSUserDefaults.standardUserDefaults setBool:self.passphraseIncludeNumbers forKey:kMPSettingsKeyPassphraseIncludeNumbers];
   }
   else {
     NSLog(@"Cannot set password generator defaults. Inconsistent state. Aborting.");
@@ -283,8 +340,17 @@ typedef NS_ENUM(NSUInteger, MPPasswordRating) {
 - (void)setPassword:(NSString *)password {
   if(![_password isEqualToString:password]) {
     _password = [password copy];
-    NSString *customString = self.useCustomString ? self.customCharactersTextField.stringValue : nil;
-    self.entropy = [password entropyWhithCharacterSet:self.characterFlags customCharacters:customString ensureOccurance:self.ensureOccurance];
+    if(self.usePassphraseMode) {
+      MPPassphraseGenerator *generator = MPPassphraseGenerator.sharedGenerator;
+      self.entropy = [generator entropyForWordCount:self.passphraseWordCount
+                                          separator:self.passphraseSeparator
+                                         capitalize:self.passphraseCapitalize
+                                     includeNumbers:self.passphraseIncludeNumbers];
+    }
+    else {
+      NSString *customString = self.useCustomString ? self.customCharactersTextField.stringValue : nil;
+      self.entropy = [password entropyWhithCharacterSet:self.characterFlags customCharacters:customString ensureOccurance:self.ensureOccurance];
+    }
   }
 }
 
@@ -323,6 +389,12 @@ typedef NS_ENUM(NSUInteger, MPPasswordRating) {
     [self _resetCharacters];
     [self _generatePassword:nil];
   }
+  else if([obj object] == self.wordCountTextField) {
+    NSInteger value = self.wordCountTextField.integerValue;
+    if(value >= 1 && value <= 20) {
+      self.passphraseWordCount = value;
+    }
+  }
 }
 
 #pragma mark -
@@ -359,6 +431,11 @@ typedef NS_ENUM(NSUInteger, MPPasswordRating) {
     self.useCustomString = [entryDefaults[kMPSettingsKeyPasswordUseCustomString] boolValue];
     self.customString = entryDefaults[kMPSettingsKeyPasswordCustomString];
     self.ensureOccurance = [entryDefaults[kMPSettingsKeyPasswordEnsureOccurance] boolValue];
+    self.usePassphraseMode = [entryDefaults[kMPSettingsKeyUsePassphraseGenerator] boolValue];
+    self.passphraseWordCount = [entryDefaults[kMPSettingsKeyPassphraseWordCount] integerValue];
+    self.passphraseSeparator = [entryDefaults[kMPSettingsKeyPassphraseSeparator] integerValue];
+    self.passphraseCapitalize = [entryDefaults[kMPSettingsKeyPassphraseCapitalize] boolValue];
+    self.passphraseIncludeNumbers = [entryDefaults[kMPSettingsKeyPassphraseIncludeNumbers] boolValue];
   }
   else {
     self.passwordLength = [NSUserDefaults.standardUserDefaults integerForKey:kMPSettingsKeyDefaultPasswordLength];
@@ -366,6 +443,14 @@ typedef NS_ENUM(NSUInteger, MPPasswordRating) {
     self.useCustomString = [NSUserDefaults.standardUserDefaults boolForKey:kMPSettingsKeyPasswordUseCustomString];
     self.customString = [NSUserDefaults.standardUserDefaults stringForKey:kMPSettingsKeyPasswordCustomString];
     self.ensureOccurance = [NSUserDefaults.standardUserDefaults boolForKey:kMPSettingsKeyPasswordEnsureOccurance];
+    self.usePassphraseMode = [NSUserDefaults.standardUserDefaults boolForKey:kMPSettingsKeyUsePassphraseGenerator];
+    self.passphraseWordCount = [NSUserDefaults.standardUserDefaults integerForKey:kMPSettingsKeyPassphraseWordCount];
+    self.passphraseSeparator = [NSUserDefaults.standardUserDefaults integerForKey:kMPSettingsKeyPassphraseSeparator];
+    self.passphraseCapitalize = [NSUserDefaults.standardUserDefaults boolForKey:kMPSettingsKeyPassphraseCapitalize];
+    self.passphraseIncludeNumbers = [NSUserDefaults.standardUserDefaults boolForKey:kMPSettingsKeyPassphraseIncludeNumbers];
+  }
+  if(self.passphraseWordCount < 1) {
+    self.passphraseWordCount = 6;
   }
 }
 
@@ -403,4 +488,67 @@ typedef NS_ENUM(NSUInteger, MPPasswordRating) {
   }
   
 }
+
+#pragma mark -
+#pragma mark Passphrase UI
+
+- (void)_modeChanged:(NSSegmentedControl *)sender {
+  self.setDefaultButton.enabled = YES;
+  self.usePassphraseMode = (sender.selectedSegment == 1);
+  [self _updateModeVisibility];
+  [self _generatePassword:nil];
+}
+
+- (void)_wordCountSliderChanged:(NSSlider *)sender {
+  self.passphraseWordCount = sender.integerValue;
+}
+
+- (void)_passphraseOptionChanged:(id)sender {
+  self.setDefaultButton.enabled = YES;
+  self.passphraseCapitalize = (self.capitalizeButton.state == NSOnState);
+  self.passphraseIncludeNumbers = (self.includeNumbersButton.state == NSOnState);
+  [self _generatePassword:nil];
+}
+
+- (void)_separatorChanged:(NSPopUpButton *)sender {
+  self.setDefaultButton.enabled = YES;
+  self.passphraseSeparator = sender.indexOfSelectedItem;
+  [self _generatePassword:nil];
+}
+
+- (void)setPassphraseWordCount:(NSUInteger)passphraseWordCount {
+  if(_passphraseWordCount != passphraseWordCount) {
+    self.setDefaultButton.enabled = YES;
+    _passphraseWordCount = passphraseWordCount;
+    if(self.usePassphraseMode) {
+      [self _generatePassword:nil];
+    }
+  }
+}
+
+- (void)_updateModeVisibility {
+  BOOL isPassphrase = self.usePassphraseMode;
+  
+  /* Password-mode controls */
+  self.passwordLengthSlider.hidden = isPassphrase;
+  self.passwordLengthTextField.hidden = isPassphrase;
+  self.lengthLabel.hidden = isPassphrase;
+  self.characterOptionsBox.hidden = isPassphrase;
+  
+  /* Passphrase-mode controls */
+  self.wordCountLabel.hidden = !isPassphrase;
+  self.wordCountSlider.hidden = !isPassphrase;
+  self.wordCountTextField.hidden = !isPassphrase;
+  self.passphraseOptionsBox.hidden = !isPassphrase;
+  
+  /* Sync passphrase UI state from model */
+  self.capitalizeButton.state = self.passphraseCapitalize ? NSOnState : NSOffState;
+  self.includeNumbersButton.state = self.passphraseIncludeNumbers ? NSOnState : NSOffState;
+  [self.separatorPopUp selectItemAtIndex:self.passphraseSeparator];
+  
+  /* Update mode toggle selection */
+  [self.modeToggle setSelected:!isPassphrase forSegment:0];
+  [self.modeToggle setSelected:isPassphrase forSegment:1];
+}
+
 @end

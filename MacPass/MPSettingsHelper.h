@@ -148,6 +148,13 @@ APPKIT_EXTERN NSString *const kMPSettingsKeyPasswordCustomString;
 
 APPKIT_EXTERN NSString *const kMPSettingsKeyPasswordDefaultsForEntry;
 
+/* Passphrase Generation */
+APPKIT_EXTERN NSString *const kMPSettingsKeyUsePassphraseGenerator;           // BOOL - use passphrase mode
+APPKIT_EXTERN NSString *const kMPSettingsKeyPassphraseWordCount;              // NSUInteger - number of words
+APPKIT_EXTERN NSString *const kMPSettingsKeyPassphraseSeparator;              // MPPassphraseSeparator enum
+APPKIT_EXTERN NSString *const kMPSettingsKeyPassphraseCapitalize;             // BOOL - capitalize words
+APPKIT_EXTERN NSString *const kMPSettingsKeyPassphraseIncludeNumbers;         // BOOL - interleave digits
+
 
 @interface MPSettingsHelper : NSObject
 
