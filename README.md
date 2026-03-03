@@ -1,6 +1,6 @@
-[![Build Status](https://travis-ci.org/MacPass/MacPass.svg?branch=continuous)](https://travis-ci.org/MacPass/MacPass)
-
 # MacPass
+
+> **Note:** This is a fork of the original [MacPass](https://github.com/MacPass/MacPass) repository.
 
 There are a lot of iOS KeePass tools around but a distinct lack of a good native macOS version.
 KeePass can be used via Mono on macOS but lacks vital functionality and feels sluggish and simply out of place.
@@ -21,16 +21,20 @@ If you want to contribute by fixing a bug, adding a feature or improving localiz
 
 ## How to Build
 
-* Fetch the source of MacPass
+- Fetch the source of MacPass
+
 ```bash
 git clone https://github.com/MacPass/MacPass --recursive
 ```
-* Install [Carthage](https://github.com/Carthage/Carthage#installing-carthage)
-* Install all Dependencies
+
+- Install [Carthage](https://github.com/Carthage/Carthage#installing-carthage)
+- Install all Dependencies
+
 ```bash
 cd MacPass
 carthage bootstrap --platform macOS
 ```
+
 After that you can build and run in Xcode. The following command will build and make the application available through Spotlight. If you run into signing issues take a look at [Issue #92](https://github.com/MacPass/MacPass/issues/92). Since Sparkle is disabled only on the CI build and in Debug mode, you have to explicitly disable it in Release. Otherwise warnings on unsecure updates will appear.
 
     xcodebuild -scheme MacPass -target MacPass -configuration Release CODE_SIGNING_REQUIRED=NO NO_SPARKLE=NO_SPARKLE
@@ -69,7 +73,7 @@ More Screenshots in the [Wiki](https://github.com/MacPass/MacPass/wiki/Screensho
 ## License
 
 MacPass, a KeePass compatible Password Manager for OS X
-Copyright (c) 2012-2017  Michael Starke (HicknHack Software GmbH) and all [MacPass contributors](https://github.com/MacPass/MacPass/graphs/contributors)
+Copyright (c) 2012-2017 Michael Starke (HicknHack Software GmbH) and all [MacPass contributors](https://github.com/MacPass/MacPass/graphs/contributors)
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -79,11 +83,11 @@ the Free Software Foundation, either version 3 of the License, or
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
+along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 ## App Store
 
