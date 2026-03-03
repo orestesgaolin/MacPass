@@ -179,12 +179,12 @@
   }
   SecKeyAlgorithm algorithm = kSecKeyAlgorithmRSAEncryptionOAEPSHA256AESGCM;
   BOOL canEncrypt = SecKeyIsAlgorithmSupported(publicKey, kSecKeyOperationTypeEncrypt, algorithm);
-  NSData *encryptedKey;
+  NSData *encryptedKey = nil;
   if(canEncrypt) {
-    CFErrorRef error = NULL;
-    encryptedKey = (NSData*)CFBridgingRelease(SecKeyCreateEncryptedData(publicKey, algorithm, (__bridge CFDataRef)keyData, &error));
+    CFErrorRef encryptionError = NULL;
+    encryptedKey = (NSData*)CFBridgingRelease(SecKeyCreateEncryptedData(publicKey, algorithm, (__bridge CFDataRef)keyData, &encryptionError));
     if (!encryptedKey) {
-      NSError *err = CFBridgingRelease(error);
+      NSError *err = CFBridgingRelease(encryptionError);
       NSLog(@"Error while trying to decrypt the CompositeKey for TouchID unlock: %@", [err description]);
 
       if(publicKey) {
