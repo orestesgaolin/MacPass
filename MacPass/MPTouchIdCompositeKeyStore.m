@@ -60,6 +60,12 @@
 }
 
 - (void)saveCompositeKey:(KPKCompositeKey *)compositeKey forDocumentKey:(NSString *)documentKey {
+  if(self.touchIdEnabledState == MPTouchIDKeyStorageDisabled) {
+    [self _clearPersistenCompositeKeyData];
+    self.keys[documentKey] = nil;
+    return;
+  }
+
   NSError *error;
   NSData *encryptedCompositeKey = [self encryptedDataForCompositeKey:compositeKey error:&error];
   if(!encryptedCompositeKey) {
@@ -79,10 +85,6 @@
       if(nil != encryptedCompositeKey) {
         [self _persistCompositeKeyData:encryptedCompositeKey forDocumentKey:documentKey];
       }
-      break;
-    case MPTouchIDKeyStorageDisabled:
-      [self _clearPersistenCompositeKeyData];
-      self.keys[documentKey] = nil;
       break;
     default:
       NSAssert(NO,@"Unsupported internal touchID preferences value.");
