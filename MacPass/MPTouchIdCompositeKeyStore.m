@@ -159,19 +159,13 @@
 
 - (NSData *)encryptedDataForCompositeKey:(KPKCompositeKey *)compositeKey error:(NSError *__autoreleasing  _Nullable *)error {
   NSData* keyData = [NSKeyedArchiver archivedDataWithRootObject:compositeKey];
-  NSData* tag = [MPTouchIdUnlockPublicKeyTag dataUsingEncoding:NSUTF8StringEncoding];
-  NSDictionary *getquery = @{
-    (id)kSecClass: (id)kSecClassKey,
-    (id)kSecAttrApplicationTag: tag,
-    (id)kSecReturnRef: @YES,
-  };
-  SecKeyRef publicKey = NULL;
-  OSStatus status = SecItemCopyMatching((__bridge CFDictionaryRef)getquery, (CFTypeRef *)&publicKey);
-  if (status != errSecSuccess) {
+  OSStatus status = errSecSuccess;
+  SecKeyRef publicKey = [self _copyPublicKeyForEncryption:&status];
+  if(nil == publicKey) {
     [self _deleteTouchIdKeyPair];
     [self _createAndAddRSAKeyPair];
-    status = SecItemCopyMatching((__bridge CFDictionaryRef)getquery, (CFTypeRef *)&publicKey);
-    if(status != errSecSuccess) {
+    publicKey = [self _copyPublicKeyForEncryption:&status];
+    if(nil == publicKey) {
       NSString* description = CFBridgingRelease(SecCopyErrorMessageString(status, NULL));
       NSLog(@"Error while trying to query public key from Keychain: %@", description);
       return nil;
@@ -194,8 +188,8 @@
 
       [self _deleteTouchIdKeyPair];
       [self _createAndAddRSAKeyPair];
-      status = SecItemCopyMatching((__bridge CFDictionaryRef)getquery, (CFTypeRef *)&publicKey);
-      if(status == errSecSuccess && SecKeyIsAlgorithmSupported(publicKey, kSecKeyOperationTypeEncrypt, algorithm)) {
+      publicKey = [self _copyPublicKeyForEncryption:&status];
+      if(nil != publicKey && SecKeyIsAlgorithmSupported(publicKey, kSecKeyOperationTypeEncrypt, algorithm)) {
         CFErrorRef retryError = NULL;
         encryptedKey = (NSData*)CFBridgingRelease(SecKeyCreateEncryptedData(publicKey, algorithm, (__bridge CFDataRef)keyData, &retryError));
         if(!encryptedKey && retryError && error != NULL) {
@@ -214,8 +208,8 @@
 
     [self _deleteTouchIdKeyPair];
     [self _createAndAddRSAKeyPair];
-    status = SecItemCopyMatching((__bridge CFDictionaryRef)getquery, (CFTypeRef *)&publicKey);
-    if(status == errSecSuccess && SecKeyIsAlgorithmSupported(publicKey, kSecKeyOperationTypeEncrypt, algorithm)) {
+    publicKey = [self _copyPublicKeyForEncryption:&status];
+    if(nil != publicKey && SecKeyIsAlgorithmSupported(publicKey, kSecKeyOperationTypeEncrypt, algorithm)) {
       CFErrorRef retryError = NULL;
       encryptedKey = (NSData*)CFBridgingRelease(SecKeyCreateEncryptedData(publicKey, algorithm, (__bridge CFDataRef)keyData, &retryError));
       if(!encryptedKey && retryError && error != NULL) {
@@ -227,6 +221,51 @@
     CFRelease(publicKey);
   }
   return encryptedKey;
+}
+
+- (SecKeyRef)_copyPublicKeyForEncryption:(OSStatus *)status {
+  NSData* publicTag = [MPTouchIdUnlockPublicKeyTag dataUsingEncoding:NSUTF8StringEncoding];
+  NSDictionary *publicQuery = @{
+    (id)kSecClass: (id)kSecClassKey,
+    (id)kSecAttrApplicationTag: publicTag,
+    (id)kSecAttrKeyType: (id)kSecAttrKeyTypeRSA,
+    (id)kSecReturnRef: @YES,
+  };
+
+  SecKeyRef publicKey = NULL;
+  OSStatus localStatus = SecItemCopyMatching((__bridge CFDictionaryRef)publicQuery, (CFTypeRef *)&publicKey);
+  if(localStatus == errSecSuccess && publicKey != NULL) {
+    if(status != NULL) {
+      *status = localStatus;
+    }
+    return publicKey;
+  }
+
+  NSData* privateTag = [MPTouchIdUnlockPrivateKeyTag dataUsingEncoding:NSUTF8StringEncoding];
+  NSDictionary *privateQuery = @{
+    (id)kSecClass: (id)kSecClassKey,
+    (id)kSecAttrApplicationTag: privateTag,
+    (id)kSecAttrKeyType: (id)kSecAttrKeyTypeRSA,
+    (id)kSecReturnRef: @YES,
+  };
+  SecKeyRef privateKey = NULL;
+  localStatus = SecItemCopyMatching((__bridge CFDictionaryRef)privateQuery, (CFTypeRef *)&privateKey);
+  if(localStatus != errSecSuccess || privateKey == NULL) {
+    if(status != NULL) {
+      *status = localStatus;
+    }
+    if(privateKey) {
+      CFRelease(privateKey);
+    }
+    return NULL;
+  }
+
+  publicKey = SecKeyCopyPublicKey(privateKey);
+  CFRelease(privateKey);
+  if(status != NULL) {
+    *status = (publicKey != NULL) ? errSecSuccess : errSecInternalComponent;
+  }
+  return publicKey;
 }
 
 - (void)_deleteTouchIdKeyPair {
@@ -250,51 +289,84 @@
 }
 
 - (void)_createAndAddRSAKeyPair {
-  CFErrorRef error = NULL;
-  NSString* publicKeyLabel =  @"MacPass TouchID Feature Public Key";
   NSString* privateKeyLabel = @"MacPass TouchID Feature Private Key";
-  NSData* publicKeyTag =  [MPTouchIdUnlockPublicKeyTag  dataUsingEncoding:NSUTF8StringEncoding];
   NSData* privateKeyTag = [MPTouchIdUnlockPrivateKeyTag dataUsingEncoding:NSUTF8StringEncoding];
-  SecAccessControlRef access = NULL;
   if (@available(macOS 10.13.4, *)) {
     SecAccessControlCreateFlags flags = kSecAccessControlBiometryCurrentSet;
     if (@available(macOS 10.15, *)) {
       flags |= kSecAccessControlWatch | kSecAccessControlOr;
     }
-    access = SecAccessControlCreateWithFlags(kCFAllocatorDefault,
-                                             kSecAttrAccessibleWhenUnlockedThisDeviceOnly,
-                                             flags,
-                                             &error);
+    CFErrorRef createError = NULL;
+
+    SecAccessControlRef access = SecAccessControlCreateWithFlags(kCFAllocatorDefault,
+                                                                 kSecAttrAccessibleWhenUnlockedThisDeviceOnly,
+                                                                 flags,
+                                                                 &createError);
     if(access == NULL) {
-      NSError *err = CFBridgingRelease(error);
+      NSError *err = CFBridgingRelease(createError);
       NSLog(@"Error while trying to create AccessControl for TouchID unlock feature: %@", [err description]);
       return;
     }
+
     NSDictionary* attributes = @{
       (id)kSecAttrKeyType:        (id)kSecAttrKeyTypeRSA,
       (id)kSecAttrKeySizeInBits:  @2048,
-      (id)kSecAttrSynchronizable: @NO,
       (id)kSecPrivateKeyAttrs:
            @{ (id)kSecAttrIsPermanent:    @YES,
               (id)kSecAttrApplicationTag: privateKeyTag,
               (id)kSecAttrLabel: privateKeyLabel,
               (id)kSecAttrAccessControl:  (__bridge id)access
             },
-      (id)kSecPublicKeyAttrs:
+    };
+    SecKeyRef result = SecKeyCreateRandomKey((__bridge CFDictionaryRef)attributes, &createError);
+    CFRelease(access);
+
+    if(result != NULL) {
+      CFRelease(result);
+      return;
+    }
+
+    CFIndex errorCode = createError ? CFErrorGetCode(createError) : 0;
+    NSError *firstError = CFBridgingRelease(createError);
+
+    if(errorCode != errSecMissingEntitlement) {
+      NSLog(@"Error while trying to create a RSA keypair for TouchID unlock feature: %@", [firstError description]);
+      return;
+    }
+
+    NSLog(@"Retrying TouchID key creation with relaxed accessibility due to missing entitlement context.");
+
+    CFErrorRef retryError = NULL;
+    SecAccessControlRef retryAccess = SecAccessControlCreateWithFlags(kCFAllocatorDefault,
+                                                                      kSecAttrAccessibleWhenUnlocked,
+                                                                      flags,
+                                                                      &retryError);
+    if(retryAccess == NULL) {
+      NSError *err = CFBridgingRelease(retryError);
+      NSLog(@"Error while trying to create fallback AccessControl for TouchID unlock feature: %@", [err description]);
+      return;
+    }
+
+    NSDictionary* retryAttributes = @{
+      (id)kSecAttrKeyType:        (id)kSecAttrKeyTypeRSA,
+      (id)kSecAttrKeySizeInBits:  @2048,
+      (id)kSecPrivateKeyAttrs:
            @{ (id)kSecAttrIsPermanent:    @YES,
-              (id)kSecAttrApplicationTag: publicKeyTag,
-              (id)kSecAttrLabel: publicKeyLabel,
+              (id)kSecAttrApplicationTag: privateKeyTag,
+              (id)kSecAttrLabel: privateKeyLabel,
+              (id)kSecAttrAccessControl:  (__bridge id)retryAccess
             },
     };
-    SecKeyRef result = SecKeyCreateRandomKey((__bridge CFDictionaryRef)attributes, &error);
-    if(result == NULL) {
-      NSError *err = CFBridgingRelease(error);
-      NSLog(@"Error while trying to create a RSA keypair for TouchID unlock feature: %@", [err description]);
+
+    SecKeyRef retryResult = SecKeyCreateRandomKey((__bridge CFDictionaryRef)retryAttributes, &retryError);
+    CFRelease(retryAccess);
+
+    if(retryResult == NULL) {
+      NSError *err = CFBridgingRelease(retryError);
+      NSLog(@"Error while trying to create fallback RSA keypair for TouchID unlock feature: %@", [err description]);
+      return;
     }
-    else {
-      CFRelease(result);
-    }
-    CFRelease(access);
+    CFRelease(retryResult);
   }
   else {
     return;
