@@ -1,0 +1,69 @@
+
+/* Class = "NSMenuItem"; title = "Never"; ObjectID = "3PG-ge-sez"; */
+"3PG-ge-sez.title" = "Never";
+
+/* Class = "NSMenu"; title = "LockTimes"; ObjectID = "3SU-Tz-vNr"; */
+"3SU-Tz-vNr.title" = "LockTimes";
+
+/* Class = "NSTextFieldCell"; title = "Enabling this compromises security. If enabled, your preferences will contain mappings from database to keyfile. Key locations for databases without a password will not be saved."; ObjectID = "5aM-bw-1qA"; */
+"5aM-bw-1qA.title" = "Enabling this compromises security. If enabled, your preferences will contain mappings from database to keyfile. Key locations for databases without a password will not be saved.";
+
+/* Class = "NSButtonCell"; title = "Allow Window Screenshots"; ObjectID = "8Ik-1T-6SR"; */
+"8Ik-1T-6SR.title" = "Allow Window Screenshots";
+
+/* Class = "NSButtonCell"; title = "Lock after screen sleep"; ObjectID = "8mt-iT-q7d"; */
+"8mt-iT-q7d.title" = "Lock after screen sleep";
+
+/* Class = "NSMenuItem"; title = "for 5 Minutes"; ObjectID = "DUt-fV-xPf"; */
+"DUt-fV-xPf.title" = "for 5 Minutes";
+
+/* Class = "NSMenuItem"; title = "Never"; ObjectID = "Eho-b6-2r3"; */
+"Eho-b6-2r3.title" = "Never";
+
+/* Class = "NSMenuItem"; title = "after 5 Minutes"; ObjectID = "GOb-x5-v3v"; */
+"GOb-x5-v3v.title" = "after 5 Minutes";
+
+/* Class = "NSMenuItem"; title = "after 1 Minute"; ObjectID = "GjO-Rq-CcJ"; */
+"GjO-Rq-CcJ.title" = "after 1 Minute";
+
+/* Class = "NSMenuItem"; title = "after 10 Seconds"; ObjectID = "KPs-XT-xJQ"; */
+"KPs-XT-xJQ.title" = "after 10 Seconds";
+
+/* Class = "NSButtonCell"; title = "Prevent Universal Clipboard support"; ObjectID = "KvW-RN-z6j"; */
+"KvW-RN-z6j.title" = "Prevent Universal Clipboard support";
+
+/* Class = "NSTextFieldCell"; title = "Clear Copied Items"; ObjectID = "NMx-H8-qw1"; */
+"NMx-H8-qw1.title" = "Clear Copied Items";
+
+/* Class = "NSMenu"; title = "ClipboardClearInterval"; ObjectID = "OvT-46-ItY"; */
+"OvT-46-ItY.title" = "ClipboardClearInterval";
+
+/* Class = "NSButtonCell"; title = "Remember Keyfile for Databases"; ObjectID = "Q9B-M0-yCP"; */
+"Q9B-M0-yCP.title" = "Remember Keyfile for Databases";
+
+/* Class = "NSButtonCell"; title = "Lock after log out"; ObjectID = "fdI-0a-VRg"; */
+"fdI-0a-VRg.title" = "Lock after log out";
+
+/* Class = "NSMenuItem"; title = "for 1 Minute"; ObjectID = "hcu-tg-UHB"; */
+"hcu-tg-UHB.title" = "for 1 Minute";
+
+/* Class = "NSTextFieldCell"; title = "Lock while idle"; ObjectID = "mJZ-10-3aY"; */
+"mJZ-10-3aY.title" = "Lock while idle";
+
+/* Class = "NSMenuItem"; title = "after 30 Seconds"; ObjectID = "nXQ-XQ-OjR"; */
+"nXQ-XQ-OjR.title" = "after 30 Seconds";
+
+/* Class = "NSMenuItem"; title = "for 15 Minutes"; ObjectID = "pPY-4B-V6t"; */
+"pPY-4B-V6t.title" = "for 15 Minutes";
+
+/* Class = "NSButtonCell"; title = "Clear Clipboard on Quit"; ObjectID = "t4Z-bK-KMl"; */
+"t4Z-bK-KMl.title" = "Clear Clipboard on Quit";
+
+/* Class = "NSButtonCell"; title = "Clear all stored locations"; ObjectID = "uaC-TX-Vza"; */
+"uaC-TX-Vza.title" = "Clear all stored locations";
+
+/* Class = "NSTextFieldCell"; title = "Disabling this compromises security. If enabled, anything copied to the Clipboard in MacPass will be available on your connected iOS devices. You should clear the clipboard on those devices manually."; ObjectID = "vCZ-9c-5s7"; */
+"vCZ-9c-5s7.title" = "Disabling this compromises security. If enabled, anything copied to the Clipboard in MacPass will be available on your connected iOS devices. You should clear the clipboard on those devices manually.";
+
+/* Class = "NSButtonCell"; title = "Lock after sleep"; ObjectID = "zjF-CD-1DV"; */
+"zjF-CD-1DV.title" = "Lock after sleep";
