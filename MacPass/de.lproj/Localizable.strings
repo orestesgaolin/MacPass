@@ -907,3 +907,12 @@
 /* Yesterday */
 "YESTERDAY" = "Gestern";
 
+/* Accessibility label for the key file selection control */
+"KEY_FILE_PATH_CONTROL_ACCESSIBILITY_LABEL" = "Schlüsseldatei auswählen";
+
+/* Accessibility help text for the key file selection control */
+"KEY_FILE_PATH_CONTROL_ACCESSIBILITY_HELP" = "Drücken, um eine Schlüsseldatei zum Entsperren der Datenbank auszuwählen";
+
+/* Accessibility value when no key file is selected */
+"KEY_FILE_NONE_SELECTED_ACCESSIBILITY_VALUE" = "Keine Schlüsseldatei ausgewählt";
+

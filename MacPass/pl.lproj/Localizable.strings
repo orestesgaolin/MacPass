@@ -925,3 +925,12 @@
 
 /* Yesterday */
 "YESTERDAY" = "Wczoraj";
+
+/* Accessibility label for the key file selection control */
+"KEY_FILE_PATH_CONTROL_ACCESSIBILITY_LABEL" = "Wybierz plik klucza";
+
+/* Accessibility help text for the key file selection control */
+"KEY_FILE_PATH_CONTROL_ACCESSIBILITY_HELP" = "Naciśnij, aby wybrać plik klucza do odblokowania bazy danych";
+
+/* Accessibility value when no key file is selected */
+"KEY_FILE_NONE_SELECTED_ACCESSIBILITY_VALUE" = "Nie wybrano pliku klucza";

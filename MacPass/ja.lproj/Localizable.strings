@@ -861,3 +861,12 @@
 
 /* Yesterday */
 "YESTERDAY" = "昨日";
+
+/* Accessibility label for the key file selection control */
+"KEY_FILE_PATH_CONTROL_ACCESSIBILITY_LABEL" = "鍵ファイルを選択";
+
+/* Accessibility help text for the key file selection control */
+"KEY_FILE_PATH_CONTROL_ACCESSIBILITY_HELP" = "データベースのロック解除に使用する鍵ファイルを選択するには押してください";
+
+/* Accessibility value when no key file is selected */
+"KEY_FILE_NONE_SELECTED_ACCESSIBILITY_VALUE" = "鍵ファイルが選択されていません";

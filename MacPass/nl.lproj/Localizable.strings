@@ -736,3 +736,12 @@
 /* Yesterday */
 "YESTERDAY" = "Gisteren";
 
+/* Accessibility label for the key file selection control */
+"KEY_FILE_PATH_CONTROL_ACCESSIBILITY_LABEL" = "Kies sleutelbestand";
+
+/* Accessibility help text for the key file selection control */
+"KEY_FILE_PATH_CONTROL_ACCESSIBILITY_HELP" = "Druk om een sleutelbestand te selecteren voor het ontgrendelen van de kluis";
+
+/* Accessibility value when no key file is selected */
+"KEY_FILE_NONE_SELECTED_ACCESSIBILITY_VALUE" = "Geen sleutelbestand geselecteerd";
+

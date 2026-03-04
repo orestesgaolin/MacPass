@@ -740,4 +740,12 @@
 /* Yesterday */
 "YESTERDAY" = "昨天";
 
+/* Accessibility label for the key file selection control */
+"KEY_FILE_PATH_CONTROL_ACCESSIBILITY_LABEL" = "選擇金鑰檔案";
+
+/* Accessibility help text for the key file selection control */
+"KEY_FILE_PATH_CONTROL_ACCESSIBILITY_HELP" = "按下以選擇用於解鎖資料庫的金鑰檔案";
+
+/* Accessibility value when no key file is selected */
+"KEY_FILE_NONE_SELECTED_ACCESSIBILITY_VALUE" = "未選擇金鑰檔案";
 

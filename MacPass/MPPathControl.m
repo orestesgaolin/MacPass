@@ -25,10 +25,58 @@ NSString *const MPPathControlDidSetURLNotification = @"MPPathControlDidSetURLNot
 
 - (BOOL)acceptsFirstResponder {
   /*
-   documentation state YES is required when canBecomeKeyView is YES but setting to YES
-   causes NSWindow to use this as first responder when closing the password generator popover
+   acceptsFirstResponder must return YES for keyboard (Tab) and VoiceOver navigation.
+   A previous workaround returned NO to prevent NSWindow from focusing this control
+   when closing the password generator popover, but that made the control completely
+   inaccessible to VoiceOver and keyboard-only users.
    */
+  return YES;
+}
+
+- (BOOL)needsPanelToBecomeKey {
   return NO;
+}
+
+- (NSFocusRingType)focusRingType {
+  return NSFocusRingTypeExterior;
+}
+
+#pragma mark - Keyboard activation
+
+- (void)keyDown:(NSEvent *)event {
+  /* Allow Space and Return/Enter to trigger the file chooser, matching standard macOS button behavior */
+  if(event.keyCode == 49 /* Space */ || event.keyCode == 36 /* Return */ || event.keyCode == 76 /* Enter */) {
+    [self showOpenPanel:nil];
+    return;
+  }
+  [super keyDown:event];
+}
+
+#pragma mark - Accessibility
+
+- (BOOL)isAccessibilityElement {
+  return YES;
+}
+
+- (NSAccessibilityRole)accessibilityRole {
+  return NSAccessibilityButtonRole;
+}
+
+- (NSString *)accessibilityLabel {
+  return NSLocalizedString(@"KEY_FILE_PATH_CONTROL_ACCESSIBILITY_LABEL", @"Accessibility label for the key file selection control");
+}
+
+- (NSString *)accessibilityHelp {
+  return NSLocalizedString(@"KEY_FILE_PATH_CONTROL_ACCESSIBILITY_HELP", @"Accessibility help text for the key file selection control");
+}
+
+- (NSString *)accessibilityValue {
+  return self.URL ? self.URL.lastPathComponent : NSLocalizedString(@"KEY_FILE_NONE_SELECTED_ACCESSIBILITY_VALUE", @"Accessibility value when no key file is selected");
+}
+
+- (BOOL)accessibilityPerformPress {
+  [self showOpenPanel:nil];
+  return YES;
 }
 
 - (instancetype)initWithFrame:(NSRect)frameRect {
