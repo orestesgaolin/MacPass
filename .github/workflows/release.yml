@@ -419,21 +419,26 @@ jobs:
 
       # ── Generate Changelog ──────────────────────────────────────
       - name: Generate Changelog
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           CURRENT_TAG="${GITHUB_REF_NAME}"
 
           if [[ "$GITHUB_REF_TYPE" == "tag" ]]; then
             if [[ "$CURRENT_TAG" == *-* ]]; then
-              # Pre-release (e.g. 1.2.3-rc1): changelog since last tag (any)
-              PREV_TAG=$(git describe --tags --abbrev=0 "${CURRENT_TAG}^" 2>/dev/null || echo "")
+              # Pre-release (e.g. 1.2.3-rc1): find the tag of the most recent GH release (any)
+              PREV_TAG=$(gh release list --limit 50 --json tagName,isDraft \
+                -q '[.[] | select(.isDraft == false) | .tagName] | map(select(. != "'"$CURRENT_TAG"'")) | first // empty' 2>/dev/null || echo "")
             else
-              # Release (e.g. 1.2.3): changelog since last release tag (no suffix)
-              PREV_TAG=$(git describe --tags --abbrev=0 "${CURRENT_TAG}^" --exclude '*-*' 2>/dev/null || echo "")
+              # Stable release (e.g. 1.2.3): find the tag of the most recent stable GH release (no suffix)
+              PREV_TAG=$(gh release list --limit 50 --json tagName,isPrerelease,isDraft \
+                -q '[.[] | select(.isDraft == false and .isPrerelease == false) | .tagName] | map(select(. != "'"$CURRENT_TAG"'" and (contains("-") | not))) | first // empty' 2>/dev/null || echo "")
             fi
             END_REF="$CURRENT_TAG"
           else
-            # workflow_dispatch: changelog from last tag to HEAD
-            PREV_TAG=$(git describe --tags --abbrev=0 HEAD 2>/dev/null || echo "")
+            # workflow_dispatch: find the tag of the most recent GH release
+            PREV_TAG=$(gh release list --limit 1 --json tagName,isDraft \
+              -q '[.[] | select(.isDraft == false)] | first // empty | .tagName // empty' 2>/dev/null || echo "")
             END_REF="HEAD"
           fi
 
