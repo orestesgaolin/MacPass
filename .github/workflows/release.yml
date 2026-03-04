@@ -29,10 +29,19 @@ jobs:
         uses: actions/checkout@v4
         with:
           submodules: recursive
+          fetch-depth: 0
 
       # ── Dependencies ────────────────────────────────────────────
+      - name: Setup Homebrew
+        uses: Homebrew/actions/setup-homebrew@master
+
       - name: Install Carthage
         run: brew install carthage
+
+      - name: Install changelog_cli
+        run: |
+          brew tap orestesgaolin/tap
+          brew install changelog_cli
 
       - name: Fetch Dependencies
         env:
@@ -408,14 +417,52 @@ jobs:
         with:
           subject-path: ${{ env.ZIP_PATH }}
 
+      # ── Generate Changelog ──────────────────────────────────────
+      - name: Generate Changelog
+        run: |
+          CURRENT_TAG="${GITHUB_REF_NAME}"
+
+          if [[ "$GITHUB_REF_TYPE" == "tag" ]]; then
+            if [[ "$CURRENT_TAG" == *-* ]]; then
+              # Pre-release (e.g. 1.2.3-rc1): changelog since last tag (any)
+              PREV_TAG=$(git describe --tags --abbrev=0 "${CURRENT_TAG}^" 2>/dev/null || echo "")
+            else
+              # Release (e.g. 1.2.3): changelog since last release tag (no suffix)
+              PREV_TAG=$(git describe --tags --abbrev=0 "${CURRENT_TAG}^" --exclude '*-*' 2>/dev/null || echo "")
+            fi
+            END_REF="$CURRENT_TAG"
+          else
+            # workflow_dispatch: changelog from last tag to HEAD
+            PREV_TAG=$(git describe --tags --abbrev=0 HEAD 2>/dev/null || echo "")
+            END_REF="HEAD"
+          fi
+
+          echo "Generating changelog: ${PREV_TAG:-beginning}..${END_REF}"
+
+          CHANGELOG_ARGS=(-P markdown -e "$END_REF")
+          if [ -n "$PREV_TAG" ]; then
+            CHANGELOG_ARGS+=(-s "$PREV_TAG")
+          fi
+
+          changelog_cli generate "${CHANGELOG_ARGS[@]}" -o /tmp/changelog.md || true
+
+          if [ ! -s /tmp/changelog.md ]; then
+            echo "No conventional commits found for changelog." > /tmp/changelog.md
+          fi
+
+          echo "Generated changelog:"
+          cat /tmp/changelog.md
+
       # ── Publish ─────────────────────────────────────────────────
       - name: Publish to GitHub Release
         if: startsWith(github.ref, 'refs/tags/')
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          # Build release body with attestation info
-          cat > /tmp/release-body.md << 'EOF'
+          # Build release body: changelog + attestation info
+          cp /tmp/changelog.md /tmp/release-body.md
+
+          cat >> /tmp/release-body.md << 'EOF'
 
           ---- 
           
@@ -438,7 +485,7 @@ jobs:
           - **Commit**: ${{ github.sha }}
           EOF
 
-          # Create release with generated notes + attestation info
+          # Create release with changelog + attestation info
           gh release create "${{ github.ref_name }}" \
             --title "MacPass ${{ env.VERSION }} (${{ env.BUILD_NUMBER }})" \
             --generate-notes \
