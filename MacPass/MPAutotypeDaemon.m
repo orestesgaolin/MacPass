@@ -244,7 +244,7 @@ static MPAutotypeDaemon *_sharedInstance;
     MPDocument *document = documents.firstObject;
     [document showWindows];
     MPDocumentWindowController *wc = document.windowControllers.firstObject;
-    [wc showPasswordInputWithMessage:NSLocalizedString(@"AUTOTYPE_MESSAGE_UNLOCK_DATABASE", @"Message displayed to the user to unlock the database to perform global autotype")];
+    [wc showPasswordInputWithMessage:NSLocalizedString(@"AUTOTYPE_MESSAGE_UNLOCK_DATABASE", @"Message displayed to the user to unlock the database to perform global autotype") attemptTouchID:YES];
     NSNotificationCenter * __weak nc = [NSNotificationCenter defaultCenter];
     MPAutotypeDaemon * __weak welf = self;
     NSTimeInterval requestTime = NSDate.date.timeIntervalSinceReferenceDate;

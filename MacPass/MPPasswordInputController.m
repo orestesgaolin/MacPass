@@ -127,10 +127,20 @@
 }
 
 - (void)requestPasswordWithMessage:(NSString *)message cancelLabel:(NSString *)cancelLabel completionHandler:(passwordInputCompletionBlock)completionHandler {
+  [self requestPasswordWithMessage:message cancelLabel:cancelLabel attemptTouchID:NO completionHandler:completionHandler];
+}
+
+- (void)requestPasswordWithMessage:(NSString *)message cancelLabel:(NSString *)cancelLabel attemptTouchID:(BOOL)attemptTouchID completionHandler:(passwordInputCompletionBlock)completionHandler {
   self.completionHandler = completionHandler;
   self.message = message;
   self.cancelLabel = cancelLabel;
   [self _reset];
+  if(attemptTouchID && [self _touchIdIsUnlockAvailable]) {
+    /* Dispatch async to ensure the UI is fully laid out before presenting the Touch ID prompt */
+    dispatch_async(dispatch_get_main_queue(), ^{
+      [self unlockWithTouchID:nil];
+    });
+  }
 }
 
 #pragma mark Properties

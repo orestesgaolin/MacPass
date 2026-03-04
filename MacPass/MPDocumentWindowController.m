@@ -352,11 +352,14 @@ typedef void (^MPPasswordChangedBlock)(BOOL didChangePassword);
   [self showPasswordInputWithMessage:nil];
 }
 - (void)showPasswordInputWithMessage:(NSString *)message {
+  [self showPasswordInputWithMessage:message attemptTouchID:NO];
+}
+- (void)showPasswordInputWithMessage:(NSString *)message attemptTouchID:(BOOL)attemptTouchID {
   if(!self.passwordInputController) {
     self.passwordInputController = [[MPPasswordInputController alloc] init];
   }
   self.contentViewController = self.passwordInputController;
-  [self.passwordInputController requestPasswordWithMessage:message cancelLabel:nil completionHandler:^BOOL(KPKCompositeKey* compositeKey, NSURL* keyURL, BOOL didCancel, NSError *__autoreleasing *error) {
+  [self.passwordInputController requestPasswordWithMessage:message cancelLabel:nil attemptTouchID:attemptTouchID completionHandler:^BOOL(KPKCompositeKey* compositeKey, NSURL* keyURL, BOOL didCancel, NSError *__autoreleasing *error) {
     if(didCancel) {
       return NO;
     }
