@@ -58,7 +58,7 @@ The Status can be found on the dedicated [Wiki page](https://github.com/MacPass/
 
 ## What does it look like?
 
-![image](https://raw.github.com/mstarke/MacPass/master/Assets/Screenshots/MacPass.png)
+![image](/Assets/Screenshots/Locked.png)
 
 More Screenshots in the [Wiki](https://github.com/MacPass/MacPass/wiki/Screenshots)
 
