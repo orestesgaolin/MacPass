@@ -36,7 +36,7 @@ jobs:
         uses: Homebrew/actions/setup-homebrew@master
 
       - name: Install Carthage
-        run: brew install carthage
+        run: brew install carthage create-dmg
 
       - name: Install changelog_cli
         run: |
@@ -133,17 +133,13 @@ jobs:
         env:
           MACOS_CERTIFICATE_P12: ${{ secrets.MACOS_CERTIFICATE_P12 }}
           MACOS_CERTIFICATE_PWD: ${{ secrets.MACOS_CERTIFICATE_PWD }}
-          MACOS_INSTALLER_CERTIFICATE_P12: ${{ secrets.MACOS_INSTALLER_CERTIFICATE_P12 }}
-          MACOS_INSTALLER_CERTIFICATE_PWD: ${{ secrets.MACOS_INSTALLER_CERTIFICATE_PWD }}
         run: |
           APP_CERT_PATH=$RUNNER_TEMP/app_certificate.p12
-          INSTALLER_CERT_PATH=$RUNNER_TEMP/installer_certificate.p12
           KEYCHAIN_PATH=$RUNNER_TEMP/app-signing.keychain-db
           KEYCHAIN_PWD=$(openssl rand -hex 16)
 
-          # Decode certificates
+          # Decode certificate
           echo "$MACOS_CERTIFICATE_P12" | base64 --decode > "$APP_CERT_PATH"
-          echo "$MACOS_INSTALLER_CERTIFICATE_P12" | base64 --decode > "$INSTALLER_CERT_PATH"
 
           # Create temporary keychain
           security create-keychain -p "$KEYCHAIN_PWD" "$KEYCHAIN_PATH"
@@ -158,16 +154,8 @@ jobs:
             -f pkcs12 \
             -k "$KEYCHAIN_PATH"
 
-          # Import Developer ID Installer certificate
-          security import "$INSTALLER_CERT_PATH" \
-            -P "$MACOS_INSTALLER_CERTIFICATE_PWD" \
-            -A \
-            -t cert \
-            -f pkcs12 \
-            -k "$KEYCHAIN_PATH"
-
-          # Allow codesign and productbuild to access the keychain
-          security set-key-partition-list -S apple-tool:,apple:,codesign:,productbuild: -s -k "$KEYCHAIN_PWD" "$KEYCHAIN_PATH"
+          # Allow codesign to access the keychain
+          security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k "$KEYCHAIN_PWD" "$KEYCHAIN_PATH"
 
           # Add to search list
           security list-keychain -d user -s "$KEYCHAIN_PATH"
@@ -344,78 +332,57 @@ jobs:
           echo "Verifying notarization..."
           spctl --assess --type exec -vvv "$APP"
 
-      # ── Package as PKG ──────────────────────────────────────────
-      - name: Create PKG Installer
-        env:
-          CERT_NAME: ${{ secrets.MACOS_INSTALLER_CERTIFICATE_NAME }}
+      # ── Package as DMG ──────────────────────────────────────────
+      - name: Create DMG Installer
         run: |
           BUILD_DIR="./build/Build/Products/$CONFIGURATION"
           APP="$BUILD_DIR/$APP_NAME.app"
 
-          echo "Creating component pkg..."
-          pkgbuild \
-            --component "$APP" \
-            --install-location /Applications \
-            --version "$VERSION" \
-            "$BUILD_DIR/$APP_NAME-component.pkg"
+          echo "Creating DMG installer..."
+          create-dmg \
+            --volname "$APP_NAME $VERSION" \
+            --icon "$APP_NAME.app" 175 120 \
+            --app-drop-link 425 120 \
+            "$BUILD_DIR/$APP_NAME-$VERSION.dmg" \
+            "$APP"
 
-          echo "Creating distribution pkg..."
-          productbuild \
-            --package "$BUILD_DIR/$APP_NAME-component.pkg" \
-            --sign "$CERT_NAME" \
-            "$BUILD_DIR/$APP_NAME-$VERSION.pkg"
+          echo "DMG_PATH=$BUILD_DIR/$APP_NAME-$VERSION.dmg" >> "$GITHUB_ENV"
 
-          # Also create an unsigned zip of the .app for users who prefer it
-          echo "Creating zip archive..."
-          ditto -c -k --keepParent "$APP" "$BUILD_DIR/$APP_NAME-$VERSION.zip"
-
-          {
-            echo "PKG_PATH=$BUILD_DIR/$APP_NAME-$VERSION.pkg"
-            echo "ZIP_PATH=$BUILD_DIR/$APP_NAME-$VERSION.zip"
-          } >> "$GITHUB_ENV"
-
-      # ── Notarize PKG ────────────────────────────────────────────
-      - name: Notarize PKG
+      # ── Notarize DMG ────────────────────────────────────────────
+      - name: Notarize DMG
         env:
           APPLE_ID: ${{ secrets.NOTARIZATION_APPLE_ID }}
           TEAM_ID: ${{ secrets.NOTARIZATION_TEAM_ID }}
           APP_PWD: ${{ secrets.NOTARIZATION_PWD }}
         run: |
-          echo "Submitting PKG to Apple notarization service..."
-          xcrun notarytool submit "$PKG_PATH" \
+          echo "Submitting DMG to Apple notarization service..."
+          xcrun notarytool submit "$DMG_PATH" \
             --apple-id "$APPLE_ID" \
             --team-id "$TEAM_ID" \
             --password "$APP_PWD" \
             --wait \
             --timeout 30m
 
-          echo "Stapling notarization ticket to PKG..."
-          xcrun stapler staple "$PKG_PATH"
+          echo "Stapling notarization ticket to DMG..."
+          xcrun stapler staple "$DMG_PATH"
 
       # ── SHA256 ──────────────────────────────────────────────────
       - name: Generate SHA256 Hashes
         run: |
-          shasum -a 256 "$PKG_PATH" > "$PKG_PATH.sha256"
-          shasum -a 256 "$ZIP_PATH" > "$ZIP_PATH.sha256"
+          shasum -a 256 "$DMG_PATH" > "$DMG_PATH.sha256"
 
           {
             echo "### SHA256 Checksums"
             echo '```'
-            cat "$PKG_PATH.sha256"
-            cat "$ZIP_PATH.sha256"
+            cat "$DMG_PATH.sha256"
             echo '```'
           } >> "$GITHUB_STEP_SUMMARY"
 
       # ── Attestation ─────────────────────────────────────────────
-      - name: Attest Build Provenance (PKG)
+      - name: Attest Build Provenance (DMG)
         uses: actions/attest-build-provenance@v2
         with:
-          subject-path: ${{ env.PKG_PATH }}
-
-      - name: Attest Build Provenance (ZIP)
-        uses: actions/attest-build-provenance@v2
-        with:
-          subject-path: ${{ env.ZIP_PATH }}
+          subject-path: ${{ env.DMG_PATH }}
 
       # ── Generate Changelog ──────────────────────────────────────
       - name: Generate Changelog
@@ -469,8 +436,8 @@ jobs:
 
           cat >> /tmp/release-body.md << 'EOF'
 
-          ---- 
-          
+          ----
+
           **Verification**
 
           This release was built with GitHub Actions and includes [SLSA build provenance attestations](https://docs.github.com/en/actions/security-for-github-actions/using-artifact-attestations/using-artifact-attestations-to-establish-provenance-for-builds).
@@ -478,8 +445,7 @@ jobs:
           To verify the artifacts:
 
           ```bash
-          gh attestation verify MacPass-${{ env.VERSION }}.pkg --owner ${{ github.repository_owner }}
-          gh attestation verify MacPass-${{ env.VERSION }}.zip --owner ${{ github.repository_owner }}
+          gh attestation verify MacPass-${{ env.VERSION }}.dmg --owner ${{ github.repository_owner }}
           ```
 
           **Build Info**
@@ -495,10 +461,8 @@ jobs:
             --title "MacPass ${{ env.VERSION }} (${{ env.BUILD_NUMBER }})" \
             --generate-notes \
             --notes-file /tmp/release-body.md \
-            "${{ env.PKG_PATH }}" \
-            "${{ env.PKG_PATH }}.sha256" \
-            "${{ env.ZIP_PATH }}" \
-            "${{ env.ZIP_PATH }}.sha256" 
+            "${{ env.DMG_PATH }}" \
+            "${{ env.DMG_PATH }}.sha256"
 
       # ── Upload Artifacts (for workflow_dispatch) ────────────────
       - name: Upload Build Artifacts
@@ -507,10 +471,8 @@ jobs:
         with:
           name: MacPass-${{ github.sha }}
           path: |
-            ${{ env.PKG_PATH }}
-            ${{ env.PKG_PATH }}.sha256
-            ${{ env.ZIP_PATH }}
-            ${{ env.ZIP_PATH }}.sha256
+            ${{ env.DMG_PATH }}
+            ${{ env.DMG_PATH }}.sha256
 
       # ── Cleanup ─────────────────────────────────────────────────
       - name: Cleanup Keychain
@@ -566,9 +528,9 @@ jobs:
             NAME=$(echo "$release" | jq -r '.name // .tag_name')
             PUB_DATE=$(echo "$release" | jq -r '.published_at')
 
-            # Find the .zip asset (exclude noSparkle variant — appcast is for Sparkle updates only)
-            ZIP_URL=$(echo "$release" | jq -r '[.assets // [] | .[] | select((.name | endswith(".zip")) and (.name | contains("noSparkle") | not))] | first // empty | .browser_download_url')
-            ZIP_SIZE=$(echo "$release" | jq -r '[.assets // [] | .[] | select((.name | endswith(".zip")) and (.name | contains("noSparkle") | not))] | first // empty | .size')
+            # Find the .dmg asset (exclude noSparkle variant — appcast is for Sparkle updates only)
+            ZIP_URL=$(echo "$release" | jq -r '[.assets // [] | .[] | select((.name | endswith(".dmg")) and (.name | contains("noSparkle") | not))] | first // empty | .browser_download_url')
+            ZIP_SIZE=$(echo "$release" | jq -r '[.assets // [] | .[] | select((.name | endswith(".dmg")) and (.name | contains("noSparkle") | not))] | first // empty | .size')
             if [ -z "$ZIP_URL" ] || [ "$ZIP_URL" = "null" ]; then
               continue
             fi
