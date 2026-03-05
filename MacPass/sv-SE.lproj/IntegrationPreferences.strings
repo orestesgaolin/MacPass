@@ -37,3 +37,12 @@
 
 /* Class = "NSButtonCell"; title = "Include Entry Title for matches"; ObjectID = "tmL-dT-D0G"; */
 "tmL-dT-D0G.title" = "Inkludera kontots titel vid matchning";
+
+/* Class = "NSButtonCell"; title = "Enable Touch ID Shortcut"; ObjectID = "tId-en-bCl"; */
+"tId-en-bCl.title" = "Aktivera Touch ID-kortkommando";
+
+/* Class = "NSTextFieldCell"; title = "Shortcut"; ObjectID = "tId-sh-lCl"; */
+"tId-sh-lCl.title" = "Kortkommando";
+
+/* Class = "NSTextFieldCell"; title = "Shortcut is missing Key"; ObjectID = "tId-sh-wCl"; */
+"tId-sh-wCl.title" = "Kortkommando saknar tangent";

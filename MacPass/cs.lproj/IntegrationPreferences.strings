@@ -49,3 +49,12 @@
 
 /* Class = "NSButtonCell"; title = "Include Entry Title for matches"; ObjectID = "tmL-dT-D0G"; */
 "tmL-dT-D0G.title" = "Zahrnout shodu názvu záznamu";
+
+/* Class = "NSButtonCell"; title = "Enable Touch ID Shortcut"; ObjectID = "tId-en-bCl"; */
+"tId-en-bCl.title" = "Aktivovat klávesovou zkratku Touch ID";
+
+/* Class = "NSTextFieldCell"; title = "Shortcut"; ObjectID = "tId-sh-lCl"; */
+"tId-sh-lCl.title" = "Zkratka";
+
+/* Class = "NSTextFieldCell"; title = "Shortcut is missing Key"; ObjectID = "tId-sh-wCl"; */
+"tId-sh-wCl.title" = "Chybí klávesová zkratka";

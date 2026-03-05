@@ -25,6 +25,8 @@
 /* TouchID */
 APPKIT_EXTERN NSString *const kMPSettingsKeyTouchIdEnabled;
 APPKIT_EXTERN NSString *const kMPSettingsKeyTouchIdEncryptedKeyStore;       // NSDictionary with hased file names mapped to keys
+APPKIT_EXTERN NSString *const kMPSettingsKeyTouchIdUnlockShortcutEnabled;   // BOOL - enable keyboard shortcut to trigger Touch ID unlock on locked screen
+APPKIT_EXTERN NSString *const kMPSettingsKeyTouchIdUnlockShortcutKeyDataKey; // NSData - encoded DDHotKey for Touch ID unlock shortcut
 
 /* Clipboard */
 APPKIT_EXTERN NSString *const kMPSettingsKeyPasteboardClearTimeout;

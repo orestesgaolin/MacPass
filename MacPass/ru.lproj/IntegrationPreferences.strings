@@ -43,3 +43,12 @@
 /* Class = "NSTextFieldCell"; title = "If enabled attached files will be copied to a temporary location for preview and deleted after the preview is closed."; ObjectID = "WmI-IB-Aso"; */
 "WmI-IB-Aso.title" = "Если включено, прикрепленные файлы будет скопированы во временную папку для предпросмора и удалены, когда предпросмотр будет закрыт.";
 
+
+/* Class = "NSButtonCell"; title = "Enable Touch ID Shortcut"; ObjectID = "tId-en-bCl"; */
+"tId-en-bCl.title" = "Включить хоткей Touch ID";
+
+/* Class = "NSTextFieldCell"; title = "Shortcut"; ObjectID = "tId-sh-lCl"; */
+"tId-sh-lCl.title" = "Хоткей";
+
+/* Class = "NSTextFieldCell"; title = "Shortcut is missing Key"; ObjectID = "tId-sh-wCl"; */
+"tId-sh-wCl.title" = "Задайте клавишу для хоткея";

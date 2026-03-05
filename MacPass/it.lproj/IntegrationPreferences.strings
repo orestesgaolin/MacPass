@@ -37,3 +37,12 @@
 
 /* Class = "NSButtonCell"; title = "Include Title for matches"; ObjectID = "tmL-dT-D0G"; */
 "tmL-dT-D0G.title" = "Includi Titolo per corrispondenze";
+
+/* Class = "NSButtonCell"; title = "Enable Touch ID Shortcut"; ObjectID = "tId-en-bCl"; */
+"tId-en-bCl.title" = "Abilita la scorciatoia Touch ID";
+
+/* Class = "NSTextFieldCell"; title = "Shortcut"; ObjectID = "tId-sh-lCl"; */
+"tId-sh-lCl.title" = "Scorciatoia";
+
+/* Class = "NSTextFieldCell"; title = "Shortcut is missing Key"; ObjectID = "tId-sh-wCl"; */
+"tId-sh-wCl.title" = "Manca una chiave alla scorciatoia";

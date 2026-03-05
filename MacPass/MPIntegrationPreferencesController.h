@@ -44,6 +44,11 @@
 /* Preview */
 @property (strong) IBOutlet NSButton *enableQuicklookCheckBox;
 
+/* Touch ID Shortcut */
+@property (strong) IBOutlet NSButton *enableTouchIdShortcutCheckBox;
+@property (strong) IBOutlet DDHotKeyTextField *touchIdHotKeyTextField;
+@property (strong) IBOutlet NSTextField *touchIdHotkeyWarningTextField;
+
 - (IBAction)runAutotypeDoctor:(id)sender;
 
 @end

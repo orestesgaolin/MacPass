@@ -43,3 +43,12 @@
 /* Class = "NSTextFieldCell"; title = "If enabled attached files will be copied to a temporary location for preview and deleted after the preview is closed."; ObjectID = "WmI-IB-Aso"; */
 "WmI-IB-Aso.title" = "Bijlagen worden voor de voorvertoning gekopieerd naar een tijdelijke locatie en daarna automatisch weer verwijderd.";
 
+
+/* Class = "NSButtonCell"; title = "Enable Touch ID Shortcut"; ObjectID = "tId-en-bCl"; */
+"tId-en-bCl.title" = "Touch ID-sneltoets inschakelen";
+
+/* Class = "NSTextFieldCell"; title = "Shortcut"; ObjectID = "tId-sh-lCl"; */
+"tId-sh-lCl.title" = "Toetscombinatie:";
+
+/* Class = "NSTextFieldCell"; title = "Shortcut is missing Key"; ObjectID = "tId-sh-wCl"; */
+"tId-sh-wCl.title" = "";

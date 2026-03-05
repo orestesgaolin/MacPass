@@ -43,3 +43,12 @@
 
 /* Class = "NSButtonCell"; title = "Include Entry Title for matches"; ObjectID = "tmL-dT-D0G"; */
 "tmL-dT-D0G.title" = "Очікувати співпадіння назви запису";
+
+/* Class = "NSButtonCell"; title = "Enable Touch ID Shortcut"; ObjectID = "tId-en-bCl"; */
+"tId-en-bCl.title" = "Увімкнути скорочення Touch ID";
+
+/* Class = "NSTextFieldCell"; title = "Shortcut"; ObjectID = "tId-sh-lCl"; */
+"tId-sh-lCl.title" = "Скорочення";
+
+/* Class = "NSTextFieldCell"; title = "Shortcut is missing Key"; ObjectID = "tId-sh-wCl"; */
+"tId-sh-wCl.title" = "У скорочення не вистачає клавіші";

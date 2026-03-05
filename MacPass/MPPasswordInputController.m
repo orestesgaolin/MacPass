@@ -32,9 +32,13 @@
 #import "MPConstants.h"
 #import "MPTouchIdCompositeKeyStore.h"
 
+#import "DDHotKey+MacPassAdditions.h"
+
 #import "HNHUi/HNHUi.h"
 
 #import "NSError+Messages.h"
+
+#import <Carbon/Carbon.h>
 
 @interface MPPasswordInputController ()
 
@@ -59,6 +63,8 @@
 @property (nonatomic, assign) BOOL enablePassword;
 @property (copy) passwordInputCompletionBlock completionHandler;
 
+@property (strong) id touchIdShortcutMonitor;
+
 @end
 
 @implementation MPPasswordInputController
@@ -78,6 +84,7 @@
 
 - (void)dealloc {
   [NSNotificationCenter.defaultCenter removeObserver:self];
+  [self _unregisterTouchIdShortcutMonitor];
 }
 
 - (void)viewDidLoad {
@@ -135,6 +142,7 @@
   self.message = message;
   self.cancelLabel = cancelLabel;
   [self _reset];
+  [self _registerTouchIdShortcutMonitor];
   if(attemptTouchID && [self _touchIdIsUnlockAvailable]) {
     /* Dispatch async to ensure the UI is fully laid out before presenting the Touch ID prompt */
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -160,6 +168,52 @@
 }
 
 #pragma mark -
+#pragma mark Touch ID Shortcut
+- (void)_registerTouchIdShortcutMonitor {
+  [self _unregisterTouchIdShortcutMonitor];
+  if(![NSUserDefaults.standardUserDefaults boolForKey:kMPSettingsKeyTouchIdUnlockShortcutEnabled]) {
+    return;
+  }
+  NSData *keyData = [NSUserDefaults.standardUserDefaults dataForKey:kMPSettingsKeyTouchIdUnlockShortcutKeyDataKey];
+  DDHotKey *shortcutKey = [DDHotKey hotKeyWithKeyData:keyData];
+  if(!shortcutKey.valid) {
+    return;
+  }
+  __weak typeof(self) weakSelf = self;
+  self.touchIdShortcutMonitor = [NSEvent addLocalMonitorForEventsMatchingMask:NSEventMaskKeyDown handler:^NSEvent *(NSEvent *event) {
+    MPPasswordInputController *strongSelf = weakSelf;
+    if(!strongSelf || !strongSelf.view.window) {
+      return event;
+    }
+    if([strongSelf _event:event matchesHotKey:shortcutKey] && [strongSelf _touchIdIsUnlockAvailable]) {
+      [strongSelf unlockWithTouchID:nil];
+      return nil;
+    }
+    return event;
+  }];
+}
+
+- (void)_unregisterTouchIdShortcutMonitor {
+  if(self.touchIdShortcutMonitor) {
+    [NSEvent removeMonitor:self.touchIdShortcutMonitor];
+    self.touchIdShortcutMonitor = nil;
+  }
+}
+
+- (BOOL)_event:(NSEvent *)event matchesHotKey:(DDHotKey *)hotKey {
+  if(event.keyCode != hotKey.keyCode) {
+    return NO;
+  }
+  NSEventModifierFlags eventFlags = event.modifierFlags & NSEventModifierFlagDeviceIndependentFlagsMask;
+  NSEventModifierFlags hotKeyFlags = 0;
+  if(hotKey.modifierFlags & kCGEventFlagMaskCommand)   hotKeyFlags |= NSEventModifierFlagCommand;
+  if(hotKey.modifierFlags & kCGEventFlagMaskShift)     hotKeyFlags |= NSEventModifierFlagShift;
+  if(hotKey.modifierFlags & kCGEventFlagMaskAlternate) hotKeyFlags |= NSEventModifierFlagOption;
+  if(hotKey.modifierFlags & kCGEventFlagMaskControl)   hotKeyFlags |= NSEventModifierFlagControl;
+  return eventFlags == hotKeyFlags;
+}
+
+#pragma mark -
 #pragma mark Private
 - (IBAction)_submit:(id)sender {
   if(!self.completionHandler) {
@@ -182,6 +236,7 @@
   NSString* documentKey = [self biometricKeyForCurrentDocument];
   BOOL result = self.completionHandler(compositeKey, keyURL, cancel, &error);
   if(result) {
+    [self _unregisterTouchIdShortcutMonitor];
     if(nil != documentKey) {
       [MPTouchIdCompositeKeyStore.defaultStore saveCompositeKey:compositeKey forDocumentKey:documentKey];
     }
@@ -230,6 +285,7 @@
   }
   bool success = self.completionHandler(compositeKey, NULL, false, &error);
   if(success) {
+    [self _unregisterTouchIdShortcutMonitor];
     return;
   }
   // TODO: clear encryptedKey if password was wrong? Show user feedback? 

@@ -49,3 +49,12 @@
 /* Class = "NSTextFieldCell"; title = "If enabled attached files will be copied to a temporary location for preview and deleted after the preview is closed."; ObjectID = "WmI-IB-Aso"; */
 "WmI-IB-Aso.title" = "Die Daten werden zur Vorschau in einem temporären Ordern entschlüsselt und beim Beenden der Vorschau wieder gelöscht. Diese Funktionalität ist eine potenzielle Sicherheitslücke!";
 
+/* Class = "NSButtonCell"; title = "Enable Touch ID Shortcut"; ObjectID = "tId-en-bCl"; */
+"tId-en-bCl.title" = "Touch ID Kurzbefehl aktivieren";
+
+/* Class = "NSTextFieldCell"; title = "Shortcut"; ObjectID = "tId-sh-lCl"; */
+"tId-sh-lCl.title" = "Kurzbefehl";
+
+/* Class = "NSTextFieldCell"; title = "Shortcut is missing Key"; ObjectID = "tId-sh-wCl"; */
+"tId-sh-wCl.title" = "Der Kurzbefehl ist unvollständig";
+

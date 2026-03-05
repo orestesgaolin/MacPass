@@ -71,6 +71,8 @@ NSString *const kMPSettingsKeyGloablAutotypeAlwaysShowCandidateSelection        
 
 NSString *const kMPSettingsKeyTouchIdEnabled                                    = @"EnableSubsequentUnlocksWithTouchID";
 NSString *const kMPSettingsKeyTouchIdEncryptedKeyStore                          = @"TouchIdEncryptedKeyStore";
+NSString *const kMPSettingsKeyTouchIdUnlockShortcutEnabled                      = @"TouchIdUnlockShortcutEnabled";
+NSString *const kMPSettingsKeyTouchIdUnlockShortcutKeyDataKey                   = @"TouchIdUnlockShortcutKeyDataKey";
 
 NSString *const kMPSettingsKeyEntrySearchFilterContext                          = @"EntrySearchFilterContext";
 
@@ -200,7 +202,8 @@ NSString *const kMPDepricatedSettingsKeyEntryTouchIdDatabaseEncryptedKeyFormat  
       kMPSettingsKeyUseUnifiedToolbar: @YES, // Do not use unified toolbar under Big Sur and above
       kMPSettingsKeyAllowScreenshots: @NO, // Do not allow screenshots or screen recordings of MacPass
       kMPSettingsKeyFocusSearchAfterUnlock: @NO, // Do not enter search directly after unlocking the database
-      kMPSettingsKeyUsePrivateBrowsingWhenOpeningURLs: @NO // No private mode when option URLs by default
+      kMPSettingsKeyUsePrivateBrowsingWhenOpeningURLs: @NO, // No private mode when option URLs by default
+      kMPSettingsKeyTouchIdUnlockShortcutEnabled: @NO,    // Touch ID shortcut disabled by default
     };
   });
   return standardDefaults;

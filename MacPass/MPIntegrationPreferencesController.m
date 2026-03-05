@@ -33,6 +33,7 @@
 @interface MPIntegrationPreferencesController ()
 
 @property (nonatomic, strong) DDHotKey *hotKey;
+@property (nonatomic, strong) DDHotKey *touchIdHotKey;
 
 @end
 
@@ -78,7 +79,13 @@
                                               withKeyPath:[MPSettingsHelper defaultControllerPathForKey:kMPSettingsKeyGloablAutotypeAlwaysShowCandidateSelection]
                                                   options:nil];
   
+  NSString *enableTouchIdShortcutKeyPath = [MPSettingsHelper defaultControllerPathForKey:kMPSettingsKeyTouchIdUnlockShortcutEnabled];
+  [self.enableTouchIdShortcutCheckBox bind:NSValueBinding toObject:defaultsController withKeyPath:enableTouchIdShortcutKeyPath options:nil];
+  [self.touchIdHotKeyTextField bind:NSEnabledBinding toObject:defaultsController withKeyPath:enableTouchIdShortcutKeyPath options:nil];
+  self.touchIdHotKeyTextField.delegate = self;
+
   [self _showKeyCodeMissingKeyWarning:NO];
+  [self _showTouchIdKeyCodeMissingKeyWarning:NO];
   [self _updateAccessabilityWarning];
 }
 
@@ -89,6 +96,16 @@
   /* Only call the setter if the hotkeys are different, otherwise the dealloc call will unregister them*/
   if(![self.hotKeyTextField.hotKey isEqual:self.hotKey]) {
     self.hotKeyTextField.hotKey = self.hotKey;
+  }
+
+  if(!_touchIdHotKey) {
+    NSData *touchIdKeyData = [NSUserDefaults.standardUserDefaults dataForKey:kMPSettingsKeyTouchIdUnlockShortcutKeyDataKey];
+    if(touchIdKeyData) {
+      _touchIdHotKey = [DDHotKey hotKeyWithKeyData:touchIdKeyData];
+    }
+  }
+  if(_touchIdHotKey && ![self.touchIdHotKeyTextField.hotKey isEqual:self.touchIdHotKey]) {
+    self.touchIdHotKeyTextField.hotKey = self.touchIdHotKey;
   }
 }
 
@@ -102,19 +119,40 @@
   [NSUserDefaults.standardUserDefaults setObject:self.hotKey.keyData forKey:kMPSettingsKeyGlobalAutotypeKeyDataKey];
 }
 
+- (void)setTouchIdHotKey:(DDHotKey *)touchIdHotKey {
+  if([self.touchIdHotKey isEqual:touchIdHotKey]) {
+    return;
+  }
+  _touchIdHotKey = touchIdHotKey;
+  [NSUserDefaults.standardUserDefaults setObject:self.touchIdHotKey.keyData forKey:kMPSettingsKeyTouchIdUnlockShortcutKeyDataKey];
+}
+
 #pragma mark -
 #pragma mark NSTextFieldDelegate
 
 - (void)controlTextDidChange:(NSNotification *)obj {
-  BOOL validHotKey = self.hotKeyTextField.hotKey.valid;
-  [self _showKeyCodeMissingKeyWarning:!validHotKey];
-  if(validHotKey) {
-    self.hotKey = self.hotKeyTextField.hotKey;
+  if(obj.object == self.hotKeyTextField) {
+    BOOL validHotKey = self.hotKeyTextField.hotKey.valid;
+    [self _showKeyCodeMissingKeyWarning:!validHotKey];
+    if(validHotKey) {
+      self.hotKey = self.hotKeyTextField.hotKey;
+    }
+  }
+  else if(obj.object == self.touchIdHotKeyTextField) {
+    BOOL validHotKey = self.touchIdHotKeyTextField.hotKey.valid;
+    [self _showTouchIdKeyCodeMissingKeyWarning:!validHotKey];
+    if(validHotKey) {
+      self.touchIdHotKey = self.touchIdHotKeyTextField.hotKey;
+    }
   }
 }
 
 - (void)_showKeyCodeMissingKeyWarning:(BOOL)show {
   self.hotkeyWarningTextField.hidden = !show;
+}
+
+- (void)_showTouchIdKeyCodeMissingKeyWarning:(BOOL)show {
+  self.touchIdHotkeyWarningTextField.hidden = !show;
 }
 
 - (void)_updateAccessabilityWarning {
