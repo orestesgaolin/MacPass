@@ -1,3 +1,6 @@
 [submodule "DDHotKey"]
 	path = DDHotKey
 	url = https://github.com/mstarke/DDHotKey.git
+[submodule "MacPassHTTP"]
+	path = MacPassHTTP
+	url = git@github.com:orestesgaolin/MacPassHTTP.git
