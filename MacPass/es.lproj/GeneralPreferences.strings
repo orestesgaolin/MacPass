@@ -79,3 +79,12 @@
 /* Class = "NSTextFieldCell"; title = "Close and open all documents for changes to take effect"; ObjectID = "ya5-ps-c4W"; */
 "ya5-ps-c4W.title" = "Cerrar y abrir todos los documentos para que los cambios surtan efecto";
 
+
+/* Class = "NSBox"; title = "Appearance"; ObjectID = "Dk1-bx-app"; */
+"Dk1-bx-app.title" = "Apariencia";
+
+/* Class = "NSButtonCell"; title = "Hide Dock icon"; ObjectID = "Dk4-cc-hdi"; */
+"Dk4-cc-hdi.title" = "Ocultar el icono del Dock";
+
+/* Class = "NSTextFieldCell"; title = "While hidden MacPass does not show up in the Dock or the application switcher. Use the status bar item to reach it."; ObjectID = "Dk6-tc-hdi"; */
+"Dk6-tc-hdi.title" = "Mientras está oculto, MacPass no aparece en el Dock ni en el selector de aplicaciones. Usa el elemento de la barra de estado para acceder.";

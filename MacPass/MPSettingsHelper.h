@@ -108,6 +108,7 @@ APPKIT_EXTERN NSString *const kMPSettingsKeyFaviconDownloadMethod;
 /* UI */
 APPKIT_EXTERN NSString *const kMPSettingsKeyUseUnifiedToolbar;
 APPKIT_EXTERN NSString *const kMPSettingsKeyAllowScreenshots;
+APPKIT_EXTERN NSString *const kMPSettingsKeyHideDockIcon;                   // If set to YES MacPass will not show an icon in the Dock
 
 typedef NS_ENUM(NSUInteger, MPFileChangeStrategy) {
   MPFileChangeStrategyAsk,

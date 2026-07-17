@@ -110,6 +110,7 @@ NSString *const kMPSettingsKeyFaviconDownloadMethod                             
 
 NSString *const kMPSettingsKeyUseUnifiedToolbar                                 = @"UseUnifiedToolbar";
 NSString *const kMPSettingsKeyAllowScreenshots                                  = @"AllowScreenshots";
+NSString *const kMPSettingsKeyHideDockIcon                                      = @"HideDockIcon";
 
 /* Deprecated */
 NSString *const kMPDeprecatedSettingsKeyRememberKeyFilesForDatabases            = @"kMPSettingsKeyRememberKeyFilesForDatabases";
@@ -201,6 +202,7 @@ NSString *const kMPDepricatedSettingsKeyEntryTouchIdDatabaseEncryptedKeyFormat  
       kMPSettingsKeyGloablAutotypeAlwaysShowCandidateSelection: @NO,
       kMPSettingsKeyUseUnifiedToolbar: @YES, // Do not use unified toolbar under Big Sur and above
       kMPSettingsKeyAllowScreenshots: @NO, // Do not allow screenshots or screen recordings of MacPass
+      kMPSettingsKeyHideDockIcon: @NO, // Show the Dock icon by default
       kMPSettingsKeyFocusSearchAfterUnlock: @NO, // Do not enter search directly after unlocking the database
       kMPSettingsKeyUsePrivateBrowsingWhenOpeningURLs: @NO, // No private mode when option URLs by default
       kMPSettingsKeyTouchIdUnlockShortcutEnabled: @NO,    // Touch ID shortcut disabled by default

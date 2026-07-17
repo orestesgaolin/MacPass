@@ -91,3 +91,12 @@
 
 /* Class = "NSTextFieldCell"; title = "Close and open all documents for changes to take effect"; ObjectID = "ya5-ps-c4W"; */
 "ya5-ps-c4W.title" = "Close and open all documents for changes to take effect";
+
+/* Class = "NSBox"; title = "Appearance"; ObjectID = "Dk1-bx-app"; */
+"Dk1-bx-app.title" = "外観";
+
+/* Class = "NSButtonCell"; title = "Hide Dock icon"; ObjectID = "Dk4-cc-hdi"; */
+"Dk4-cc-hdi.title" = "Dockアイコンを隠す";
+
+/* Class = "NSTextFieldCell"; title = "While hidden MacPass does not show up in the Dock or the application switcher. Use the status bar item to reach it."; ObjectID = "Dk6-tc-hdi"; */
+"Dk6-tc-hdi.title" = "非表示の間、MacPassはDockやアプリケーションスイッチャーに表示されません。ステータスバーの項目から操作できます。";

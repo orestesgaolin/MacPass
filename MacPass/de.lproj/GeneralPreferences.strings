@@ -91,3 +91,12 @@
 /* Class = "NSTextFieldCell"; title = "Favicon download"; ObjectID = "YGj-dH-duz"; */
 "YGj-dH-duz.title" = "Favicon herunterladen";
 
+
+/* Class = "NSBox"; title = "Appearance"; ObjectID = "Dk1-bx-app"; */
+"Dk1-bx-app.title" = "Darstellung";
+
+/* Class = "NSButtonCell"; title = "Hide Dock icon"; ObjectID = "Dk4-cc-hdi"; */
+"Dk4-cc-hdi.title" = "Dock-Symbol ausblenden";
+
+/* Class = "NSTextFieldCell"; title = "While hidden MacPass does not show up in the Dock or the application switcher. Use the status bar item to reach it."; ObjectID = "Dk6-tc-hdi"; */
+"Dk6-tc-hdi.title" = "Ausgeblendet erscheint MacPass weder im Dock noch im Programmumschalter. Nutzen Sie das Symbol in der Menüleiste.";

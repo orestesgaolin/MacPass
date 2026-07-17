@@ -91,3 +91,12 @@
 /* Class = "NSTextFieldCell"; title = "Favicon download"; ObjectID = "YGj-dH-duz"; */
 "YGj-dH-duz.title" = "Favicon 下载";
 
+
+/* Class = "NSBox"; title = "Appearance"; ObjectID = "Dk1-bx-app"; */
+"Dk1-bx-app.title" = "外观";
+
+/* Class = "NSButtonCell"; title = "Hide Dock icon"; ObjectID = "Dk4-cc-hdi"; */
+"Dk4-cc-hdi.title" = "隐藏 Dock 图标";
+
+/* Class = "NSTextFieldCell"; title = "While hidden MacPass does not show up in the Dock or the application switcher. Use the status bar item to reach it."; ObjectID = "Dk6-tc-hdi"; */
+"Dk6-tc-hdi.title" = "隐藏后，MacPass 不会出现在 Dock 或应用程序切换器中。请使用状态栏图标访问。";
