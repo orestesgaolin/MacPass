@@ -28,6 +28,7 @@
 
 @property (strong) IBOutlet NSButton *reopenLastDatabase;
 @property (strong) IBOutlet NSButton *enableAutosaveCheckButton;
+@property (strong) IBOutlet NSButton *hideDockIconCheckButton;
 @property (strong) IBOutlet NSPopUpButton *fileChangeStrategyPopup;
 @property (strong) IBOutlet NSPopUpButton *faviconDownloadMethodPopup;
 

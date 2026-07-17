@@ -53,6 +53,8 @@
 
 NSString *const MPDidChangeStoredKeyFilesSettings = @"com.hicknhack.macpass.MPDidChangeStoredKeyFilesSettings";
 
+static void *MPHideDockIconObservingContext = &MPHideDockIconObservingContext;
+
 typedef NS_OPTIONS(NSInteger, MPAppStartupState) {
   MPAppStartupStateNone = 0,
   MPAppStartupStateRestoredWindows = 1,
@@ -111,6 +113,29 @@ typedef NS_OPTIONS(NSInteger, MPAppStartupState) {
 - (void)dealloc {
   [self unbind:NSStringFromSelector(@selector(isAllowedToStoreKeyFile))];
   [NSNotificationCenter.defaultCenter removeObserver:self];
+  [NSUserDefaults.standardUserDefaults removeObserver:self forKeyPath:kMPSettingsKeyHideDockIcon context:MPHideDockIconObservingContext];
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+  if(context == MPHideDockIconObservingContext) {
+    [self _updateDockIconVisibility];
+  }
+  else {
+    [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
+  }
+}
+
+- (void)_updateDockIconVisibility {
+  BOOL hideDockIcon = [NSUserDefaults.standardUserDefaults boolForKey:kMPSettingsKeyHideDockIcon];
+  NSApplicationActivationPolicy policy = hideDockIcon ? NSApplicationActivationPolicyAccessory : NSApplicationActivationPolicyRegular;
+  if(NSApp.activationPolicy == policy) {
+    return;
+  }
+  [NSApp setActivationPolicy:policy];
+  /* changing the activation policy deactivates the application, reactivate it to keep any open windows visible */
+  dispatch_async(dispatch_get_main_queue(), ^{
+    [NSApp activateIgnoringOtherApps:YES];
+  });
 }
 
 #pragma mark Properties
@@ -225,6 +250,12 @@ typedef NS_OPTIONS(NSInteger, MPAppStartupState) {
   self.startupState |= MPAppStartupStateFinishedLaunch;
   // Here we just opt-in for allowing our bar to be customized throughout the app.
   NSApplication.sharedApplication.automaticCustomizeTouchBarMenuItemEnabled = YES;
+
+  /* apply the Dock icon visibility and keep it updated when the setting changes */
+  [NSUserDefaults.standardUserDefaults addObserver:self
+                                        forKeyPath:kMPSettingsKeyHideDockIcon
+                                           options:NSKeyValueObservingOptionInitial
+                                           context:MPHideDockIconObservingContext];
 }
 
 #pragma mark -
