@@ -304,6 +304,14 @@ typedef NS_OPTIONS(NSInteger, MPAppStartupState) {
   _regularPolicyRequested = YES;
   [self _updateActivationPolicy];
   if(!flag) {
+    /* documents might still be open with their windows hidden, just show them again */
+    NSArray<NSDocument *> *documents = NSDocumentController.sharedDocumentController.documents;
+    if(documents.count > 0) {
+      for(NSDocument *document in documents) {
+        [document showWindows];
+      }
+      return YES;
+    }
     BOOL reopen = [NSUserDefaults.standardUserDefaults boolForKey:kMPSettingsKeyReopenLastDatabaseOnLaunch];
     BOOL showWelcomeScreen = YES;
     if(reopen) {
@@ -381,7 +389,11 @@ typedef NS_OPTIONS(NSInteger, MPAppStartupState) {
 }
 
 - (void)_windowWillClose:(NSNotification *)notification {
-  /* the closing window is still visible, re-evaluate after it is gone */
+  [self retreatToStatusItemIfIdle];
+}
+
+- (void)retreatToStatusItemIfIdle {
+  /* a closing window is still visible, re-evaluate after it is gone */
   dispatch_async(dispatch_get_main_queue(), ^{
     if(self->_isTerminating) {
       return;

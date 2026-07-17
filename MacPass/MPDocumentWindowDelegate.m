@@ -21,11 +21,27 @@
 //
 
 #import "MPDocumentWindowDelegate.h"
+#import "MPAppDelegate.h"
 #import "MPDocument.h"
+#import "MPSettingsHelper.h"
 
 #import "KeePassKit/KeePassKit.h"
 
 @implementation MPDocumentWindowDelegate
+
+- (BOOL)windowShouldClose:(NSWindow *)sender {
+  /*
+   With the Dock icon hidden MacPass runs in the background, closing the window only hides it
+   and keeps the database open so Autotype and plugins continue to work. The status bar item
+   brings the window back, locking or quitting is still available from its menu.
+   */
+  if([NSUserDefaults.standardUserDefaults boolForKey:kMPSettingsKeyHideDockIcon]) {
+    [sender orderOut:sender];
+    [(MPAppDelegate *)NSApp.delegate retreatToStatusItemIfIdle];
+    return NO;
+  }
+  return YES;
+}
 
 - (NSDragOperation)draggingEntered:(id<NSDraggingInfo>)sender {
   MPDocument *document = sender.draggingDestinationWindow.windowController.document;

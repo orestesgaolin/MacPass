@@ -61,4 +61,10 @@ APPKIT_EXTERN NSString *const MPDidChangeStoredKeyFilesSettings;
 - (void)showWelcomeWindow;
 - (void)hideWelcomeWindow;
 
+/**
+ *  Hides the Dock icon if the hide Dock icon setting is enabled and no window is visible anymore.
+ *  Call after hiding or closing a window that might have been the last one.
+ */
+- (void)retreatToStatusItemIfIdle;
+
 @end
