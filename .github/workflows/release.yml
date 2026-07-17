@@ -40,6 +40,7 @@ jobs:
 
       - name: Install changelog_cli
         run: |
+          brew trust --formula orestesgaolin/tap/changelog_cli
           brew tap orestesgaolin/tap
           brew install changelog_cli
 
