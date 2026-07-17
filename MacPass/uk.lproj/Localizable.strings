@@ -706,6 +706,18 @@
    Toolbar item to toggle history display */
 "SHOW_HISTORY" = "Показати історію";
 
+/* Status bar menu item to lock all open databases */
+"STATUS_BAR_MENU_LOCK_ALL_DATABASES" = "Заблокувати всі бази даних";
+
+/* Status bar menu item to show the preferences */
+"STATUS_BAR_MENU_PREFERENCES" = "Налаштування…";
+
+/* Status bar menu item to quit MacPass */
+"STATUS_BAR_MENU_QUIT_MACPASS" = "Завершити MacPass";
+
+/* Status bar menu item to show MacPass */
+"STATUS_BAR_MENU_SHOW_MACPASS" = "Показати MacPass";
+
 /* Displayed name when title field was copied
    Menu item to toggle display of title column in entry table
    Title column title

@@ -82,3 +82,12 @@
 "YGj-dH-duz.title" = "Загрузка иконок";
 
 "DaG-1a-SET.title" = "По умолчанию иконка (favicon) загружается непосредственно с URL-адреса записи. Для некоторых веб-сайтов это не работает, и вы можете использовать API сторонних сервисов. В этом случае только хост из URL-адреса будет использоваться для поиска иконки с помощью выбранного сервиса.";
+
+/* Class = "NSBox"; title = "Appearance"; ObjectID = "Dk1-bx-app"; */
+"Dk1-bx-app.title" = "Внешний вид";
+
+/* Class = "NSButtonCell"; title = "Hide Dock icon"; ObjectID = "Dk4-cc-hdi"; */
+"Dk4-cc-hdi.title" = "Скрыть значок в Dock";
+
+/* Class = "NSTextFieldCell"; title = "While hidden MacPass does not show up in the Dock or the application switcher. Use the status bar item to reach it."; ObjectID = "Dk6-tc-hdi"; */
+"Dk6-tc-hdi.title" = "В скрытом режиме MacPass не отображается в Dock и переключателе приложений. Используйте значок в строке меню.";

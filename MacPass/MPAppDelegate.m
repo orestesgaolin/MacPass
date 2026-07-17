@@ -65,6 +65,7 @@ typedef NS_OPTIONS(NSInteger, MPAppStartupState) {
 @private
   MPDockTileHelper *_dockTileHelper;
   MPUserNotificationCenterDelegate *_userNotificationCenterDelegate;
+  NSStatusItem *_statusItem; // status bar item shown while the Dock icon is hidden
   BOOL _shouldOpenFile; // YES if app was started to open a
 }
 
@@ -127,6 +128,7 @@ typedef NS_OPTIONS(NSInteger, MPAppStartupState) {
 
 - (void)_updateDockIconVisibility {
   BOOL hideDockIcon = [NSUserDefaults.standardUserDefaults boolForKey:kMPSettingsKeyHideDockIcon];
+  [self _updateStatusItemVisibility:hideDockIcon];
   NSApplicationActivationPolicy policy = hideDockIcon ? NSApplicationActivationPolicyAccessory : NSApplicationActivationPolicyRegular;
   if(NSApp.activationPolicy == policy) {
     return;
@@ -136,6 +138,67 @@ typedef NS_OPTIONS(NSInteger, MPAppStartupState) {
   dispatch_async(dispatch_get_main_queue(), ^{
     [NSApp activateIgnoringOtherApps:YES];
   });
+}
+
+- (void)_updateStatusItemVisibility:(BOOL)showStatusItem {
+  if(showStatusItem && !_statusItem) {
+    _statusItem = [NSStatusBar.systemStatusBar statusItemWithLength:NSSquareStatusItemLength];
+    NSImage *statusImage;
+    if(@available(macOS 11.0, *)) {
+      statusImage = [NSImage imageWithSystemSymbolName:@"lock.square" accessibilityDescription:@"MacPass"];
+    }
+    if(!statusImage) {
+      statusImage = [NSApp.applicationIconImage copy];
+      statusImage.size = NSMakeSize(18, 18);
+    }
+    _statusItem.button.image = statusImage;
+    _statusItem.button.toolTip = @"MacPass";
+
+    NSMenu *statusMenu = [[NSMenu alloc] init];
+    NSMenuItem *showItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"STATUS_BAR_MENU_SHOW_MACPASS", "Status bar menu item to show MacPass")
+                                                      action:@selector(_showApplication:)
+                                               keyEquivalent:@""];
+    showItem.target = self;
+    [statusMenu addItem:showItem];
+    [statusMenu addItem:NSMenuItem.separatorItem];
+    NSMenuItem *lockItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"STATUS_BAR_MENU_LOCK_ALL_DATABASES", "Status bar menu item to lock all open databases")
+                                                      action:@selector(_lockAllDocuments:)
+                                               keyEquivalent:@""];
+    lockItem.target = self;
+    [statusMenu addItem:lockItem];
+    NSMenuItem *preferencesItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"STATUS_BAR_MENU_PREFERENCES", "Status bar menu item to show the preferences")
+                                                             action:@selector(showPreferences:)
+                                                      keyEquivalent:@""];
+    preferencesItem.target = self;
+    [statusMenu addItem:preferencesItem];
+    [statusMenu addItem:NSMenuItem.separatorItem];
+    NSMenuItem *quitItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"STATUS_BAR_MENU_QUIT_MACPASS", "Status bar menu item to quit MacPass")
+                                                      action:@selector(terminate:)
+                                               keyEquivalent:@""];
+    quitItem.target = NSApp;
+    [statusMenu addItem:quitItem];
+    _statusItem.menu = statusMenu;
+  }
+  else if(!showStatusItem && _statusItem) {
+    [NSStatusBar.systemStatusBar removeStatusItem:_statusItem];
+    _statusItem = nil;
+  }
+}
+
+- (void)_showApplication:(id)sender {
+  [NSApp activateIgnoringOtherApps:YES];
+  BOOL hasVisibleWindows = NO;
+  for(NSWindow *window in NSApp.windows) {
+    if(window.isVisible && ![window isKindOfClass:NSClassFromString(@"NSStatusBarWindow")]) {
+      hasVisibleWindows = YES;
+      break;
+    }
+  }
+  [self applicationShouldHandleReopen:NSApp hasVisibleWindows:hasVisibleWindows];
+}
+
+- (void)_lockAllDocuments:(id)sender {
+  [self lockAllDocuments];
 }
 
 #pragma mark Properties

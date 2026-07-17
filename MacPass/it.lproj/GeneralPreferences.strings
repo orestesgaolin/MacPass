@@ -61,3 +61,12 @@
 
 /* Class = "NSButtonCell"; title = "Remember Keyfile for Databases"; ObjectID = "r6q-He-nYU"; */
 "r6q-He-nYU.title" = "Ricorda file chiave per i database";
+
+/* Class = "NSBox"; title = "Appearance"; ObjectID = "Dk1-bx-app"; */
+"Dk1-bx-app.title" = "Aspetto";
+
+/* Class = "NSButtonCell"; title = "Hide Dock icon"; ObjectID = "Dk4-cc-hdi"; */
+"Dk4-cc-hdi.title" = "Nascondi l’icona nel Dock";
+
+/* Class = "NSTextFieldCell"; title = "While hidden MacPass does not show up in the Dock or the application switcher. Use the status bar item to reach it."; ObjectID = "Dk6-tc-hdi"; */
+"Dk6-tc-hdi.title" = "Quando è nascosto, MacPass non appare nel Dock né nel selettore delle applicazioni. Usa l’icona nella barra di stato per raggiungerlo.";
