@@ -71,5 +71,5 @@
 /* Class = "NSButtonCell"; title = "Hide Dock icon"; ObjectID = "Dk4-cc-hdi"; */
 "Dk4-cc-hdi.title" = "Göm Dock-ikonen";
 
-/* Class = "NSTextFieldCell"; title = "While hidden MacPass does not show up in the Dock or the application switcher. Use the status bar item to reach it."; ObjectID = "Dk6-tc-hdi"; */
-"Dk6-tc-hdi.title" = "När MacPass är gömt visas det inte i Dock eller appväxlaren. Använd statusfältsikonen för att nå det.";
+/* Class = "NSTextFieldCell"; title = "When all windows are closed MacPass disappears from the Dock and the application switcher. Use the status bar item to reach it."; ObjectID = "Dk6-tc-hdi"; */
+"Dk6-tc-hdi.title" = "När alla fönster är stängda försvinner MacPass från Dock och appväxlaren. Använd statusfältsikonen för att nå det.";

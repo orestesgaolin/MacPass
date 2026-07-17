@@ -98,5 +98,5 @@
 /* Class = "NSButtonCell"; title = "Hide Dock icon"; ObjectID = "Dk4-cc-hdi"; */
 "Dk4-cc-hdi.title" = "Skrýt ikonu v Docku";
 
-/* Class = "NSTextFieldCell"; title = "While hidden MacPass does not show up in the Dock or the application switcher. Use the status bar item to reach it."; ObjectID = "Dk6-tc-hdi"; */
-"Dk6-tc-hdi.title" = "Skrytý MacPass se nezobrazuje v Docku ani v přepínači aplikací. Použijte ikonu ve stavové liště.";
+/* Class = "NSTextFieldCell"; title = "When all windows are closed MacPass disappears from the Dock and the application switcher. Use the status bar item to reach it."; ObjectID = "Dk6-tc-hdi"; */
+"Dk6-tc-hdi.title" = "Po zavření všech oken MacPass zmizí z Docku i z přepínače aplikací. Použijte ikonu ve stavové liště.";

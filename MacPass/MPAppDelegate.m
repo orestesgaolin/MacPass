@@ -129,15 +129,45 @@ typedef NS_OPTIONS(NSInteger, MPAppStartupState) {
 - (void)_updateDockIconVisibility {
   BOOL hideDockIcon = [NSUserDefaults.standardUserDefaults boolForKey:kMPSettingsKeyHideDockIcon];
   [self _updateStatusItemVisibility:hideDockIcon];
-  NSApplicationActivationPolicy policy = hideDockIcon ? NSApplicationActivationPolicyAccessory : NSApplicationActivationPolicyRegular;
+  [self _updateActivationPolicy];
+}
+
+- (void)_updateActivationPolicy {
+  /*
+   The application only retreats from the Dock and the application switcher when no window is
+   in use. While a window is open MacPass stays a regular application, otherwise it would run
+   without a main menu and its windows would be missing from the Dock and the application switcher.
+   */
+  BOOL hideDockIcon = [NSUserDefaults.standardUserDefaults boolForKey:kMPSettingsKeyHideDockIcon];
+  NSApplicationActivationPolicy policy = NSApplicationActivationPolicyRegular;
+  if(hideDockIcon && ![self _hasVisibleWindows]) {
+    policy = NSApplicationActivationPolicyAccessory;
+  }
   if(NSApp.activationPolicy == policy) {
     return;
   }
   [NSApp setActivationPolicy:policy];
-  /* changing the activation policy deactivates the application, reactivate it to keep any open windows visible */
-  dispatch_async(dispatch_get_main_queue(), ^{
-    [NSApp activateIgnoringOtherApps:YES];
-  });
+  if(policy == NSApplicationActivationPolicyRegular && NSApp.isActive) {
+    /* the main menu does not attach when the policy changes while the application is active, force a re-activation */
+    [NSApp deactivate];
+    dispatch_async(dispatch_get_main_queue(), ^{
+      [NSApp activateIgnoringOtherApps:YES];
+    });
+  }
+}
+
+- (BOOL)_hasVisibleWindows {
+  for(NSWindow *window in NSApp.windows) {
+    /* only consider titled windows, skips the status bar item, menu tracking and other utility windows */
+    if(!(window.styleMask & NSWindowStyleMaskTitled)) {
+      continue;
+    }
+    /* treat miniaturized windows as visible, otherwise their Dock tiles vanish when the policy changes */
+    if(window.isVisible || window.isMiniaturized) {
+      return YES;
+    }
+  }
+  return NO;
 }
 
 - (void)_updateStatusItemVisibility:(BOOL)showStatusItem {
@@ -187,14 +217,7 @@ typedef NS_OPTIONS(NSInteger, MPAppStartupState) {
 
 - (void)_showApplication:(id)sender {
   [NSApp activateIgnoringOtherApps:YES];
-  BOOL hasVisibleWindows = NO;
-  for(NSWindow *window in NSApp.windows) {
-    if(window.isVisible && ![window isKindOfClass:NSClassFromString(@"NSStatusBarWindow")]) {
-      hasVisibleWindows = YES;
-      break;
-    }
-  }
-  [self applicationShouldHandleReopen:NSApp hasVisibleWindows:hasVisibleWindows];
+  [self applicationShouldHandleReopen:NSApp hasVisibleWindows:[self _hasVisibleWindows]];
 }
 
 - (void)_lockAllDocuments:(id)sender {
@@ -319,6 +342,11 @@ typedef NS_OPTIONS(NSInteger, MPAppStartupState) {
                                         forKeyPath:kMPSettingsKeyHideDockIcon
                                            options:NSKeyValueObservingOptionInitial
                                            context:MPHideDockIconObservingContext];
+}
+
+- (void)applicationDidUpdate:(NSNotification *)notification {
+  /* windows can appear and disappear through many paths, re-evaluate the Dock icon visibility after every event */
+  [self _updateActivationPolicy];
 }
 
 #pragma mark -
