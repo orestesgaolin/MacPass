@@ -66,6 +66,8 @@ typedef NS_OPTIONS(NSInteger, MPAppStartupState) {
   MPDockTileHelper *_dockTileHelper;
   MPUserNotificationCenterDelegate *_userNotificationCenterDelegate;
   NSStatusItem *_statusItem; // status bar item shown while the Dock icon is hidden
+  BOOL _regularPolicyRequested; // YES if the user explicitly brought MacPass to front, keeps the Dock icon while windows are open
+  BOOL _hadVisibleWindows; // tracks window visibility transitions for the activation policy
   BOOL _shouldOpenFile; // YES if app was started to open a
 }
 
@@ -96,6 +98,8 @@ typedef NS_OPTIONS(NSInteger, MPAppStartupState) {
     _userNotificationCenterDelegate = [[MPUserNotificationCenterDelegate alloc] init];
     self.itemActionMenuDelegate = [[MPEntryContextMenuDelegate alloc] init];
     _shouldOpenFile = NO;
+    _regularPolicyRequested = YES; // launching the app counts as explicitly bringing it to front
+    _hadVisibleWindows = NO;
     _isTerminating = NO;
     self.startupState = MPAppStartupStateNone;
     
@@ -129,18 +133,25 @@ typedef NS_OPTIONS(NSInteger, MPAppStartupState) {
 - (void)_updateDockIconVisibility {
   BOOL hideDockIcon = [NSUserDefaults.standardUserDefaults boolForKey:kMPSettingsKeyHideDockIcon];
   [self _updateStatusItemVisibility:hideDockIcon];
+  /* toggling the setting takes effect right away, until the user explicitly brings MacPass back to front */
+  _regularPolicyRequested = NO;
   [self _updateActivationPolicy];
 }
 
 - (void)_updateActivationPolicy {
   /*
-   The application only retreats from the Dock and the application switcher when no window is
-   in use. While a window is open MacPass stays a regular application, otherwise it would run
-   without a main menu and its windows would be missing from the Dock and the application switcher.
+   With the Dock icon hidden MacPass runs as an accessory application. When the user explicitly
+   brings it back to front (status bar item, Spotlight, opening a file) it turns into a regular
+   application again to get its main menu and Dock icon back and retreats once every window is closed.
    */
   BOOL hideDockIcon = [NSUserDefaults.standardUserDefaults boolForKey:kMPSettingsKeyHideDockIcon];
+  BOOL hasVisibleWindows = [self _hasVisibleWindows];
+  if(_hadVisibleWindows && !hasVisibleWindows) {
+    _regularPolicyRequested = NO; // the last window went away, retreat to the status bar item
+  }
+  _hadVisibleWindows = hasVisibleWindows;
   NSApplicationActivationPolicy policy = NSApplicationActivationPolicyRegular;
-  if(hideDockIcon && ![self _hasVisibleWindows]) {
+  if(hideDockIcon && !_regularPolicyRequested) {
     policy = NSApplicationActivationPolicyAccessory;
   }
   if(NSApp.activationPolicy == policy) {
@@ -150,6 +161,12 @@ typedef NS_OPTIONS(NSInteger, MPAppStartupState) {
   if(policy == NSApplicationActivationPolicyRegular && NSApp.isActive) {
     /* the main menu does not attach when the policy changes while the application is active, force a re-activation */
     [NSApp deactivate];
+    dispatch_async(dispatch_get_main_queue(), ^{
+      [NSApp activateIgnoringOtherApps:YES];
+    });
+  }
+  else if(policy == NSApplicationActivationPolicyAccessory && hasVisibleWindows) {
+    /* switching to accessory deactivates the application, reactivate to keep open windows in front */
     dispatch_async(dispatch_get_main_queue(), ^{
       [NSApp activateIgnoringOtherApps:YES];
     });
@@ -276,6 +293,8 @@ typedef NS_OPTIONS(NSInteger, MPAppStartupState) {
 #pragma mark NSApplicationDelegate
 
 - (BOOL)applicationShouldHandleReopen:(NSApplication *)sender hasVisibleWindows:(BOOL)flag {
+  /* reopening (Dock, Spotlight, status bar item) explicitly brings MacPass to front */
+  _regularPolicyRequested = YES;
   if(!flag) {
     BOOL reopen = [NSUserDefaults.standardUserDefaults boolForKey:kMPSettingsKeyReopenLastDatabaseOnLaunch];
     BOOL showWelcomeScreen = YES;
@@ -312,6 +331,7 @@ typedef NS_OPTIONS(NSInteger, MPAppStartupState) {
 
 - (BOOL)application:(NSApplication *)sender openFile:(NSString *)filename {
   _shouldOpenFile = YES;
+  _regularPolicyRequested = YES; // opening a file explicitly brings MacPass to front
   NSURL *fileURL = [NSURL fileURLWithPath:filename];
   [NSDocumentController.sharedDocumentController openDocumentWithContentsOfURL:fileURL
                                                                        display:YES
@@ -347,6 +367,14 @@ typedef NS_OPTIONS(NSInteger, MPAppStartupState) {
 - (void)applicationDidUpdate:(NSNotification *)notification {
   /* windows can appear and disappear through many paths, re-evaluate the Dock icon visibility after every event */
   [self _updateActivationPolicy];
+}
+
+- (void)applicationDidUnhide:(NSNotification *)notification {
+  /* unhiding (e.g. after Autotype hid the application) should restore the main menu for any open windows */
+  if([self _hasVisibleWindows]) {
+    _regularPolicyRequested = YES;
+    [self _updateActivationPolicy];
+  }
 }
 
 #pragma mark -
