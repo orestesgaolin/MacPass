@@ -67,7 +67,6 @@ typedef NS_OPTIONS(NSInteger, MPAppStartupState) {
   MPUserNotificationCenterDelegate *_userNotificationCenterDelegate;
   NSStatusItem *_statusItem; // status bar item shown while the Dock icon is hidden
   BOOL _regularPolicyRequested; // YES if the user explicitly brought MacPass to front, keeps the Dock icon while windows are open
-  BOOL _hadVisibleWindows; // tracks window visibility transitions for the activation policy
   BOOL _shouldOpenFile; // YES if app was started to open a
 }
 
@@ -99,7 +98,6 @@ typedef NS_OPTIONS(NSInteger, MPAppStartupState) {
     self.itemActionMenuDelegate = [[MPEntryContextMenuDelegate alloc] init];
     _shouldOpenFile = NO;
     _regularPolicyRequested = YES; // launching the app counts as explicitly bringing it to front
-    _hadVisibleWindows = NO;
     _isTerminating = NO;
     self.startupState = MPAppStartupStateNone;
     
@@ -145,11 +143,6 @@ typedef NS_OPTIONS(NSInteger, MPAppStartupState) {
    application again to get its main menu and Dock icon back and retreats once every window is closed.
    */
   BOOL hideDockIcon = [NSUserDefaults.standardUserDefaults boolForKey:kMPSettingsKeyHideDockIcon];
-  BOOL hasVisibleWindows = [self _hasVisibleWindows];
-  if(_hadVisibleWindows && !hasVisibleWindows) {
-    _regularPolicyRequested = NO; // the last window went away, retreat to the status bar item
-  }
-  _hadVisibleWindows = hasVisibleWindows;
   NSApplicationActivationPolicy policy = NSApplicationActivationPolicyRegular;
   if(hideDockIcon && !_regularPolicyRequested) {
     policy = NSApplicationActivationPolicyAccessory;
@@ -157,17 +150,28 @@ typedef NS_OPTIONS(NSInteger, MPAppStartupState) {
   if(NSApp.activationPolicy == policy) {
     return;
   }
-  [NSApp setActivationPolicy:policy];
-  if(policy == NSApplicationActivationPolicyRegular && NSApp.isActive) {
-    /* the main menu does not attach when the policy changes while the application is active, force a re-activation */
-    [NSApp deactivate];
-    dispatch_async(dispatch_get_main_queue(), ^{
-      [NSApp activateIgnoringOtherApps:YES];
-    });
+  if(policy == NSApplicationActivationPolicyAccessory) {
+    BOOL keepInFront = NSApp.isActive && [self _hasVisibleWindows];
+    [NSApp setActivationPolicy:policy];
+    if(keepInFront) {
+      /* switching to accessory deactivates the application, reactivate to keep open windows in front */
+      dispatch_async(dispatch_get_main_queue(), ^{
+        [NSApp activateIgnoringOtherApps:YES];
+      });
+    }
+    return;
   }
-  else if(policy == NSApplicationActivationPolicyAccessory && hasVisibleWindows) {
-    /* switching to accessory deactivates the application, reactivate to keep open windows in front */
-    dispatch_async(dispatch_get_main_queue(), ^{
+  BOOL wasActive = NSApp.isActive;
+  [NSApp setActivationPolicy:policy];
+  if(wasActive) {
+    /*
+     AppKit does not attach a working main menu when the policy turns regular while the
+     application is active. Hand activation to the Dock and re-activate shortly after,
+     the app switch makes the freshly attached main menu functional.
+     */
+    NSRunningApplication *dockApp = [NSRunningApplication runningApplicationsWithBundleIdentifier:@"com.apple.dock"].firstObject;
+    [dockApp activateWithOptions:0];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
       [NSApp activateIgnoringOtherApps:YES];
     });
   }
@@ -233,6 +237,9 @@ typedef NS_OPTIONS(NSInteger, MPAppStartupState) {
 }
 
 - (void)_showApplication:(id)sender {
+  /* turn into a regular application before activating, the policy switch attaches the main menu cleanly while inactive */
+  _regularPolicyRequested = YES;
+  [self _updateActivationPolicy];
   [NSApp activateIgnoringOtherApps:YES];
   [self applicationShouldHandleReopen:NSApp hasVisibleWindows:[self _hasVisibleWindows]];
 }
@@ -295,6 +302,7 @@ typedef NS_OPTIONS(NSInteger, MPAppStartupState) {
 - (BOOL)applicationShouldHandleReopen:(NSApplication *)sender hasVisibleWindows:(BOOL)flag {
   /* reopening (Dock, Spotlight, status bar item) explicitly brings MacPass to front */
   _regularPolicyRequested = YES;
+  [self _updateActivationPolicy];
   if(!flag) {
     BOOL reopen = [NSUserDefaults.standardUserDefaults boolForKey:kMPSettingsKeyReopenLastDatabaseOnLaunch];
     BOOL showWelcomeScreen = YES;
@@ -332,6 +340,7 @@ typedef NS_OPTIONS(NSInteger, MPAppStartupState) {
 - (BOOL)application:(NSApplication *)sender openFile:(NSString *)filename {
   _shouldOpenFile = YES;
   _regularPolicyRequested = YES; // opening a file explicitly brings MacPass to front
+  [self _updateActivationPolicy];
   NSURL *fileURL = [NSURL fileURLWithPath:filename];
   [NSDocumentController.sharedDocumentController openDocumentWithContentsOfURL:fileURL
                                                                        display:YES
@@ -360,21 +369,28 @@ typedef NS_OPTIONS(NSInteger, MPAppStartupState) {
   /* apply the Dock icon visibility and keep it updated when the setting changes */
   [NSUserDefaults.standardUserDefaults addObserver:self
                                         forKeyPath:kMPSettingsKeyHideDockIcon
-                                           options:NSKeyValueObservingOptionInitial
+                                           options:0
                                            context:MPHideDockIconObservingContext];
-}
-
-- (void)applicationDidUpdate:(NSNotification *)notification {
-  /* windows can appear and disappear through many paths, re-evaluate the Dock icon visibility after every event */
+  [self _updateStatusItemVisibility:[NSUserDefaults.standardUserDefaults boolForKey:kMPSettingsKeyHideDockIcon]];
   [self _updateActivationPolicy];
+  /* retreat to the status bar item once the last window is closed */
+  [NSNotificationCenter.defaultCenter addObserver:self
+                                         selector:@selector(_windowWillClose:)
+                                             name:NSWindowWillCloseNotification
+                                           object:nil];
 }
 
-- (void)applicationDidUnhide:(NSNotification *)notification {
-  /* unhiding (e.g. after Autotype hid the application) should restore the main menu for any open windows */
-  if([self _hasVisibleWindows]) {
-    _regularPolicyRequested = YES;
-    [self _updateActivationPolicy];
-  }
+- (void)_windowWillClose:(NSNotification *)notification {
+  /* the closing window is still visible, re-evaluate after it is gone */
+  dispatch_async(dispatch_get_main_queue(), ^{
+    if(self->_isTerminating) {
+      return;
+    }
+    if(![self _hasVisibleWindows]) {
+      self->_regularPolicyRequested = NO;
+      [self _updateActivationPolicy];
+    }
+  });
 }
 
 #pragma mark -
