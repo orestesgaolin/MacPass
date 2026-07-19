@@ -54,6 +54,7 @@ NSString *const MPToolbarItemIdentifierAutotype     = @"TOOLBAR_AUTOTYPE";
   MPAddEntryContextMenuDelegate *_addEntryMenuDelegate;
   BOOL _didShowToolbarForSearch;
   BOOL _didAddSearchfieldForSearch;
+  BOOL _didChangeDisplayModeForSearch;
   NSToolbarDisplayMode _displayModeBeforeSearch;
 }
 
@@ -72,6 +73,7 @@ NSString *const MPToolbarItemIdentifierAutotype     = @"TOOLBAR_AUTOTYPE";
   if (self) {
     _didShowToolbarForSearch = NO;
     _didAddSearchfieldForSearch = NO;
+    _didChangeDisplayModeForSearch = NO;
     _toolbarIdentifiers = @[ MPToolbarItemIdentifierAddEntry,
                              MPToolbarItemIdentifierDelete,
                              MPToolbarItemIdentifierAddGroup,
@@ -342,6 +344,7 @@ NSString *const MPToolbarItemIdentifierAutotype     = @"TOOLBAR_AUTOTYPE";
   _displayModeBeforeSearch = self.toolbar.displayMode;
   if(_displayModeBeforeSearch == NSToolbarDisplayModeLabelOnly) {
     self.toolbar.displayMode = NSToolbarDisplayModeIconAndLabel;
+    _didChangeDisplayModeForSearch = YES;
   }
   /* only make the searchfield first responder if it's not already in an active search */
   if(![self.searchField currentEditor]) {
@@ -370,7 +373,8 @@ NSString *const MPToolbarItemIdentifierAutotype     = @"TOOLBAR_AUTOTYPE";
       _didAddSearchfieldForSearch = NO;
     }
   }
-  if(_displayModeBeforeSearch != self.toolbar.displayMode) {
+  if(_didChangeDisplayModeForSearch) {
+    _didChangeDisplayModeForSearch = NO;
     self.toolbar.displayMode = _displayModeBeforeSearch;
   }
   if(_didShowToolbarForSearch && self.toolbar.visible) {
