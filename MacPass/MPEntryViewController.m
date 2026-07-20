@@ -259,6 +259,20 @@ NSString *const _MPTableMonoSpacedStringCellView = @"MonospacedStringCell";
   return self.entryTable;
 }
 
+- (void)selectEntry:(KPKEntry *)entry {
+  NSUInteger row = [self.entryArrayController.arrangedObjects indexOfObject:entry];
+  if(row == NSNotFound) {
+    return;
+  }
+  [self.entryTable selectRowIndexes:[NSIndexSet indexSetWithIndex:row] byExtendingSelection:NO];
+  [self.entryTable scrollRowToVisible:row];
+  // since we do not update the current selection when the table view is not first responder, do it here manually
+  if(self.entryTable.window.firstResponder != self.entryTable) {
+    MPDocument *document = self.windowController.document;
+    document.selectedEntries = self.entryArrayController.selectedObjects;
+  }
+}
+
 - (void)registerNotificationsForDocument:(MPDocument *)document {
   [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(_didChangeCurrentItem:) name:MPDocumentCurrentItemChangedNotification object:document];
   [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(_didAddItem:) name:MPDocumentDidAddEntryNotification object:document];

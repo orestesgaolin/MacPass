@@ -515,7 +515,10 @@ typedef void (^MPPasswordChangedBlock)(BOOL didChangePassword);
   if(targetEntries.count != 1) {
     return;
   }
-  [self.splitViewController.outlineViewController selectGroup:targetEntries.lastObject.parent];
+  /* keep a reference since selecting the group replaces the displayed entries */
+  KPKEntry *entry = targetEntries.lastObject;
+  [self.splitViewController.outlineViewController selectGroup:entry.parent];
+  [self.splitViewController.entryViewController selectEntry:entry];
 }
 
 #pragma mark -
