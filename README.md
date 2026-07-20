@@ -1,66 +1,147 @@
 # MacPass
 
-> **Note:** This is a fork of the original [MacPass](https://github.com/MacPass/MacPass) repository.
+> **This is a maintained fork of [MacPass](https://github.com/MacPass/MacPass).**
+> The original project has seen little activity, so this fork keeps MacPass building and running on modern macOS and Xcode, and ships signed and notarized releases. All credit for MacPass itself goes to Michael Starke and the [original contributors](https://github.com/MacPass/MacPass/graphs/contributors).
 
 There are a lot of iOS KeePass tools around but a distinct lack of a good native macOS version.
 KeePass can be used via Mono on macOS but lacks vital functionality and feels sluggish and simply out of place.
 
 MacPass is an attempt to create a native macOS port of KeePass on a solid open source foundation with a vibrant community pushing it further to become the best KeePass client for macOS.
 
+## What's different in this fork
+
+- Builds with current Xcode on Apple silicon (works around Carthage and TransformerKit incompatibilities)
+- Releases are universal binaries (Apple silicon + Intel), code signed, notarized, and shipped as DMG with SLSA build provenance attestations
+- Automatic updates via Sparkle, served from this fork's own appcast
+- Bundled [MacPassHTTP](https://github.com/orestesgaolin/MacPassHTTP) plugin support
+- Assorted fixes and features (e.g. option to hide the Dock icon, selecting a downloaded favicon as the entry icon)
+
 ## Download
 
-All pre-built releases can be found at [Github](https://github.com/MacPass/MacPass/releases).
+Pre-built, signed and notarized DMGs are published on the [Releases page](https://github.com/orestesgaolin/MacPass/releases).
 
-An unsigned build of the current continuous tag can be found here: [Continuous Build](https://github.com/MacPass/MacPass/releases/tag/continuous)
+Releases are built by GitHub Actions and include [SLSA build provenance attestations](https://docs.github.com/en/actions/security-for-github-actions/using-artifact-attestations/using-artifact-attestations-to-establish-provenance-for-builds). You can verify a downloaded DMG with:
 
-Due to the nature of the build it might be unstable, however this version contains all the latest changes and bug fixes!
+```bash
+gh attestation verify MacPass-<version>.dmg --owner orestesgaolin
+```
+
+Once installed, the app keeps itself up to date via Sparkle.
 
 ## How to Contribute
 
-If you want to contribute by fixing a bug, adding a feature or improving localization you're awesome!
+If you want to contribute by fixing a bug, adding a feature or improving localization you're awesome! Open an [issue](https://github.com/orestesgaolin/MacPass/issues) or a [pull request](https://github.com/orestesgaolin/MacPass/pulls) on this fork.
 
 ## How to Build
 
-- Fetch the source of MacPass
+### Prerequisites
+
+- Xcode (the release builds use Xcode on macOS 15)
+- [Carthage](https://github.com/Carthage/Carthage#installing-carthage): `brew install carthage`
+
+### 1. Fetch the source
+
+Clone with submodules — the DDHotKey and MacPassHTTP dependencies are git submodules:
 
 ```bash
-git clone https://github.com/MacPass/MacPass --recursive
-```
-
-- Install [Carthage](https://github.com/Carthage/Carthage#installing-carthage)
-- Install all Dependencies
-
-```bash
+git clone --recursive https://github.com/orestesgaolin/MacPass
 cd MacPass
-carthage bootstrap --platform macOS
 ```
 
-After that you can build and run in Xcode. The following command will build and make the application available through Spotlight. If you run into signing issues take a look at [Issue #92](https://github.com/MacPass/MacPass/issues/92). Since Sparkle is disabled only on the CI build and in Debug mode, you have to explicitly disable it in Release. Otherwise warnings on unsecure updates will appear.
+### 2. Check out dependencies
 
-    xcodebuild -scheme MacPass -target MacPass -configuration Release CODE_SIGNING_REQUIRED=NO NO_SPARKLE=NO_SPARKLE
+Carthage's own build step is broken on Apple silicon with recent Xcode versions, so only resolve and check out the sources without building:
 
-## Help
+```bash
+carthage bootstrap --no-build
+```
 
-Some questions might be answered in the [FAQ](https://github.com/MacPass/MacPass/wiki/FAQ)
+Then apply the TransformerKit compatibility fix (its `@import` usage breaks on Xcode 15+):
 
-Another place to look is the IRC channel [#macpass](irc://irc.freenode.org/macpass) on [irc.freenode.org](irc://irc.freenode.org)
+```bash
+./scripts/fix_transformerkit.sh
+```
 
-Or follow the Twitter account [@MacPassApp](https://twitter.com/MacPassApp)
+### 3. Build the frameworks
+
+Because Carthage can't build them, the dependency frameworks are built manually into `Carthage/Build/Mac`:
+
+```bash
+mkdir -p Carthage/Build/Mac
+
+# Sparkle ships as a pre-built binary — download the version pinned in Cartfile.resolved
+SPARKLE_VERSION=$(grep -i sparkle Cartfile.resolved | grep -oE '"[0-9][^"]*"' | tail -1 | tr -d '"')
+curl -sSL "https://github.com/sparkle-project/Sparkle/releases/download/${SPARKLE_VERSION}/Sparkle-${SPARKLE_VERSION}.tar.xz" -o /tmp/Sparkle.tar.xz
+mkdir -p /tmp/Sparkle && tar xf /tmp/Sparkle.tar.xz -C /tmp/Sparkle
+cp -R /tmp/Sparkle/Sparkle.framework Carthage/Build/Mac/
+
+# HNHUi
+xcodebuild build \
+  -project Carthage/Checkouts/HNHUi/HNHUi.xcodeproj \
+  -scheme HNHUi -configuration Release \
+  ARCHS="arm64 x86_64" SDKROOT=macosx \
+  CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY="" \
+  SYMROOT=/tmp/HNHUi-build OBJROOT=/tmp/HNHUi-obj
+cp -R /tmp/HNHUi-build/Release/HNHUi.framework Carthage/Build/Mac/
+
+# KissXML
+xcodebuild build \
+  -project Carthage/Checkouts/KissXML/KissXML.xcodeproj \
+  -scheme "KissXML (macOS)" -configuration Release \
+  ARCHS="arm64 x86_64" SDKROOT=macosx \
+  CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY="" \
+  SYMROOT=/tmp/KissXML-build OBJROOT=/tmp/KissXML-obj
+cp -R /tmp/KissXML-build/Release/KissXML.framework Carthage/Build/Mac/
+
+# KeePassKit (expects KissXML in its own Carthage/Build/Mac)
+mkdir -p Carthage/Checkouts/KeePassKit/Carthage/Build/Mac
+ln -sf "$(pwd)/Carthage/Build/Mac/KissXML.framework" \
+  Carthage/Checkouts/KeePassKit/Carthage/Build/Mac/KissXML.framework
+xcodebuild build \
+  -project Carthage/Checkouts/KeePassKit/KeePassKit.xcodeproj \
+  -target "KeePassKit macOS" -configuration Release \
+  ARCHS="arm64 x86_64" SDKROOT=macosx \
+  CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY="" \
+  SYMROOT=/tmp/KeePassKit-build OBJROOT=/tmp/KeePassKit-obj
+cp -R /tmp/KeePassKit-build/Release/KeePassKit.framework Carthage/Build/Mac/
+
+# TransformerKit
+xcodebuild build \
+  -workspace Carthage/Checkouts/TransformerKit/TransformerKit.xcworkspace \
+  -scheme "TransformerKit macOS" -configuration Release \
+  -derivedDataPath /tmp/TransformerKit-build \
+  ARCHS="arm64 x86_64" SDKROOT=macosx \
+  CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY=""
+cp -R /tmp/TransformerKit-build/Build/Products/Release/TransformerKit.framework Carthage/Build/Mac/
+```
+
+After this, `Carthage/Build/Mac` should contain `KeePassKit`, `HNHUi`, `TransformerKit`, `KissXML`, and `Sparkle` frameworks.
+
+### 4. Build MacPass
+
+Open `MacPass.xcodeproj` in Xcode and run the `MacPass` scheme, or build from the command line:
+
+```bash
+xcodebuild build \
+  -project MacPass.xcodeproj \
+  -scheme MacPass \
+  -configuration Release \
+  CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY=""
+```
+
+If you run into signing issues take a look at [Issue #92](https://github.com/MacPass/MacPass/issues/92) of the original project. Since Sparkle is disabled only on the CI build and in Debug mode, you have to explicitly disable it in Release (`NO_SPARKLE=NO_SPARKLE`). Otherwise warnings on unsecure updates will appear.
+
+The complete, always up-to-date build recipe — including code signing, notarization, and DMG packaging — is in [`.github/workflows/release.yml`](.github/workflows/release.yml).
 
 ## System Requirement
 
-MacPass 0.7 requires macOS 10.10 Yosemite or later.
-Earlier versions of MacPass require macOS 10.8 Mountain Lion or later.
-
-## Status
-
-The Status can be found on the dedicated [Wiki page](https://github.com/MacPass/MacPass/wiki/Status).
+Releases of this fork are universal binaries (Apple silicon and Intel) and require macOS 10.14 Mojave or later.
 
 ## What does it look like?
 
 ![image](/Assets/Screenshots/Locked.png)
 
-More Screenshots in the [Wiki](https://github.com/MacPass/MacPass/wiki/Screenshots)
+More Screenshots in the original project's [Wiki](https://github.com/MacPass/MacPass/wiki/Screenshots)
 
 ## Alternatives
 
@@ -96,7 +177,7 @@ For further details, take a look at the [explanation](https://www.fsf.org/news/2
 
 ## Contributions
 
-The following list might not be complete, please refer to [merged Pull Requests](https://github.com/MacPass/MacPass/pulls?utf8=✓&q=is%3Apr+is%3Aclosed+is%3Amerged) on GitHub for more details. Please open an issue if you think someone is missing from this list!
+The following list might not be complete, please refer to [merged Pull Requests](https://github.com/MacPass/MacPass/pulls?utf8=✓&q=is%3Apr+is%3Aclosed+is%3Amerged) of the original project on GitHub for more details. Please open an issue if you think someone is missing from this list!
 
 ### Art
 
@@ -138,7 +219,7 @@ The following list might not be complete, please refer to [merged Pull Requests]
 [Francesco Servida](mailto:info@francescoservida.ch),
 [Frank Enderle](mailto:frank.enderle@anamica.de),
 [Frank Kooij](mailto:FrankKooij@users.noreply.github.com),
-[Gaétan Ryckeboer](mailto:gryckeboer@jouve.com),
+[Gaétan Ryckeboer](mailto:gryckeboer@jouve.com),
 [Geigi](mailto:git@geigi.de),
 [George Snow](mailto:gsnowiii@gmail.com),
 [Henri de Jong](mailto:henridejong@gmail.com),
@@ -167,7 +248,7 @@ The following list might not be complete, please refer to [merged Pull Requests]
 [Nathaniel Madura](mailto:nmadura@umich.edu),
 [neuroine](mailto:d.dzieduch@gmail.com),
 [Oleksandr Yakubchyk](mailto:buddax2@gmail.com),
-[Patrik Thunström](mailto:magebarf@gmail.com),
+[Patrik Thunström](mailto:magebarf@gmail.com),
 [rdoering](mailto:rdoering.info@gmail.com),
 [remi6397](mailto:remi6397@gmail.com),
 [Roman Verchikov](mailto:roman-verchikov@users.noreply.github.com),
@@ -201,7 +282,3 @@ This Project is based upon the following work:
 [NSBundle Codesignature Check](http://jedda.me/2012/03/verifying-plugin-bundles-using-code-signing/) Copyright 2014 [Jedda Wignall](http://jedda.me). All rights reserved.
 
 See submodules for additional Licenses
-
-## Feedback
-
-[![Flattr this](https://api.flattr.com/button/flattr-badge-large.png)](https://flattr.com/thing/1550529/mstarkeMacPass-on-GitHub)
