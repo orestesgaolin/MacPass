@@ -282,7 +282,10 @@ NSString *const _MPOutlinveViewHeaderViewIdentifier = @"HeaderCell";
 }
 
 - (void)_didExitSearch:(NSNotification *)notification {
-  [self.outlineView selectRowIndexes:_storedSelectionIndexSet byExtendingSelection:NO];
+  /* a group selected while searching (e.g. via the group column in the search results) wins over the stored selection */
+  if(self.outlineView.selectedRowIndexes.count == 0) {
+    [self.outlineView selectRowIndexes:_storedSelectionIndexSet byExtendingSelection:NO];
+  }
 }
 
 - (id)itemUnderMouse {
