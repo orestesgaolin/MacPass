@@ -1,0 +1,27 @@
+
+/* Class = "NSTextFieldCell"; title = "URL"; ObjectID = "Kci-xp-mLu"; */
+"Kci-xp-mLu.title" = "URL";
+
+/* Class = "NSTextFieldCell"; title = "QR Code"; ObjectID = "PuA-kW-t29"; */
+"PuA-kW-t29.title" = "Código QR";
+
+/* Class = "NSButtonCell"; title = "Save Settings"; ObjectID = "YGn-qt-RrI"; */
+"YGn-qt-RrI.title" = "Guardar configuración";
+
+/* Class = "NSButtonCell"; title = "Cancel"; ObjectID = "Ynh-bE-30s"; */
+"Ynh-bE-30s.title" = "Cancelar";
+
+/* Class = "NSTextFieldCell"; title = "Type"; ObjectID = "fNC-fH-sYi"; */
+"fNC-fH-sYi.title" = "Tipo";
+
+/* Class = "NSTextFieldCell"; title = "Hash Algorithm"; ObjectID = "g3s-fk-k9Q"; */
+"g3s-fk-k9Q.title" = "Algoritmo de hash";
+
+/* Class = "NSTextFieldCell"; title = "Time step"; ObjectID = "hbT-mm-dIn"; */
+"hbT-mm-dIn.title" = "Intervalo de tiempo";
+
+/* Class = "NSTextFieldCell"; title = "Number of Digits"; ObjectID = "iYF-F5-nMb"; */
+"iYF-F5-nMb.title" = "Número de dígitos";
+
+/* Class = "NSTextFieldCell"; title = "Secret"; ObjectID = "ufY-IN-5UY"; */
+"ufY-IN-5UY.title" = "Secreto";

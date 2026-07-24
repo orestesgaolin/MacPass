@@ -53,7 +53,7 @@
 "ALERT_AUTOTYPE_MISSING_ACCESSIBILTY_PERMISSIONS_BUTTON_OK" = "Mantener Autotecleo deshabilitado.";
 
 /* Button in dialog to open accessibilty preferences pane! */
-"ALERT_AUTOTYPE_MISSING_ACCESSIBILTY_PERMISSIONS_BUTTON_OPEN_PREFERENCES" = "Abrir las preferencias de accesibilidad...";
+"ALERT_AUTOTYPE_MISSING_ACCESSIBILTY_PERMISSIONS_BUTTON_OPEN_PREFERENCES" = "Abrir los ajustes de accesibilidad...";
 
 /* Alert informative text displayed when Autotype performs self check and lacks accessibilty permissions */
 "ALERT_AUTOTYPE_MISSING_ACCESSIBILTY_PERMISSIONS_INFORMATIVE_TEXT" = "El sistema evita que MacPass envíe las pulsaciones de las teclas a otras aplicaciones. Para habilitar el Autotecleo por favor concede permisos de accesibilidad a MacPass en las preferencias de privacidad.";
@@ -455,7 +455,7 @@
 "MOVE_ENTRY" = "Mover Entrada";
 
 /* Menu displayed as popup selection for search options when multiple items are selected */
-"MULTIPLE_FILTERS_ACTIVE_WITH_DOTS" = "Multiple…";
+"MULTIPLE_FILTERS_ACTIVE_WITH_DOTS" = "Varios…";
 
 /* Name for a newly created Database */
 "NEW_DATABASE" = "Base de Datos";
@@ -664,10 +664,10 @@
 "SEARCH_INHERIT" = "Heredar Configuración de Búsqueda";
 
 /* Disable search menu item */
-"SEARCH_NO" = "Exluir de Búsqueda";
+"SEARCH_NO" = "Excluir de Búsqueda";
 
 /* No comment provided by engineer. */
-"SEARCH_VALUE" = "Search Value";
+"SEARCH_VALUE" = "Valor de búsqueda";
 
 /* Enable search menu item */
 "SEARCH_YES" = "Incluir en Búsqueda";
@@ -842,11 +842,131 @@
 "YESTERDAY" = "Ayer";
 
 /* Accessibility label for the key file selection control */
-"KEY_FILE_PATH_CONTROL_ACCESSIBILITY_LABEL" = "Elegir archivo de clave";
+"KEY_FILE_PATH_CONTROL_ACCESSIBILITY_LABEL" = "Elegir Keyfile";
 
 /* Accessibility help text for the key file selection control */
-"KEY_FILE_PATH_CONTROL_ACCESSIBILITY_HELP" = "Pulse para seleccionar un archivo de clave para desbloquear la base de datos";
+"KEY_FILE_PATH_CONTROL_ACCESSIBILITY_HELP" = "Pulse para seleccionar un Keyfile para desbloquear la base de datos";
 
 /* Accessibility value when no key file is selected */
-"KEY_FILE_NONE_SELECTED_ACCESSIBILITY_VALUE" = "Ningún archivo de clave seleccionado";
+"KEY_FILE_NONE_SELECTED_ACCESSIBILITY_VALUE" = "Ningún Keyfile seleccionado";
+
+/* Message text in the autotype confirmation window. Placeholder is %1 - applicationName, %2 windowTitle */
+"AUTOTYPE_CANDIDATE_CONFIRMATION_WINDOW_MESSAGE_%@_%@" = "El autotecleo ha encontrado una coincidencia para la ventana \"%2$@\" de la aplicación \"%1$@\". Confirma para continuar con la ejecución.";
+
+/* Message text in the autotype selection window. Placeholder is %1 - applicationName, %2 windowTitle */
+"AUTOTYPE_CANDIDATE_SELECTION_WINDOW_MESSAGE_%@_%@" = "Hay varias coincidencias para la ventana \"%2$@\" de la aplicación \"%1$@\". Selecciona qué coincidencia se debe usar.";
+
+/* Notification: Title for autotype feedback */
+"AUTOTYPE_NOTIFICATION_MATCH_TITLE" = "Autotecleo";
+
+/* Notification: Title for autotype feedback */
+"AUTOTYPE_NOTIFICATION_NO_DOCUMENTS_TITLE" = "¡No hay ninguna base de datos abierta!";
+
+/* Title for autotype feedback on missing permissions */
+"AUTOTYPE_NOTIFICATION_PERMISSIONS_MISSING_TITLE" = "Faltan permisos";
+
+/* Title for the notification when the Autotype operation timed out */
+"AUTOTYPE_NOTIFICATION_TIMED_OUT_TITLE" = "¡Se agotó el tiempo de espera del autotecleo!";
+
+/* Button to copy the value of an Attribute
+   Copy the TOTP value to the clipboard */
+"COPY" = "Copiar";
+
+/* Creating date column title
+   Menu item to toggle display of created date column in entry table */
+"CREATED" = "Creado";
+
+/* Menu item to directly diplicate a group */
+"DUPLICATE_GROUP" = "Duplicar Grupo";
+
+/* Direct download */
+"FAVICON_DOWNLOAD_METHOD_DIRECT" = "Descarga directa";
+
+/* DuckDuckGo */
+"FAVICON_DOWNLOAD_METHOD_DUCKDUCKGO" = "DuckDuckGo";
+
+/* Google */
+"FAVICON_DOWNLOAD_METHOD_GOOGLE" = "Google";
+
+/* Security Settings Label */
+"SECURITY_PREFERENCES" = "Seguridad";
+
+/* SHA 1 hash algoritm menu item */
+"HASH_SHA1" = "Sha1";
+
+/* SHA 256 hash algoritm menu item */
+"HASH_SHA256" = "Sha256";
+
+/* SHA 512 hash algoritm menu item */
+"HASH_SHA512" = "Sha512";
+
+/* Submen to create entries from tempaltes */
+"NEW_ENTRY_FROM_TEMPLATE" = "Nueva entrada…";
+
+/* OTP custom type  */
+"OTP_CUSTOM" = "Configuración personalizada";
+
+/* OTP type RFC  */
+"OTP_RFC" = "RFC 6238";
+
+/* OTP type Steam  */
+"OTP_STEAM" = "Steam";
+
+/* Updated at text when the local plugin defintino is used */
+"REPOSITORY_UPDATED_AT_LOCAL" = "Nunca (usando la versión incluida)";
+
+/* Placeholder string displayed in the search field in the toolbar */
+"SEARCH_EVERYWHERE" = "Buscar en todas partes";
+
+/* Menu item title editing TOTP settings */
+"SETUP_TOTP_SETTINGS" = "Editar la configuración de la contraseña temporal de un solo uso.";
+
+/* Menu item to toggle display type of passwords */
+"SHOW_CLEAR_TEXT_PASSWORDS" = "Mostrar contraseñas";
+
+/* Menu item to show the entries group in the outline view */
+"SHOW_GROUP_IN_OUTLINE" = "Mostrar grupo en el esquema";
+
+/* Field TOTP was copied to the pasteboard */
+"TOTP" = "TOTP";
+
+/* Time in seconds remaining for a valid TOTP string, format should be %ld */
+"TOTP_REMAINING_TIME_%ld_SECONDS" = "%ld s";
+
+/* Error message displayed when the current database file is also set as the key file */
+"WARNING_CURRENT_DATABASE_FILE_SELECTED_AS_KEY_FILE" = "No puedes seleccionar el archivo de la base de datos actual como Keyfile.";
+
+/* Error message displayed when a keepass database file is set as the key file */
+"WARNING_DATABASE_FILE_SELECTED_AS_KEY_FILE" = "No deberías usar otro archivo de base de datos como Keyfile, ya que podría cambiar e impedirte volver a abrir el archivo actual.";
+
+/* No key file is set
+ Warning tha no key file is set when chaning the password */
+"WARNING_NO_KEYFILE" = "No se ha indicado ningún Keyfile";
+
+/* Warning if no password is set when chaning the password */
+"WARNING_NO_PASSWORD" = "No se ha indicado ninguna contraseña";
+
+/* Text displayed when no recent documents can be displayed in */
+"WELCOME_WINDOW_NO_RECENT_DOCUMENTS" = "No hay documentos recientes";
+
+/* TOTP was copied to the pasteboard */
+"COPIED_TOTP" = "TOTP copiado";
+
+/* Displayed when the databse key was never changed/is not set */
+"DATABASE_KEY_NEVER_CHANGED" = "La clave nunca se ha cambiado";
+
+/* Information about last key change date */
+"LAST_DATABASE_KEY_CHANGE_DATE_%@" = "Último cambio de clave: %@";
+
+/* Keyfile was not found */
+"ERROR_KEYFILE_NOT_FOUND" = "¡No se encontró el Keyfile!";
+
+/* The key stored for TouchID is not suitable for encrpytion */
+"ERROR_TOUCH_ID_UNSUPPORTED_KEY" = "La clave almacenada para TouchID no es apta para el cifrado";
+
+/* String to show an obfuscated password. Something like three dots. */
+"PROTECTED_PASSWORD_STRING" = "••••••••";
+
+/* TOTP column title */
+"TOPT" = "TOTP";
 

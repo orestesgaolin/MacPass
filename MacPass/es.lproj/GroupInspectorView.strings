@@ -22,3 +22,6 @@
 /* Class = "NSButtonCell"; title = "Show Plugin Data"; ObjectID = "qGr-oT-WjP"; */
 "qGr-oT-WjP.title" = "Mostrar datos del plugin";
 
+/* Class = "NSTextFieldCell"; title = "Tags"; ObjectID = "Rbf-K0-kWx"; */
+"Rbf-K0-kWx.title" = "Etiquetas";
+

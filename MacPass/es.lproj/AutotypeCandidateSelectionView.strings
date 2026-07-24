@@ -13,3 +13,6 @@
 /* Class = "NSButtonCell"; title = "Perform Autotype"; ObjectID = "w7H-hx-CUF"; */
 "w7H-hx-CUF.title" = "Autoteclear";
 
+/* Class = "NSTableColumn"; headerCell.title = "Sequence"; ObjectID = "bvJ-2i-eMc"; */
+"bvJ-2i-eMc.title" = "Secuencia";
+
