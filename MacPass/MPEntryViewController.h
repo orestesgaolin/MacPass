@@ -43,6 +43,9 @@ typedef NS_ENUM(NSUInteger, MPDisplayMode) {
 /* Call this after all view controllers are loaded */
 - (void)registerNotificationsForDocument:(MPDocument *)document;
 
+/* Selects and scrolls to the entry if it is currently displayed */
+- (void)selectEntry:(KPKEntry *)entry;
+
 /* Copy/Paste */
 - (IBAction)copyUsername:(id)sender;
 - (IBAction)copyPassword:(id)sender;
