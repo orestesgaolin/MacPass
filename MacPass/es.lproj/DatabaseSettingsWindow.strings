@@ -115,3 +115,15 @@
 /* Class = "NSButtonCell"; title = "Force key change"; ObjectID = "z6u-YT-7LE"; */
 "z6u-YT-7LE.title" = "Obligar a cambiar de contraseña";
 
+/* Class = "NSTextFieldCell"; title = "Iterations"; ObjectID = "106-gi-Vnb"; */
+"106-gi-Vnb.title" = "Iteraciones";
+
+/* Class = "NSTextFieldCell"; title = "Threads"; ObjectID = "9zh-4T-smL"; */
+"9zh-4T-smL.title" = "Hilos";
+
+/* Class = "NSTextFieldCell"; title = "Memory"; ObjectID = "mq2-0M-8jv"; */
+"mq2-0M-8jv.title" = "Memoria";
+
+/* Class = "NSTextFieldCell"; title = "Last key change was at: DATE"; ObjectID = "KL5-Q0-xoF"; */
+"KL5-Q0-xoF.title" = "Último cambio de clave: DATE";
+

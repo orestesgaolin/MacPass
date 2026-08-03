@@ -323,11 +323,11 @@
 		78E1F8B022E3A5D600E738AE /* AutotypeDoctorReportViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 78E1F8B222E3A5D600E738AE /* AutotypeDoctorReportViewController.xib */; };
 		AF105CF325FE5B2000C4FD3C /* MPTouchIdCompositeKeyStore.m in Sources */ = {isa = PBXBuildFile; fileRef = AF105CF125FE5B2000C4FD3C /* MPTouchIdCompositeKeyStore.m */; };
 		B4E578F62F56D53B00DE0162 /* MPSecurityPreferencesController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B4E578F52F56D53B00DE0162 /* MPSecurityPreferencesController.xib */; };
+		DA12345600040000000A0004 /* MPPassphraseGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = DA12345600020000000A0002 /* MPPassphraseGenerator.m */; };
+		DA12345600050000000A0005 /* eff_large_wordlist.txt in Resources */ = {isa = PBXBuildFile; fileRef = DA12345600030000000A0003 /* eff_large_wordlist.txt */; };
 		FA13910C1F9CD9EB0033D256 /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = FA13910A1F9CD9EB0033D256 /* Localizable.stringsdict */; };
 		FA9FD3271FB5E8F4003CEDD6 /* AutotypeCandidateSelectionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA9FD3291FB5E8F4003CEDD6 /* AutotypeCandidateSelectionView.xib */; };
 		FA9FD32C1FB5EDD3003CEDD6 /* AutotypeBuilderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA9FD32E1FB5EDD3003CEDD6 /* AutotypeBuilderView.xib */; };
-		DA12345600040000000A0004 /* MPPassphraseGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = DA12345600020000000A0002 /* MPPassphraseGenerator.m */; };
-		DA12345600050000000A0005 /* eff_large_wordlist.txt in Resources */ = {isa = PBXBuildFile; fileRef = DA12345600030000000A0003 /* eff_large_wordlist.txt */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -1164,6 +1164,9 @@
 		D364AB1623FC104300AB1D8E /* pl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pl; path = pl.lproj/SavePanelAccessoryView.strings; sourceTree = "<group>"; };
 		D364AB1723FC104300AB1D8E /* pl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pl; path = pl.lproj/AutotypeDoctorReportViewController.strings; sourceTree = "<group>"; };
 		D364AB1823FC104300AB1D8E /* pl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pl; path = pl.lproj/PluginRepositoryBrowserView.strings; sourceTree = "<group>"; };
+		DA12345600010000000A0001 /* MPPassphraseGenerator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MPPassphraseGenerator.h; sourceTree = "<group>"; };
+		DA12345600020000000A0002 /* MPPassphraseGenerator.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MPPassphraseGenerator.m; sourceTree = "<group>"; };
+		DA12345600030000000A0003 /* eff_large_wordlist.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = eff_large_wordlist.txt; sourceTree = "<group>"; };
 		FA13910B1F9CD9EB0033D256 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = en; path = en.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
 		FA13910E1F9CDB2D0033D256 /* pl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = pl; path = pl.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
 		FA638D0E1C39BFCB00B10CC6 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/DatabaseSettingsWindow.strings; sourceTree = "<group>"; };
@@ -1222,9 +1225,9 @@
 		FA9FD32D1FB5EDD3003CEDD6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/AutotypeBuilderView.xib; sourceTree = "<group>"; };
 		FA9FD32F1FB5EDDE003CEDD6 /* pl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pl; path = pl.lproj/AutotypeBuilderView.strings; sourceTree = "<group>"; };
 		FAA9109A1F9A95A500F7CB90 /* pl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pl; path = pl.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		DA12345600010000000A0001 /* MPPassphraseGenerator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MPPassphraseGenerator.h; sourceTree = "<group>"; };
-		DA12345600020000000A0002 /* MPPassphraseGenerator.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MPPassphraseGenerator.m; sourceTree = "<group>"; };
-		DA12345600030000000A0003 /* eff_large_wordlist.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = eff_large_wordlist.txt; sourceTree = "<group>"; };
+		FE0000000000000000000A01 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/AutotypeDoctorReportViewController.strings; sourceTree = "<group>"; };
+		FE0000000000000000000A02 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/MPTOTPSetupViewController.strings; sourceTree = "<group>"; };
+		FE0000000000000000000A03 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/MPTOTPViewController.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -2755,6 +2758,7 @@
 				4C9328CD273E6A5F000DCBEE /* zh-Hans */,
 				4C9328CF273E6A63000DCBEE /* de */,
 				69385E3D274ACFDF001AB1E9 /* cs */,
+				FE0000000000000000000A02 /* es */,
 			);
 			name = MPTOTPSetupViewController.xib;
 			sourceTree = "<group>";
@@ -2765,6 +2769,7 @@
 				4C9328D1273E6A83000DCBEE /* Base */,
 				4C9328D4273E6A85000DCBEE /* zh-Hans */,
 				4C9328D6273E6A85000DCBEE /* de */,
+				FE0000000000000000000A03 /* es */,
 			);
 			name = MPTOTPViewController.xib;
 			sourceTree = "<group>";
@@ -3047,6 +3052,7 @@
 				FA8CCD9423A7A6FA003A3BB1 /* uk */,
 				6FECA76924D51B0900BBA9BB /* ja */,
 				69385E40274ACFDF001AB1E9 /* cs */,
+				FE0000000000000000000A01 /* es */,
 			);
 			name = AutotypeDoctorReportViewController.xib;
 			sourceTree = "<group>";

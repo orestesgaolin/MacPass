@@ -38,6 +38,22 @@
 			<string>Entradas duplicadas</string>
 		</dict>
 	</dict>
+	<key>DUPLICATE_GROUPS_ACTION_NAME</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@groups@</string>
+		<key>groups</key>
+		<dict>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>ld</string>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>one</key>
+			<string>Grupo duplicado</string>
+			<key>other</key>
+			<string>Grupos duplicados</string>
+		</dict>
+	</dict>
 	<key>EVERY_%ld_DAYS</key>
 	<dict>
 		<key>NSStringLocalizedFormatKey</key>
