@@ -52,3 +52,18 @@
 
 /* Class = "NSTextFieldCell"; title = "Shortcut is missing Key"; ObjectID = "tId-sh-wCl"; */
 "tId-sh-wCl.title" = "El atajo no está definido";
+
+/* Class = "NSTextFieldCell"; title = "Keychain"; ObjectID = "ChZ-ku-FOP"; */
+"ChZ-ku-FOP.title" = "Llavero";
+
+/* Class = "NSButtonCell"; title = "Renew TouchID Key"; ObjectID = "b4n-g4-CtW"; */
+"b4n-g4-CtW.title" = "Renovar la clave de TouchID";
+
+/* Class = "NSTextFieldCell"; title = "MacPass will no longer be able to unlock any Database with TouchID until it is successfully unlocked with the password and or keyfile."; ObjectID = "LyC-Hd-ecK"; */
+"LyC-Hd-ecK.title" = "MacPass no podrá desbloquear ninguna base de datos con TouchID hasta que se desbloquee correctamente con la contraseña o el keyfile.";
+
+/* Class = "NSButtonCell"; title = "Always show confirmation before executing Autotype"; ObjectID = "rrU-70-Ara"; */
+"rrU-70-Ara.title" = "Mostrar siempre confirmación antes de ejecutar el autotecleo";
+
+/* Class = "NSTextFieldCell"; title = "If enabled, a dialog will show up before Autotype is executed even if only a single match was found to prevent accidental input and wrong matches"; ObjectID = "VjU-Hz-cu4"; */
+"VjU-Hz-cu4.title" = "Si se activa, se mostrará un diálogo antes de ejecutar el autotecleo, incluso si solo se encontró una coincidencia, para evitar entradas accidentales y coincidencias erróneas.";

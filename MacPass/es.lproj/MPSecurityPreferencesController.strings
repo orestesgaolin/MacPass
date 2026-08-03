@@ -1,69 +1,69 @@
 
 /* Class = "NSMenuItem"; title = "Never"; ObjectID = "3PG-ge-sez"; */
-"3PG-ge-sez.title" = "Never";
+"3PG-ge-sez.title" = "Nunca";
 
 /* Class = "NSMenu"; title = "LockTimes"; ObjectID = "3SU-Tz-vNr"; */
-"3SU-Tz-vNr.title" = "LockTimes";
+"3SU-Tz-vNr.title" = "Tiempos de bloqueo";
 
 /* Class = "NSTextFieldCell"; title = "Enabling this compromises security. If enabled, your preferences will contain mappings from database to keyfile. Key locations for databases without a password will not be saved."; ObjectID = "5aM-bw-1qA"; */
-"5aM-bw-1qA.title" = "Enabling this compromises security. If enabled, your preferences will contain mappings from database to keyfile. Key locations for databases without a password will not be saved.";
+"5aM-bw-1qA.title" = "Habilitar esta opción compromete la seguridad. Si está habilitado, tus preferencias contendrán asociaciones de bases de datos a archivos de clave. Las ubicaciones de clave de bases de datos sin contraseña no se guardarán.";
 
 /* Class = "NSButtonCell"; title = "Allow Window Screenshots"; ObjectID = "8Ik-1T-6SR"; */
-"8Ik-1T-6SR.title" = "Allow Window Screenshots";
+"8Ik-1T-6SR.title" = "Permitir capturas de pantalla de la ventana";
 
 /* Class = "NSButtonCell"; title = "Lock after screen sleep"; ObjectID = "8mt-iT-q7d"; */
-"8mt-iT-q7d.title" = "Lock after screen sleep";
+"8mt-iT-q7d.title" = "Bloquear tras suspender la pantalla";
 
 /* Class = "NSMenuItem"; title = "for 5 Minutes"; ObjectID = "DUt-fV-xPf"; */
-"DUt-fV-xPf.title" = "for 5 Minutes";
+"DUt-fV-xPf.title" = "por 5 minutos";
 
 /* Class = "NSMenuItem"; title = "Never"; ObjectID = "Eho-b6-2r3"; */
-"Eho-b6-2r3.title" = "Never";
+"Eho-b6-2r3.title" = "Nunca";
 
 /* Class = "NSMenuItem"; title = "after 5 Minutes"; ObjectID = "GOb-x5-v3v"; */
-"GOb-x5-v3v.title" = "after 5 Minutes";
+"GOb-x5-v3v.title" = "después de 5 minutos";
 
 /* Class = "NSMenuItem"; title = "after 1 Minute"; ObjectID = "GjO-Rq-CcJ"; */
-"GjO-Rq-CcJ.title" = "after 1 Minute";
+"GjO-Rq-CcJ.title" = "después de 1 minuto";
 
 /* Class = "NSMenuItem"; title = "after 10 Seconds"; ObjectID = "KPs-XT-xJQ"; */
-"KPs-XT-xJQ.title" = "after 10 Seconds";
+"KPs-XT-xJQ.title" = "después de 10 segundos";
 
 /* Class = "NSButtonCell"; title = "Prevent Universal Clipboard support"; ObjectID = "KvW-RN-z6j"; */
-"KvW-RN-z6j.title" = "Prevent Universal Clipboard support";
+"KvW-RN-z6j.title" = "Evitar soporte de Portapapeles universal";
 
 /* Class = "NSTextFieldCell"; title = "Clear Copied Items"; ObjectID = "NMx-H8-qw1"; */
-"NMx-H8-qw1.title" = "Clear Copied Items";
+"NMx-H8-qw1.title" = "Vaciar elementos copiados";
 
 /* Class = "NSMenu"; title = "ClipboardClearInterval"; ObjectID = "OvT-46-ItY"; */
-"OvT-46-ItY.title" = "ClipboardClearInterval";
+"OvT-46-ItY.title" = "Intervalo de vaciado del portapapeles";
 
 /* Class = "NSButtonCell"; title = "Remember Keyfile for Databases"; ObjectID = "Q9B-M0-yCP"; */
-"Q9B-M0-yCP.title" = "Remember Keyfile for Databases";
+"Q9B-M0-yCP.title" = "Recordar el Keyfile para las bases de datos";
 
 /* Class = "NSButtonCell"; title = "Lock after log out"; ObjectID = "fdI-0a-VRg"; */
-"fdI-0a-VRg.title" = "Lock after log out";
+"fdI-0a-VRg.title" = "Bloquear después de cerrar sesión";
 
 /* Class = "NSMenuItem"; title = "for 1 Minute"; ObjectID = "hcu-tg-UHB"; */
-"hcu-tg-UHB.title" = "for 1 Minute";
+"hcu-tg-UHB.title" = "por 1 Minuto";
 
 /* Class = "NSTextFieldCell"; title = "Lock while idle"; ObjectID = "mJZ-10-3aY"; */
-"mJZ-10-3aY.title" = "Lock while idle";
+"mJZ-10-3aY.title" = "Bloquear al estar inactivo";
 
 /* Class = "NSMenuItem"; title = "after 30 Seconds"; ObjectID = "nXQ-XQ-OjR"; */
-"nXQ-XQ-OjR.title" = "after 30 Seconds";
+"nXQ-XQ-OjR.title" = "después de 30 segundos";
 
 /* Class = "NSMenuItem"; title = "for 15 Minutes"; ObjectID = "pPY-4B-V6t"; */
-"pPY-4B-V6t.title" = "for 15 Minutes";
+"pPY-4B-V6t.title" = "por 15 minutos";
 
 /* Class = "NSButtonCell"; title = "Clear Clipboard on Quit"; ObjectID = "t4Z-bK-KMl"; */
-"t4Z-bK-KMl.title" = "Clear Clipboard on Quit";
+"t4Z-bK-KMl.title" = "Vaciar portapapeles al salir";
 
 /* Class = "NSButtonCell"; title = "Clear all stored locations"; ObjectID = "uaC-TX-Vza"; */
-"uaC-TX-Vza.title" = "Clear all stored locations";
+"uaC-TX-Vza.title" = "Eliminar las ubicaciones guardadas";
 
 /* Class = "NSTextFieldCell"; title = "Disabling this compromises security. If enabled, anything copied to the Clipboard in MacPass will be available on your connected iOS devices. You should clear the clipboard on those devices manually."; ObjectID = "vCZ-9c-5s7"; */
-"vCZ-9c-5s7.title" = "Disabling this compromises security. If enabled, anything copied to the Clipboard in MacPass will be available on your connected iOS devices. You should clear the clipboard on those devices manually.";
+"vCZ-9c-5s7.title" = "Deshabilitar esto compromete la seguridad. Si está habilitado, cualquier elemento copiado en el portapapeles en MacPass estará disponible en los dispositivos iOS conectados. Se debería limpiar el portapapeles de esos dispositivos manualmente.";
 
 /* Class = "NSButtonCell"; title = "Lock after sleep"; ObjectID = "zjF-CD-1DV"; */
-"zjF-CD-1DV.title" = "Lock after sleep";
+"zjF-CD-1DV.title" = "Bloquear al hibernar";
