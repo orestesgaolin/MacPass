@@ -160,6 +160,17 @@ FOUNDATION_EXPORT NSString *const MPDocumentGroupKey;
 /* Undoable Intiialization of elements */
 - (KPKGroup *)createGroup:(KPKGroup *)parent;
 - (KPKEntry *)createEntry:(KPKGroup *)parent;
+
+/**
+ Returns the closest configured folder email for a group, falling back to the
+ database-wide default username when no folder in its ancestry provides one.
+ */
+- (nullable NSString *)defaultEmailForNewEntryInGroup:(KPKGroup *)group;
+
+/**
+ Returns the closest configured email of a group's parent folders.
+ */
+- (nullable NSString *)inheritedDefaultEmailForGroup:(KPKGroup *)group;
 - (KPKAttribute *)createCustomAttribute:(KPKEntry *)entry;
 
 - (void)deleteNode:(KPKNode *)node;
@@ -270,5 +281,4 @@ FOUNDATION_EXTERN NSString *const kMPDocumentSearchResultsKey;
 - (IBAction)toggleSearchFlags:(id)sender;
 
 @end
-
 

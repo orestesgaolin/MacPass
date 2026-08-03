@@ -35,6 +35,11 @@ FOUNDATION_EXPORT NSString *const MPKdbxDocumentUTI;
 FOUNDATION_EXPORT NSString *const MPPluginUTI;
 
 /**
+ Per-group custom data key for the email prefilled on newly created entries.
+ */
+FOUNDATION_EXPORT NSString *const MPGroupDefaultEmailCustomDataKey;
+
+/**
  Bundle keys
  */
 FOUNDATION_EXPORT NSString *const MPBundleHelpURLKey;

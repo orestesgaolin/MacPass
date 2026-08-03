@@ -22,6 +22,7 @@
 
 #import "MPGroupInspectorViewController.h"
 #import "MPDocument.h"
+#import "MPConstants.h"
 #import "MPPasteBoardController.h"
 #import "MPValueTransformerHelper.h"
 
@@ -32,6 +33,9 @@
 @interface MPGroupInspectorViewController ()
 @property (strong) NSPopover *popover;
 @property BOOL focusTitleOnceViewAppears;
+@property (nonatomic, copy) NSString *defaultEmail;
+@property (nonatomic, copy) NSString *defaultEmailInheritanceHint;
+@property (nonatomic, readonly) BOOL defaultEmailSupported;
 @end
 
 @implementation MPGroupInspectorViewController
@@ -131,6 +135,80 @@
                    toObject:self
                 withKeyPath:[NSString stringWithFormat:@"%@.%@", NSStringFromSelector(@selector(representedObject)), NSStringFromSelector(@selector(tags))]
                     options:nullPlaceholderOptionsDict];
+  [self.defaultEmailTextField bind:NSValueBinding
+                          toObject:self
+                       withKeyPath:NSStringFromSelector(@selector(defaultEmail))
+                           options:nil];
+  [self.defaultEmailTextField bind:NSEnabledBinding
+                          toObject:self
+                       withKeyPath:NSStringFromSelector(@selector(defaultEmailSupported))
+                           options:nil];
+  [self.defaultEmailInheritanceTextField bind:NSValueBinding
+                                     toObject:self
+                                  withKeyPath:NSStringFromSelector(@selector(defaultEmailInheritanceHint))
+                                      options:nil];
+}
+
+- (void)setRepresentedObject:(id)representedObject {
+  [self willChangeValueForKey:NSStringFromSelector(@selector(defaultEmail))];
+  [self willChangeValueForKey:NSStringFromSelector(@selector(defaultEmailInheritanceHint))];
+  [self willChangeValueForKey:NSStringFromSelector(@selector(defaultEmailSupported))];
+  [super setRepresentedObject:representedObject];
+  [self didChangeValueForKey:NSStringFromSelector(@selector(defaultEmailSupported))];
+  [self didChangeValueForKey:NSStringFromSelector(@selector(defaultEmailInheritanceHint))];
+  [self didChangeValueForKey:NSStringFromSelector(@selector(defaultEmail))];
+}
+
+- (NSString *)defaultEmail {
+  KPKGroup *group = [self.representedObject asGroup];
+  return group.customData[MPGroupDefaultEmailCustomDataKey];
+}
+
+- (void)setDefaultEmail:(NSString *)defaultEmail {
+  KPKGroup *group = [self.representedObject asGroup];
+  if(!group || !self.defaultEmailSupported) {
+    return;
+  }
+  NSString *email = [defaultEmail stringByTrimmingCharactersInSet:NSCharacterSet.whitespaceAndNewlineCharacterSet];
+  NSString *currentEmail = self.defaultEmail;
+  if([currentEmail isEqualToString:email]) {
+    return;
+  }
+  [self.observer willChangeModelProperty];
+  [self willChangeValueForKey:NSStringFromSelector(@selector(defaultEmail))];
+  [self willChangeValueForKey:NSStringFromSelector(@selector(defaultEmailInheritanceHint))];
+  if(email.length > 0) {
+    [group setCustomData:email forKey:MPGroupDefaultEmailCustomDataKey];
+  }
+  else {
+    [group removeCustomDataForKey:MPGroupDefaultEmailCustomDataKey];
+  }
+  [self didChangeValueForKey:NSStringFromSelector(@selector(defaultEmailInheritanceHint))];
+  [self didChangeValueForKey:NSStringFromSelector(@selector(defaultEmail))];
+  [self.observer didChangeModelProperty];
+}
+
+- (NSString *)defaultEmailInheritanceHint {
+  KPKGroup *group = [self.representedObject asGroup];
+  if(!group) {
+    return @"";
+  }
+  if(!self.defaultEmailSupported) {
+    return @"Folder defaults require a KDBX database.";
+  }
+  if(self.defaultEmail.length > 0) {
+    return @"";
+  }
+  NSString *inheritedEmail = [self.windowController.document inheritedDefaultEmailForGroup:group];
+  if(inheritedEmail.length == 0) {
+    return @"";
+  }
+  return [NSString stringWithFormat:@"Inherited from parent folder: %@", inheritedEmail];
+}
+
+- (BOOL)defaultEmailSupported {
+  MPDocument *document = (MPDocument *)self.windowController.document;
+  return ![document.fileType isEqualToString:MPKdbDocumentUTI];
 }
 - (IBAction)toggleExpire:(NSButton*)sender {
   KPKGroup *group = self.representedObject;

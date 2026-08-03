@@ -10,6 +10,7 @@
 #import <KeePassKit/KeePassKit.h>
 
 #import "MPDocument.h"
+#import "MPConstants.h"
 
 @interface MPTestDocument : XCTestCase
 
@@ -33,6 +34,28 @@
   XCTAssertFalse(document.encrypted, @"Document cannot be encrypted at creation");
   XCTAssertFalse(document.compositeKey.hasKeys, @"Document has no Password/Keyfile and thus is not secured");
 
+}
+
+- (void)testNewEntryUsesNearestFolderDefaultEmail {
+  MPDocument *document = [[MPDocument alloc] initWithType:@"" error:nil];
+  document.tree.metaData.defaultUserName = @"database@example.com";
+  [document.tree.root setCustomData:@"root@example.com" forKey:MPGroupDefaultEmailCustomDataKey];
+
+  KPKGroup *parent = [document createGroup:document.tree.root];
+  KPKGroup *child = [document createGroup:parent];
+  XCTAssertEqualObjects([document createEntry:child].username, @"root@example.com");
+
+  [parent setCustomData:@"parent@example.com" forKey:MPGroupDefaultEmailCustomDataKey];
+  XCTAssertEqualObjects([document createEntry:child].username, @"parent@example.com");
+
+  [parent removeCustomDataForKey:MPGroupDefaultEmailCustomDataKey];
+  XCTAssertEqualObjects([document createEntry:child].username, @"root@example.com");
+}
+
+- (void)testNewEntryFallsBackToDatabaseDefaultEmail {
+  MPDocument *document = [[MPDocument alloc] initWithType:@"" error:nil];
+  document.tree.metaData.defaultUserName = @"database@example.com";
+  XCTAssertEqualObjects([document createEntry:document.tree.root].username, @"database@example.com");
 }
 
 @end

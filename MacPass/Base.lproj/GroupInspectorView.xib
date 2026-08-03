@@ -11,6 +11,8 @@
                 <outlet property="autotypePopupButton" destination="240" id="285"/>
                 <outlet property="autotypeSequenceTextField" destination="Fnw-qz-IZU" id="a7M-zz-0ye"/>
                 <outlet property="contentView" destination="38" id="Dv7-1B-VeH"/>
+                <outlet property="defaultEmailInheritanceTextField" destination="def-email-hint" id="def-email-hint-outlet"/>
+                <outlet property="defaultEmailTextField" destination="def-email-field" id="def-email-field-outlet"/>
                 <outlet property="expireDateSelectButton" destination="4" id="W6H-j5-GLf"/>
                 <outlet property="expiresCheckButton" destination="5" id="283"/>
                 <outlet property="searchPopupButton" destination="229" id="284"/>
@@ -49,8 +51,32 @@
                                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                         </textFieldCell>
                                         <connections>
-                                            <outlet property="nextKeyView" destination="5" id="KV0-QE-2i4"/>
+                                            <outlet property="nextKeyView" destination="def-email-field" id="KV0-QE-2i4"/>
                                         </connections>
+                                    </textField>
+                                    <textField horizontalHuggingPriority="249" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="def-email-label">
+                                        <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Default Email" id="def-email-label-cell">
+                                            <font key="font" metaFont="smallSystem"/>
+                                            <color key="textColor" name="disabledControlTextColor" catalog="System" colorSpace="catalog"/>
+                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                        </textFieldCell>
+                                    </textField>
+                                    <textField horizontalHuggingPriority="249" verticalHuggingPriority="750" horizontalCompressionResistancePriority="249" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="def-email-field" customClass="HNHUITextField">
+                                        <textFieldCell key="cell" lineBreakMode="truncatingTail" truncatesLastVisibleLine="YES" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="def-email-field-cell">
+                                            <font key="font" metaFont="system"/>
+                                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                        </textFieldCell>
+                                        <connections>
+                                            <outlet property="nextKeyView" destination="5" id="def-email-next"/>
+                                        </connections>
+                                    </textField>
+                                    <textField horizontalHuggingPriority="249" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="def-email-hint">
+                                        <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="" id="def-email-hint-cell">
+                                            <font key="font" metaFont="smallSystem"/>
+                                            <color key="textColor" name="disabledControlTextColor" catalog="System" colorSpace="catalog"/>
+                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                        </textFieldCell>
                                     </textField>
                                     <stackView distribution="fill" orientation="horizontal" alignment="top" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="aAt-VU-kLy">
                                         <rect key="frame" x="0.0" y="286" width="251" height="20"/>
