@@ -101,7 +101,8 @@ jobs:
 
       # Build the test host first. The legacy test target does not declare its
       # host as a target dependency, so recent Xcode versions can otherwise try
-      # to link the test bundle before MacPass.app exists.
+      # to link the test bundle before MacPass.app exists. Ad-hoc signing lets
+      # XCTest attach on hosted runners without requiring signing secrets.
       - name: Build MacPass
         run: |
           xcodebuild build \
@@ -110,8 +111,13 @@ jobs:
             -configuration Debug \
             -destination "platform=macOS" \
             -derivedDataPath "$RUNNER_TEMP/macpass-derived-data" \
-            CODE_SIGNING_REQUIRED=NO \
-            CODE_SIGN_IDENTITY=""
+            CODE_SIGNING_ALLOWED=YES \
+            CODE_SIGNING_REQUIRED=YES \
+            CODE_SIGN_IDENTITY=- \
+            CODE_SIGN_ENTITLEMENTS="" \
+            ENABLE_HARDENED_RUNTIME=NO \
+            DEVELOPMENT_TEAM="" \
+            PROVISIONING_PROFILE_SPECIFIER=""
 
       # Keep the healthy suite and all new tests gated while the six explicitly
       # listed legacy tests remain broken on current macOS/Xcode versions.
@@ -129,5 +135,10 @@ jobs:
             -skip-testing:MacPassTests/MPTestAutotypeDelay/testDelayExecution \
             -skip-testing:MacPassTests/MPTestKeyMapper/testKeyMapper \
             -skip-testing:MacPassTests/MPTestPluginVersion/testVersionCompare \
-            CODE_SIGNING_REQUIRED=NO \
-            CODE_SIGN_IDENTITY=""
+            CODE_SIGNING_ALLOWED=YES \
+            CODE_SIGNING_REQUIRED=YES \
+            CODE_SIGN_IDENTITY=- \
+            CODE_SIGN_ENTITLEMENTS="" \
+            ENABLE_HARDENED_RUNTIME=NO \
+            DEVELOPMENT_TEAM="" \
+            PROVISIONING_PROFILE_SPECIFIER=""
