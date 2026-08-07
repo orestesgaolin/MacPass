@@ -669,8 +669,9 @@ NSString *const MPDocumentGroupKey                            = @"MPDocumentGrou
   KPK_SCOPED_DISABLE_UNDO_BEGIN(self.undoManager)
   
   newEntry.title = NSLocalizedString(@"DEFAULT_ENTRY_TITLE", @"Title for a newly created entry");
-  if([self.tree.metaData.defaultUserName length] > 0) {
-    newEntry.username = self.tree.metaData.defaultUserName;
+  NSString *defaultEmail = [self defaultEmailForNewEntryInGroup:parent];
+  if(defaultEmail.length > 0) {
+    newEntry.username = defaultEmail;
   }
   
   /* only generate passwords for new entries, if set */
@@ -690,6 +691,28 @@ NSString *const MPDocumentGroupKey                            = @"MPDocumentGrou
                                                     object:self
                                                   userInfo:@{ MPDocumentEntryKey: newEntry }];
   return newEntry;
+}
+
+- (NSString *)defaultEmailForNewEntryInGroup:(KPKGroup *)group {
+  NSString *email = group.customData[MPGroupDefaultEmailCustomDataKey];
+  if(email.length > 0) {
+    return email;
+  }
+  email = [self inheritedDefaultEmailForGroup:group];
+  if(email.length > 0) {
+    return email;
+  }
+  return self.tree.metaData.defaultUserName;
+}
+
+- (NSString *)inheritedDefaultEmailForGroup:(KPKGroup *)group {
+  for(KPKGroup *ancestor = group.parent; ancestor; ancestor = ancestor.parent) {
+    NSString *email = ancestor.customData[MPGroupDefaultEmailCustomDataKey];
+    if(email.length > 0) {
+      return email;
+    }
+  }
+  return nil;
 }
 
 - (KPKGroup *)createGroup:(KPKGroup *)parent {

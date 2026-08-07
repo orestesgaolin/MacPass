@@ -36,6 +36,8 @@
 @property (strong) IBOutlet NSPopUpButton *autotypePopupButton;
 @property (strong) IBOutlet HNHUITextField *autotypeSequenceTextField;
 @property (strong) IBOutlet NSTokenField *tagsTokenField;
+@property (strong) IBOutlet HNHUITextField *defaultEmailTextField;
+@property (strong) IBOutlet NSTextField *defaultEmailInheritanceTextField;
 
 - (void)registerNotificationsForDocument:(MPDocument *)document;
 @end

@@ -26,6 +26,7 @@ NSString *const MPPasteBoardType  = @"com.hicknhack.macpass.pasteboard";
 NSString *const MPKdbDocumentUTI  = @"com.hicknhack.macpass.kdb";
 NSString *const MPKdbxDocumentUTI = @"com.hicknhack.macpass.kdbx";
 NSString *const MPPluginUTI       = @"com.hicknhack.macpass.plugin";
+NSString *const MPGroupDefaultEmailCustomDataKey = @"org.macpass.default-email";
 
 NSString *const MPBundleHelpURLKey                = @"MPHelpURL";
 NSString *const MPBundlePluginRepositoryURLKey    = @"MPPluginRepositoryURL";
@@ -33,4 +34,3 @@ NSString *const MPPluginCompatibilityURLKey  = @"MPPluginCompatibilityURLKey";
 
 NSString *const MPTouchIdUnlockPublicKeyTag = @"com.hicknhacksoftware.macpass.publickey";
 NSString *const MPTouchIdUnlockPrivateKeyTag = @"com.hicknhacksoftware.macpass.privatekey";
-
