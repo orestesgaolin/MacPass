@@ -25,6 +25,8 @@
 #import "MPPluginRepositoryItem.h"
 #import "MPSettingsHelper.h"
 
+#import "NSApplication+MPAdditions.h"
+
 NSString *const MPPluginRepositoryDidUpdateAvailablePluginsNotification = @"com.hicknhack.macpass.MPPluginRepositoryDidInitializeAvailablePluginsNotification";
 
 @interface MPPluginRepository ()
@@ -170,6 +172,10 @@ NSString *const MPPluginRepositoryDidUpdateAvailablePluginsNotification = @"com.
 
 - (BOOL)_askForPluginRepositoryPermission {
   if(![NSUserDefaults.standardUserDefaults objectForKey:kMPSettingsKeyAllowRemoteFetchOfPluginRepository]) {
+    /* no one can dismiss a modal alert while tests run, it would block the main thread forever */
+    if(NSApplication.sharedApplication.isRunningTests) {
+      return NO;
+    }
     NSAlert *alert = [[NSAlert alloc] init];
     alert.alertStyle = NSAlertStyleWarning;
     alert.informativeText = NSLocalizedString(@"ALERT_ASK_FOR_PLUGIN_REPOSITORY_CONNECTION_PERMISSION_INFORMATIVE_TEXT", @"Informative text displayed on the alert that shows up when MacPass asks for permssion to download the plugin repository JSON file");
