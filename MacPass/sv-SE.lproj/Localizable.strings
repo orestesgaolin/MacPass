@@ -664,3 +664,8 @@
 /* Accessibility value when no key file is selected */
 "KEY_FILE_NONE_SELECTED_ACCESSIBILITY_VALUE" = "Ingen nyckelfil vald";
 
+"PASSWORD_INPUT_TOUCH_ID_SHORTCUT" = "Tryck på %@ för att låsa upp med Touch ID";
+"PASSWORD_INPUT_TOUCH_ID_PROVISIONING" = "Lås upp databasen en gång med lösenord och/eller nyckelfil för att aktivera Touch ID för den.";
+"PASSWORD_INPUT_UNLOCK_WITH_TOUCH_ID" = "Lås upp med Touch ID";
+"PASSWORD_INPUT_UNLOCK_METHOD" = "Upplåsningsmetod";
+"PASSWORD_INPUT_REMOVE_KEY_FILE" = "Ta bort nyckelfil";

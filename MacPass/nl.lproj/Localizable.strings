@@ -757,3 +757,8 @@
 /* Accessibility value when no key file is selected */
 "KEY_FILE_NONE_SELECTED_ACCESSIBILITY_VALUE" = "Geen sleutelbestand geselecteerd";
 
+"PASSWORD_INPUT_TOUCH_ID_SHORTCUT" = "Druk op %@ om te ontgrendelen met Touch ID";
+"PASSWORD_INPUT_TOUCH_ID_PROVISIONING" = "Ontgrendel deze database eenmaal met uw wachtwoord en/of sleutelbestand om Touch ID in te schakelen.";
+"PASSWORD_INPUT_UNLOCK_WITH_TOUCH_ID" = "Ontgrendel met Touch ID";
+"PASSWORD_INPUT_UNLOCK_METHOD" = "Ontgrendelmethode";
+"PASSWORD_INPUT_REMOVE_KEY_FILE" = "Sleutelbestand verwijderen";

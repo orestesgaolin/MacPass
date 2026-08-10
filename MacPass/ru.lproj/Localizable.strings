@@ -882,3 +882,9 @@
 
 /* Accessibility value when no key file is selected */
 "KEY_FILE_NONE_SELECTED_ACCESSIBILITY_VALUE" = "Файл ключа не выбран";
+
+"PASSWORD_INPUT_TOUCH_ID_SHORTCUT" = "Нажмите %@, чтобы разблокировать с помощью Touch ID";
+"PASSWORD_INPUT_TOUCH_ID_PROVISIONING" = "Один раз разблокируйте базу паролем и/или файлом ключа, чтобы включить для неё Touch ID.";
+"PASSWORD_INPUT_UNLOCK_WITH_TOUCH_ID" = "Разблокировать с Touch ID";
+"PASSWORD_INPUT_UNLOCK_METHOD" = "Способ разблокировки";
+"PASSWORD_INPUT_REMOVE_KEY_FILE" = "Удалить файл ключа";

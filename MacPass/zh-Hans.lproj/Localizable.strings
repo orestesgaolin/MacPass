@@ -797,3 +797,8 @@
 /* Accessibility value when no key file is selected */
 "KEY_FILE_NONE_SELECTED_ACCESSIBILITY_VALUE" = "未选择密钥文件";
 
+"PASSWORD_INPUT_TOUCH_ID_SHORTCUT" = "按 %@ 使用触控 ID 解锁";
+"PASSWORD_INPUT_TOUCH_ID_PROVISIONING" = "请先使用密码和/或密钥文件解锁一次，以便为此数据库启用触控 ID。";
+"PASSWORD_INPUT_UNLOCK_WITH_TOUCH_ID" = "使用触控 ID 解锁";
+"PASSWORD_INPUT_UNLOCK_METHOD" = "解锁方式";
+"PASSWORD_INPUT_REMOVE_KEY_FILE" = "移除密钥文件";

@@ -928,3 +928,8 @@
 /* Accessibility value when no key file is selected */
 "KEY_FILE_NONE_SELECTED_ACCESSIBILITY_VALUE" = "Keine Schlüsseldatei ausgewählt";
 
+"PASSWORD_INPUT_TOUCH_ID_SHORTCUT" = "Drücken Sie %@, um mit Touch ID zu entsperren";
+"PASSWORD_INPUT_TOUCH_ID_PROVISIONING" = "Entsperren Sie diese Datenbank einmal mit Ihrem Passwort und/oder Ihrer Schlüsseldatei, um Touch ID zu aktivieren.";
+"PASSWORD_INPUT_UNLOCK_WITH_TOUCH_ID" = "Mit Touch ID entsperren";
+"PASSWORD_INPUT_UNLOCK_METHOD" = "Entsperrmethode";
+"PASSWORD_INPUT_REMOVE_KEY_FILE" = "Schlüsseldatei entfernen";

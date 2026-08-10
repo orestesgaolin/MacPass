@@ -946,3 +946,9 @@
 
 /* Accessibility value when no key file is selected */
 "KEY_FILE_NONE_SELECTED_ACCESSIBILITY_VALUE" = "Nie wybrano pliku klucza";
+
+"PASSWORD_INPUT_TOUCH_ID_SHORTCUT" = "Naciśnij %@, aby odblokować za pomocą Touch ID";
+"PASSWORD_INPUT_TOUCH_ID_PROVISIONING" = "Odblokuj bazę raz za pomocą hasła i/lub pliku klucza, aby włączyć dla niej Touch ID.";
+"PASSWORD_INPUT_UNLOCK_WITH_TOUCH_ID" = "Odblokuj za pomocą Touch ID";
+"PASSWORD_INPUT_UNLOCK_METHOD" = "Metoda odblokowania";
+"PASSWORD_INPUT_REMOVE_KEY_FILE" = "Usuń plik klucza";
