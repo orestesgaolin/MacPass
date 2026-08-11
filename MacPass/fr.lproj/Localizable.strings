@@ -883,3 +883,8 @@
 /* Accessibility value when no key file is selected */
 "KEY_FILE_NONE_SELECTED_ACCESSIBILITY_VALUE" = "Aucun fichier clé sélectionné";
 
+"PASSWORD_INPUT_TOUCH_ID_SHORTCUT" = "Appuyez sur %@ pour déverrouiller avec Touch ID";
+"PASSWORD_INPUT_TOUCH_ID_PROVISIONING" = "Déverrouillez une fois avec votre mot de passe et/ou votre fichier clé pour activer Touch ID pour cette base de données.";
+"PASSWORD_INPUT_UNLOCK_WITH_TOUCH_ID" = "Déverrouiller avec Touch ID";
+"PASSWORD_INPUT_UNLOCK_METHOD" = "Méthode de déverrouillage";
+"PASSWORD_INPUT_REMOVE_KEY_FILE" = "Supprimer le fichier clé";

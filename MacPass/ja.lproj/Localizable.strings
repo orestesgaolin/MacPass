@@ -882,3 +882,9 @@
 
 /* Accessibility value when no key file is selected */
 "KEY_FILE_NONE_SELECTED_ACCESSIBILITY_VALUE" = "鍵ファイルが選択されていません";
+
+"PASSWORD_INPUT_TOUCH_ID_SHORTCUT" = "%@ を押して Touch ID でロック解除";
+"PASSWORD_INPUT_TOUCH_ID_PROVISIONING" = "このデータベースで Touch ID を有効にするには、パスワードまたはキーファイルで一度ロック解除してください。";
+"PASSWORD_INPUT_UNLOCK_WITH_TOUCH_ID" = "Touch ID でロック解除";
+"PASSWORD_INPUT_UNLOCK_METHOD" = "ロック解除方法";
+"PASSWORD_INPUT_REMOVE_KEY_FILE" = "キーファイルを削除";

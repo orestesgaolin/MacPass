@@ -859,3 +859,8 @@
 /* Accessibility value when no key file is selected */
 "KEY_FILE_NONE_SELECTED_ACCESSIBILITY_VALUE" = "Файл ключа не обрано";
 
+"PASSWORD_INPUT_TOUCH_ID_SHORTCUT" = "Натисніть %@, щоб відімкнути за допомогою Touch ID";
+"PASSWORD_INPUT_TOUCH_ID_PROVISIONING" = "Один раз відімкніть базу паролем та/або файлом ключа, щоб увімкнути для неї Touch ID.";
+"PASSWORD_INPUT_UNLOCK_WITH_TOUCH_ID" = "Відімкнути за допомогою Touch ID";
+"PASSWORD_INPUT_UNLOCK_METHOD" = "Спосіб відімкнення";
+"PASSWORD_INPUT_REMOVE_KEY_FILE" = "Видалити файл ключа";

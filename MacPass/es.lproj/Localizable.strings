@@ -970,3 +970,8 @@
 /* TOTP column title */
 "TOPT" = "TOTP";
 
+"PASSWORD_INPUT_TOUCH_ID_SHORTCUT" = "Pulsa %@ para desbloquear con Touch ID";
+"PASSWORD_INPUT_TOUCH_ID_PROVISIONING" = "Desbloquea una vez con tu contraseña y/o archivo de claves para activar Touch ID en esta base de datos.";
+"PASSWORD_INPUT_UNLOCK_WITH_TOUCH_ID" = "Desbloquear con Touch ID";
+"PASSWORD_INPUT_UNLOCK_METHOD" = "Método de desbloqueo";
+"PASSWORD_INPUT_REMOVE_KEY_FILE" = "Eliminar archivo de claves";

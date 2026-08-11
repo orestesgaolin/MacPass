@@ -928,3 +928,8 @@
 /* Accessibility value when no key file is selected */
 "KEY_FILE_NONE_SELECTED_ACCESSIBILITY_VALUE" = "No key file selected";
 
+"PASSWORD_INPUT_TOUCH_ID_SHORTCUT" = "Press %@ to unlock with Touch ID";
+"PASSWORD_INPUT_TOUCH_ID_PROVISIONING" = "Unlock once with your password and/or key file to enable Touch ID for this database.";
+"PASSWORD_INPUT_UNLOCK_WITH_TOUCH_ID" = "Unlock with Touch ID";
+"PASSWORD_INPUT_UNLOCK_METHOD" = "Unlock method";
+"PASSWORD_INPUT_REMOVE_KEY_FILE" = "Remove key file";
