@@ -1,3 +1,27 @@
+/* Password AutoFill preferences */
+"AUTOFILL_PREFERENCES_TITLE" = "Autofyll lösenord";
+"AUTOFILL_PUBLICATIONS_ACCESSIBILITY_LABEL" = "Publicerade databaser för Autofyll";
+"AUTOFILL_PUBLISH_CURRENT_DATABASE" = "Publicera aktuell databas";
+"AUTOFILL_REMOVE_PUBLICATION" = "Ta bort publicering";
+"AUTOFILL_OPEN_SETTINGS" = "Öppna Autofyll-inställningar";
+"AUTOFILL_PROVIDER_DISABLED" = "Leverantör: avaktiverad i macOS";
+"AUTOFILL_PROVIDER_AVAILABLE" = "Leverantör: tillgänglig";
+"AUTOFILL_SYNC_FAILED" = "Synkroniseringen misslyckades. Spara databasen igen eller ta bort publiceringen.";
+"AUTOFILL_SYNCHRONIZING" = "Synkroniserar inloggningsuppgifter för Autofyll...";
+"AUTOFILL_SYNC_COUNT_%lu" = "%lu inloggningsuppgifter synkroniserade";
+"AUTOFILL_REQUIRES_MACOS_11" = "Autofyll lösenord kräver macOS 11 eller senare.";
+"AUTOFILL_UPDATE_MACOS" = "Uppdatera macOS för att använda MacPass leverantör av inloggningsuppgifter.";
+"AUTOFILL_PENDING" = "Väntar";
+"AUTOFILL_CURRENT_DATABASE_PUBLISHED" = "Aktuell databas publicerad";
+"AUTOFILL_PUBLICATION_FAILED" = "Publiceringen för Autofyll misslyckades. Den sparade databasen påverkades inte.";
+"AUTOFILL_UNLOCK_AND_SAVE" = "Lås upp och spara den aktuella databasen innan du publicerar den.";
+"AUTOFILL_CONFIRM_TITLE" = "Publicera den här databasen för Autofyll lösenord?";
+"AUTOFILL_CONFIRM_MESSAGE" = "MacPass lagrar användarnamn, postrubriker och webbadresser i den skyddade delade behållaren. Lösenord förblir krypterade och kräver att användaren är närvarande. Autofyll förblir tillgängligt efter att MacPass låses eller avslutas.";
+"AUTOFILL_PUBLISH" = "Publicera";
+"AUTOFILL_ENABLE_FAILED" = "Det gick inte att aktivera publicering för Autofyll.";
+"AUTOFILL_CLEANUP_RETRY" = "Auktoriseringen återkallades, men rensningen av delade data måste göras om.";
+"AUTOFILL_PUBLICATION_REMOVED" = "Publiceringen för Autofyll har tagits bort.";
+
 /* Count of characters remaining in pickchars dialog */
 "%ld_CHARACTERS_TO_PICK_REMAINING" = "%ld tecken kvar att välja";
 

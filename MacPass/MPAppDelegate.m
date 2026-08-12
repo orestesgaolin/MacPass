@@ -43,6 +43,7 @@
 #import "MPPlugin.h"
 #import "MPEntryContextMenuDelegate.h"
 #import "MPAutotypeDoctor.h"
+#import "AutoFill/MPAutoFillCoordinator.h"
 
 #import "NSApplication+MPAdditions.h"
 #import "NSTextView+MPTouchBarExtension.h"
@@ -364,6 +365,9 @@ typedef NS_OPTIONS(NSInteger, MPAppStartupState) {
   [MPLockDaemon defaultDaemon];
   [MPAutotypeDaemon defaultDaemon];
   [MPPluginHost sharedHost];
+  if (@available(macOS 11.0, *)) {
+    [MPAutoFillCoordinator.sharedCoordinator reconcilePublishedStateWithCompletion:nil];
+  }
 #if !defined(DEBUG) && !defined(NO_SPARKLE)
   /* Disable updates if in debug or nosparkle  */
   SPUStandardUserDriver *userDriver = [[SPUStandardUserDriver alloc] initWithHostBundle:NSBundle.mainBundle delegate:nil];

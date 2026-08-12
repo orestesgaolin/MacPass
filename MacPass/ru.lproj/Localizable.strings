@@ -1,3 +1,27 @@
+/* Password AutoFill preferences */
+"AUTOFILL_PREFERENCES_TITLE" = "Автозаполнение паролей";
+"AUTOFILL_PUBLICATIONS_ACCESSIBILITY_LABEL" = "Базы данных, опубликованные для автозаполнения";
+"AUTOFILL_PUBLISH_CURRENT_DATABASE" = "Опубликовать текущую базу данных";
+"AUTOFILL_REMOVE_PUBLICATION" = "Удалить публикацию";
+"AUTOFILL_OPEN_SETTINGS" = "Открыть настройки автозаполнения";
+"AUTOFILL_PROVIDER_DISABLED" = "Поставщик: отключен в macOS";
+"AUTOFILL_PROVIDER_AVAILABLE" = "Поставщик: доступен";
+"AUTOFILL_SYNC_FAILED" = "Сбой синхронизации. Сохраните базу данных еще раз или удалите ее публикацию.";
+"AUTOFILL_SYNCHRONIZING" = "Синхронизация учетных данных для автозаполнения...";
+"AUTOFILL_SYNC_COUNT_%lu" = "Синхронизировано учетных данных: %lu";
+"AUTOFILL_REQUIRES_MACOS_11" = "Для автозаполнения паролей требуется macOS 11 или новее.";
+"AUTOFILL_UPDATE_MACOS" = "Обновите macOS, чтобы использовать поставщик учетных данных MacPass.";
+"AUTOFILL_PENDING" = "Ожидание";
+"AUTOFILL_CURRENT_DATABASE_PUBLISHED" = "Текущая база данных опубликована";
+"AUTOFILL_PUBLICATION_FAILED" = "Не удалось опубликовать данные для автозаполнения. Сохраненная база данных не была изменена.";
+"AUTOFILL_UNLOCK_AND_SAVE" = "Разблокируйте и сохраните текущую базу данных перед публикацией.";
+"AUTOFILL_CONFIRM_TITLE" = "Опубликовать эту базу данных для автозаполнения паролей?";
+"AUTOFILL_CONFIRM_MESSAGE" = "MacPass сохранит имена пользователей, названия записей и адреса сайтов в защищенном общем контейнере. Пароли останутся зашифрованными, а для доступа потребуется присутствие пользователя. Автозаполнение останется доступным после блокировки или завершения работы MacPass.";
+"AUTOFILL_PUBLISH" = "Опубликовать";
+"AUTOFILL_ENABLE_FAILED" = "Не удалось включить публикацию для автозаполнения.";
+"AUTOFILL_CLEANUP_RETRY" = "Авторизация отозвана, но очистку общих данных необходимо повторить.";
+"AUTOFILL_PUBLICATION_REMOVED" = "Публикация для автозаполнения удалена.";
+
 /* Count of characters remaining in pickchars dialog */
 "%ld_CHARACTERS_TO_PICK_REMAINING" = "%ld символ(ов) для выбора осталось";
 

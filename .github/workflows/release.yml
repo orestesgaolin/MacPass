@@ -17,7 +17,7 @@ env:
 jobs:
   build-sign-notarize:
     runs-on: macos-15
-    environment: Production
+    environment: production
     permissions:
       contents: write
       id-token: write
@@ -121,12 +121,18 @@ jobs:
           # Verify all required frameworks
           echo "Checking frameworks..."
           for fw in KeePassKit HNHUi TransformerKit KissXML Sparkle; do
-            if [ ! -d "Carthage/Build/Mac/$fw.framework" ]; then
+            binary="Carthage/Build/Mac/$fw.framework/$fw"
+            if [ ! -f "$binary" ]; then
               echo "❌ $fw.framework not found"
               ls -la Carthage/Build/Mac/ || true
               exit 1
             fi
-            echo "  ✅ $fw.framework"
+            architectures="$(lipo -archs "$binary")"
+            if [[ " $architectures " != *" arm64 "* || " $architectures " != *" x86_64 "* ]]; then
+              echo "$fw.framework is not universal: $architectures" >&2
+              exit 1
+            fi
+            echo "  ✅ $fw.framework ($architectures)"
           done
 
       # ── Import Signing Certificates ─────────────────────────────
@@ -134,7 +140,9 @@ jobs:
         env:
           MACOS_CERTIFICATE_P12: ${{ secrets.MACOS_CERTIFICATE_P12 }}
           MACOS_CERTIFICATE_PWD: ${{ secrets.MACOS_CERTIFICATE_PWD }}
+          CERT_NAME: ${{ secrets.MACOS_CERTIFICATE_NAME }}
         run: |
+          set -euo pipefail
           APP_CERT_PATH=$RUNNER_TEMP/app_certificate.p12
           KEYCHAIN_PATH=$RUNNER_TEMP/app-signing.keychain-db
           KEYCHAIN_PWD=$(openssl rand -hex 16)
@@ -147,11 +155,11 @@ jobs:
           security set-keychain-settings -lut 21600 "$KEYCHAIN_PATH"
           security unlock-keychain -p "$KEYCHAIN_PWD" "$KEYCHAIN_PATH"
 
-          # Import Developer ID Application certificate
+          # Import the Developer ID certificate and its private key.
           security import "$APP_CERT_PATH" \
             -P "$MACOS_CERTIFICATE_PWD" \
             -A \
-            -t cert \
+            -t agg \
             -f pkcs12 \
             -k "$KEYCHAIN_PATH"
 
@@ -160,6 +168,7 @@ jobs:
 
           # Add to search list
           security list-keychain -d user -s "$KEYCHAIN_PATH"
+          security find-identity -v -p codesigning "$KEYCHAIN_PATH" | grep -F -q "\"$CERT_NAME\""
 
           # Export for later steps
           echo "KEYCHAIN_PATH=$KEYCHAIN_PATH" >> "$GITHUB_ENV"
@@ -178,8 +187,13 @@ jobs:
           else
             VERSION="0.0.0-dev"
           fi
+          BUNDLE_VERSION="${VERSION%%[-+]*}"
+          if [[ ! "$BUNDLE_VERSION" =~ ^[0-9]+\.[0-9]+(\.[0-9]+)?$ ]]; then
+            echo "Invalid numeric bundle version derived from $VERSION" >&2
+            exit 1
+          fi
           BUILD_NUMBER="${{ github.run_number }}"
-          echo "Building version $VERSION (build $BUILD_NUMBER)"
+          echo "Building version $VERSION, bundle version $BUNDLE_VERSION (build $BUILD_NUMBER)"
 
           xcodebuild build \
             -configuration "$CONFIGURATION" \
@@ -189,20 +203,27 @@ jobs:
             CODE_SIGN_IDENTITY="" \
             CODE_SIGNING_REQUIRED=NO \
             CODE_SIGN_ENTITLEMENTS="" \
-            CURRENT_PROJECT_VERSION="$VERSION" \
-            MARKETING_VERSION="$VERSION" \
+            CURRENT_PROJECT_VERSION="$BUILD_NUMBER" \
+            MARKETING_VERSION="$BUNDLE_VERSION" \
             -derivedDataPath ./build \
             | xcpretty -c
 
           # Stamp version and build number into the built app
           APP_PLIST="./build/Build/Products/$CONFIGURATION/$APP_NAME.app/Contents/Info.plist"
-          /usr/libexec/PlistBuddy -c "Set :CFBundleShortVersionString $VERSION" "$APP_PLIST"
+          EXTENSION="./build/Build/Products/$CONFIGURATION/$APP_NAME.app/Contents/PlugIns/MacPassAutoFill.appex"
+          EXTENSION_PLIST="$EXTENSION/Contents/Info.plist"
+          /usr/libexec/PlistBuddy -c "Set :CFBundleShortVersionString $BUNDLE_VERSION" "$APP_PLIST"
           /usr/libexec/PlistBuddy -c "Set :CFBundleVersion $BUILD_NUMBER" "$APP_PLIST"
+          /usr/libexec/PlistBuddy -c "Set :CFBundleShortVersionString $BUNDLE_VERSION" "$EXTENSION_PLIST"
+          /usr/libexec/PlistBuddy -c "Set :CFBundleVersion $BUILD_NUMBER" "$EXTENSION_PLIST"
+          scripts/validate_autofill_product.sh \
+            "./build/Build/Products/$CONFIGURATION/$APP_NAME.app" "arm64 x86_64"
           echo "Stamped version: $VERSION, build: $BUILD_NUMBER"
 
           # Make version available to later steps
           {
             echo "VERSION=$VERSION"
+            echo "BUNDLE_VERSION=$BUNDLE_VERSION"
             echo "BUILD_NUMBER=$BUILD_NUMBER"
           } >> "$GITHUB_ENV"
 
@@ -213,31 +234,74 @@ jobs:
           CERT_NAME: ${{ secrets.MACOS_CERTIFICATE_NAME }}
           TEAM_ID: ${{ secrets.NOTARIZATION_TEAM_ID }}
           MACOS_PROVISIONING_PROFILE_BASE64: ${{ secrets.MACOS_PROVISIONING_PROFILE_BASE64 }}
+          MACOS_AUTOFILL_PROVISIONING_PROFILE_BASE64: ${{ secrets.MACOS_AUTOFILL_PROVISIONING_PROFILE_BASE64 }}
         run: |
+          set -euo pipefail
           BUILD_DIR="./build/Build/Products/$CONFIGURATION"
           APP="$BUILD_DIR/$APP_NAME.app"
+          EXTENSION="$APP/Contents/PlugIns/MacPassAutoFill.appex"
           FRAMEWORKS="$APP/Contents/Frameworks"
-          ENTITLEMENTS_FRAMEWORK="$RUNNER_TEMP/MacPass-Developer-ID-framework.entitlements"
           ENTITLEMENTS_APP="$RUNNER_TEMP/MacPass-Developer-ID-app.entitlements"
-          cp "MacPass/MacPass-Developer-ID.entitlements" "$ENTITLEMENTS_FRAMEWORK"
+          ENTITLEMENTS_EXTENSION="$RUNNER_TEMP/MacPassAutoFill-Developer-ID.entitlements"
+          APP_PROFILE="$RUNNER_TEMP/macpass.provisionprofile"
+          EXTENSION_PROFILE="$RUNNER_TEMP/macpass-autofill.provisionprofile"
+          APP_PROFILE_PLIST="$RUNNER_TEMP/macpass-profile.plist"
+          EXTENSION_PROFILE_PLIST="$RUNNER_TEMP/macpass-autofill-profile.plist"
+          SHARED_GROUP="group.dev.roszkowski.macpass"
+          EXTENSION_BUNDLE_ID="$BUNDLE_ID.autofill"
+
+          : "${MACOS_PROVISIONING_PROFILE_BASE64:?Missing host Developer ID provisioning profile}"
+          : "${MACOS_AUTOFILL_PROVISIONING_PROFILE_BASE64:?Missing AutoFill Developer ID provisioning profile}"
+          test -d "$EXTENSION"
+
           cp "MacPass/MacPass-Developer-ID.entitlements" "$ENTITLEMENTS_APP"
+          cp "MacPassAutoFill/MacPassAutoFill.entitlements" "$ENTITLEMENTS_EXTENSION"
 
-          if [ -n "${MACOS_PROVISIONING_PROFILE_BASE64:-}" ]; then
-            echo "Provisioning profile secret detected; embedding profile."
-            APP_ID="${TEAM_ID}.${BUNDLE_ID}"
-            PROFILE_PATH="$RUNNER_TEMP/macpass.provisionprofile"
-            echo "$MACOS_PROVISIONING_PROFILE_BASE64" | base64 --decode > "$PROFILE_PATH"
-            cp "$PROFILE_PATH" "$APP/Contents/embedded.provisionprofile"
+          echo "$MACOS_PROVISIONING_PROFILE_BASE64" | base64 --decode > "$APP_PROFILE"
+          echo "$MACOS_AUTOFILL_PROVISIONING_PROFILE_BASE64" | base64 --decode > "$EXTENSION_PROFILE"
+          security cms -D -i "$APP_PROFILE" > "$APP_PROFILE_PLIST"
+          security cms -D -i "$EXTENSION_PROFILE" > "$EXTENSION_PROFILE_PLIST"
 
-            # Only add com.apple.application-identifier (required for profile matching).
-            # Do NOT add com.apple.developer.team-identifier or keychain-access-groups —
-            # these are restricted entitlements that cause AMFI validation failures
-            # ("Unsatisfied entitlements") if the profile can't fully authorize them.
-            /usr/libexec/PlistBuddy -c "Set :com.apple.application-identifier $APP_ID" "$ENTITLEMENTS_APP" || \
-              /usr/libexec/PlistBuddy -c "Add :com.apple.application-identifier string $APP_ID" "$ENTITLEMENTS_APP"
-          else
-            echo "No provisioning profile secret set; signing with Developer ID baseline entitlements only."
-          fi
+          SIGNING_CERTIFICATE_DER="$RUNNER_TEMP/signing-certificate.der"
+          security find-certificate -c "$CERT_NAME" -p "$KEYCHAIN_PATH" | \
+            openssl x509 -outform der > "$SIGNING_CERTIFICATE_DER"
+
+          validate_profile() {
+            local profile="$1"
+            local bundle_id="$2"
+            local prefix="$3"
+            shift 3
+            python3 scripts/validate_autofill_profile.py \
+              "$profile" "$TEAM_ID" "$bundle_id" "$SHARED_GROUP" "$prefix" \
+              "$SIGNING_CERTIFICATE_DER" "$@"
+          }
+
+          APP_PREFIX="$(/usr/libexec/PlistBuddy -c 'Print :ApplicationIdentifierPrefix:0' "$APP_PROFILE_PLIST")"
+          EXTENSION_PREFIX="$(/usr/libexec/PlistBuddy -c 'Print :ApplicationIdentifierPrefix:0' "$EXTENSION_PROFILE_PLIST")"
+          test "$APP_PREFIX" = "$EXTENSION_PREFIX"
+          APP_PREFIX="${APP_PREFIX%.}."
+          APP_IDENTIFIER="$APP_PREFIX$BUNDLE_ID"
+          EXTENSION_IDENTIFIER="$APP_PREFIX$EXTENSION_BUNDLE_ID"
+          SHARED_KEYCHAIN_GROUP="${APP_PREFIX}dev.roszkowski.macpass.shared"
+          validate_profile "$APP_PROFILE_PLIST" "$BUNDLE_ID" "$APP_PREFIX" \
+            "$APP_IDENTIFIER" "$SHARED_KEYCHAIN_GROUP"
+          validate_profile "$EXTENSION_PROFILE_PLIST" "$EXTENSION_BUNDLE_ID" "$APP_PREFIX" \
+            "$SHARED_KEYCHAIN_GROUP"
+
+          CERT_TEAM="$(security find-certificate -c "$CERT_NAME" -p "$KEYCHAIN_PATH" | \
+            openssl x509 -noout -subject -nameopt RFC2253 | tr ',' '\n' | sed -n 's/^OU=//p' | head -n 1)"
+          test "$CERT_TEAM" = "$TEAM_ID"
+
+          cp "$APP_PROFILE" "$APP/Contents/embedded.provisionprofile"
+          cp "$EXTENSION_PROFILE" "$EXTENSION/Contents/embedded.provisionprofile"
+
+          /usr/libexec/PlistBuddy -c "Add :com.apple.application-identifier string $APP_IDENTIFIER" "$ENTITLEMENTS_APP"
+          /usr/libexec/PlistBuddy -c "Add :com.apple.developer.team-identifier string $TEAM_ID" "$ENTITLEMENTS_APP"
+          /usr/libexec/PlistBuddy -c "Set :keychain-access-groups:0 $APP_IDENTIFIER" "$ENTITLEMENTS_APP"
+          /usr/libexec/PlistBuddy -c "Set :keychain-access-groups:1 $SHARED_KEYCHAIN_GROUP" "$ENTITLEMENTS_APP"
+          /usr/libexec/PlistBuddy -c "Add :com.apple.application-identifier string $EXTENSION_IDENTIFIER" "$ENTITLEMENTS_EXTENSION"
+          /usr/libexec/PlistBuddy -c "Add :com.apple.developer.team-identifier string $TEAM_ID" "$ENTITLEMENTS_EXTENSION"
+          /usr/libexec/PlistBuddy -c "Set :keychain-access-groups:0 $SHARED_KEYCHAIN_GROUP" "$ENTITLEMENTS_EXTENSION"
 
           echo "::group::Signing embedded frameworks"
 
@@ -250,7 +314,8 @@ jobs:
             for xpc in "$SPARKLE/Versions/B/XPCServices/"*.xpc; do
               if [ -d "$xpc" ]; then
                 echo "  Signing $(basename "$xpc")..."
-                codesign --sign "$CERT_NAME" --options runtime --force --timestamp "$xpc"
+                codesign --sign "$CERT_NAME" --options runtime --force --timestamp \
+                  --preserve-metadata=entitlements "$xpc"
               fi
             done
 
@@ -276,17 +341,28 @@ jobs:
             FW_PATH="$FRAMEWORKS/${fw}.framework"
             if [ -d "$FW_PATH" ]; then
               echo "Signing $fw..."
-              codesign --sign "$CERT_NAME" --options runtime --force --timestamp --entitlements "$ENTITLEMENTS_FRAMEWORK" "$FW_PATH"
+              codesign --sign "$CERT_NAME" --options runtime --force --timestamp "$FW_PATH"
             fi
           done
 
           echo "::endgroup::"
 
+          echo "Signing MacPassAutoFill.appex..."
+          codesign --sign "$CERT_NAME" --options runtime --force --timestamp \
+            --entitlements "$ENTITLEMENTS_EXTENSION" "$EXTENSION"
+
           echo "Signing $APP_NAME.app..."
           codesign --sign "$CERT_NAME" --options runtime --force --timestamp --entitlements "$ENTITLEMENTS_APP" "$APP"
 
           echo "Verifying signature..."
+          codesign --verify --strict --verbose=2 "$EXTENSION"
           codesign --verify --deep --strict "$APP"
+          codesign -d --entitlements :- "$EXTENSION" > "$RUNNER_TEMP/macpass-autofill-signed-entitlements.plist"
+          codesign -d --entitlements :- "$APP" > "$RUNNER_TEMP/macpass-signed-entitlements.plist"
+          python3 scripts/validate_autofill_signed_entitlements.py \
+            "$RUNNER_TEMP/macpass-signed-entitlements.plist" \
+            "$RUNNER_TEMP/macpass-autofill-signed-entitlements.plist" \
+            "$TEAM_ID" "$APP_PREFIX"
 
       # ── Notarize ────────────────────────────────────────────────
       - name: Notarize
@@ -335,19 +411,25 @@ jobs:
 
       # ── Package as DMG ──────────────────────────────────────────
       - name: Create DMG Installer
+        env:
+          CERT_NAME: ${{ secrets.MACOS_CERTIFICATE_NAME }}
         run: |
+          set -euo pipefail
           BUILD_DIR="./build/Build/Products/$CONFIGURATION"
           APP="$BUILD_DIR/$APP_NAME.app"
+          DMG="$BUILD_DIR/$APP_NAME-$VERSION.dmg"
 
           echo "Creating DMG installer..."
           create-dmg \
             --volname "$APP_NAME $VERSION" \
             --icon "$APP_NAME.app" 175 120 \
             --app-drop-link 425 120 \
-            "$BUILD_DIR/$APP_NAME-$VERSION.dmg" \
+            "$DMG" \
             "$APP"
 
-          echo "DMG_PATH=$BUILD_DIR/$APP_NAME-$VERSION.dmg" >> "$GITHUB_ENV"
+          codesign --sign "$CERT_NAME" --timestamp "$DMG"
+          codesign --verify --verbose=2 "$DMG"
+          echo "DMG_PATH=$DMG" >> "$GITHUB_ENV"
 
       # ── Notarize DMG ────────────────────────────────────────────
       - name: Notarize DMG
@@ -367,10 +449,57 @@ jobs:
           echo "Stapling notarization ticket to DMG..."
           xcrun stapler staple "$DMG_PATH"
 
+      - name: Validate Packaged AutoFill Product
+        env:
+          TEAM_ID: ${{ secrets.NOTARIZATION_TEAM_ID }}
+        run: |
+          set -euo pipefail
+          MOUNT_POINT="$RUNNER_TEMP/macpass-release-volume"
+          mkdir -p "$MOUNT_POINT"
+          hdiutil attach -readonly -nobrowse -mountpoint "$MOUNT_POINT" "$DMG_PATH"
+          trap 'hdiutil detach "$MOUNT_POINT"' EXIT
+
+          APP="$MOUNT_POINT/$APP_NAME.app"
+          EXTENSION="$APP/Contents/PlugIns/MacPassAutoFill.appex"
+          APP_PROFILE_PLIST="$RUNNER_TEMP/packaged-macpass-profile.plist"
+          APP_ENTITLEMENTS="$RUNNER_TEMP/packaged-macpass-entitlements.plist"
+          EXTENSION_ENTITLEMENTS="$RUNNER_TEMP/packaged-autofill-entitlements.plist"
+
+          scripts/validate_autofill_product.sh "$APP" "arm64 x86_64"
+          test -f "$APP/Contents/embedded.provisionprofile"
+          test -f "$EXTENSION/Contents/embedded.provisionprofile"
+          codesign --verify --deep --strict --verbose=4 "$APP"
+          spctl --assess --type execute --verbose=4 "$APP"
+          xcrun stapler validate "$APP"
+          xcrun stapler validate "$DMG_PATH"
+          spctl --assess --type open --context context:primary-signature --verbose=4 "$DMG_PATH"
+
+          security cms -D -i "$APP/Contents/embedded.provisionprofile" > "$APP_PROFILE_PLIST"
+          APP_PREFIX="$(/usr/libexec/PlistBuddy -c 'Print :ApplicationIdentifierPrefix:0' "$APP_PROFILE_PLIST")"
+          codesign -d --entitlements :- "$APP" > "$APP_ENTITLEMENTS"
+          codesign -d --entitlements :- "$EXTENSION" > "$EXTENSION_ENTITLEMENTS"
+          python3 scripts/validate_autofill_signed_entitlements.py \
+            "$APP_ENTITLEMENTS" "$EXTENSION_ENTITLEMENTS" "$TEAM_ID" "$APP_PREFIX"
+
+          patterns='resolved-secret|trashed-secret|Test_Password_1234|AutoFill_KDBX4_Password|AutoFill_KeyFileV2|https://example\.com|/tmp/Database\.kdbx'
+          if python3 scripts/scan_autofill_artifact.py "$APP" "$patterns" \
+              > "$RUNNER_TEMP/autofill-release-findings.txt"; then
+            :
+          else
+            status=$?
+            if [ "$status" -eq 2 ]; then exit 2; fi
+            echo "AutoFill fixture data was found in the packaged release application." >&2
+            while IFS= read -r path; do echo "::error file=$path::Sensitive AutoFill fixture marker found"; done \
+              < "$RUNNER_TEMP/autofill-release-findings.txt"
+            exit 1
+          fi
+
       # ── SHA256 ──────────────────────────────────────────────────
       - name: Generate SHA256 Hashes
         run: |
-          shasum -a 256 "$DMG_PATH" > "$DMG_PATH.sha256"
+          directory="$(dirname "$DMG_PATH")"
+          filename="$(basename "$DMG_PATH")"
+          (cd "$directory" && shasum -a 256 "$filename") > "$DMG_PATH.sha256"
 
           {
             echo "### SHA256 Checksums"
@@ -458,10 +587,15 @@ jobs:
           EOF
 
           # Create release with changelog + attestation info
+          PRERELEASE_ARGS=()
+          if [[ "$VERSION" == *-* ]]; then
+            PRERELEASE_ARGS+=(--prerelease)
+          fi
           gh release create "${{ github.ref_name }}" \
             --title "MacPass ${{ env.VERSION }} (${{ env.BUILD_NUMBER }})" \
             --generate-notes \
             --notes-file /tmp/release-body.md \
+            "${PRERELEASE_ARGS[@]}" \
             "${{ env.DMG_PATH }}" \
             "${{ env.DMG_PATH }}.sha256"
 
@@ -488,7 +622,11 @@ jobs:
   # ════════════════════════════════════════════════════════════════
   update-appcast:
     needs: build-sign-notarize
-    if: startsWith(github.ref, 'refs/tags/')
+    if: >-
+      startsWith(github.ref, 'refs/tags/') &&
+      !contains(github.ref_name, '-rc') &&
+      !contains(github.ref_name, '-beta') &&
+      !contains(github.ref_name, '-alpha')
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -523,7 +661,7 @@ jobs:
           # sparkle:version must be numeric (for version comparison).
           # Parse build number from release name/title with or without prefix,
           # e.g. "MacPass 0.8.3+rc2 (19)" or "0.8.3+rc2 (19)".
-          gh api "repos/${REPO}/releases" --paginate --jq '.[] | select(.draft == false)' | \
+          gh api "repos/${REPO}/releases" --paginate --jq '.[] | select(.draft == false and .prerelease == false)' | \
           jq -c '.' | while read -r release; do
             TAG=$(echo "$release" | jq -r '.tag_name')
             NAME=$(echo "$release" | jq -r '.name // .tag_name')
@@ -543,20 +681,26 @@ jobs:
               continue
             fi
 
-            printf '    <item>\n' >> appcast.xml
-            printf '      <title>%s</title>\n' "$NAME" >> appcast.xml
-            printf '      <pubDate>%s</pubDate>\n' "$PUB_DATE" >> appcast.xml
-            printf '      <sparkle:version>%s</sparkle:version>\n' "$BUILD_NUM" >> appcast.xml
-            printf '      <sparkle:shortVersionString>%s</sparkle:shortVersionString>\n' "$TAG" >> appcast.xml
-            printf '      <sparkle:minimumSystemVersion>10.14</sparkle:minimumSystemVersion>\n' >> appcast.xml
-            printf '      <enclosure\n' >> appcast.xml
-            printf '        url="%s"\n' "$ZIP_URL" >> appcast.xml
-            printf '        length="%s"\n' "$ZIP_SIZE" >> appcast.xml
-            printf '        type="application/octet-stream"\n' >> appcast.xml
-            printf '        sparkle:version="%s"\n' "$BUILD_NUM" >> appcast.xml
-            printf '        sparkle:shortVersionString="%s"\n' "$TAG" >> appcast.xml
-            printf '      />\n' >> appcast.xml
-            printf '    </item>\n' >> appcast.xml
+            XML_NAME=$(python3 -c 'import html,sys; print(html.escape(sys.argv[1], quote=True))' "$NAME")
+            XML_TAG=$(python3 -c 'import html,sys; print(html.escape(sys.argv[1], quote=True))' "$TAG")
+            XML_URL=$(python3 -c 'import html,sys; print(html.escape(sys.argv[1], quote=True))' "$ZIP_URL")
+
+            {
+              printf '    <item>\n'
+              printf '      <title>%s</title>\n' "$XML_NAME"
+              printf '      <pubDate>%s</pubDate>\n' "$PUB_DATE"
+              printf '      <sparkle:version>%s</sparkle:version>\n' "$BUILD_NUM"
+              printf '      <sparkle:shortVersionString>%s</sparkle:shortVersionString>\n' "$XML_TAG"
+              printf '      <sparkle:minimumSystemVersion>10.14</sparkle:minimumSystemVersion>\n'
+              printf '      <enclosure\n'
+              printf '        url="%s"\n' "$XML_URL"
+              printf '        length="%s"\n' "$ZIP_SIZE"
+              printf '        type="application/octet-stream"\n'
+              printf '        sparkle:version="%s"\n' "$BUILD_NUM"
+              printf '        sparkle:shortVersionString="%s"\n' "$XML_TAG"
+              printf '      />\n'
+              printf '    </item>\n'
+            } >> appcast.xml
           done
 
           # Close appcast XML
@@ -564,6 +708,8 @@ jobs:
             </channel>
           </rss>
           FOOTER
+
+          xmllint --noout appcast.xml
 
           # Move to a dedicated directory for gh-pages deployment
           mkdir -p _site

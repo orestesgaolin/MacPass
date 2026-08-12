@@ -6,9 +6,16 @@
 	<true/>
 	<key>com.apple.security.cs.disable-library-validation</key>
 	<true/>
+	<key>com.apple.developer.authentication-services.autofill-credential-provider</key>
+	<true/>
+	<key>com.apple.security.application-groups</key>
+	<array>
+		<string>group.dev.roszkowski.macpass</string>
+	</array>
 	<key>keychain-access-groups</key>
-  <array>
-    <string>$(AppIdentifierPrefix)$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+	<array>
+		<string>$(AppIdentifierPrefix)$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+		<string>$(AppIdentifierPrefix)dev.roszkowski.macpass.shared</string>
 	</array>
 </dict>
 </plist>

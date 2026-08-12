@@ -1,3 +1,27 @@
+/* Password AutoFill preferences */
+"AUTOFILL_PREFERENCES_TITLE" = "Automatické vyplňování hesel";
+"AUTOFILL_PUBLICATIONS_ACCESSIBILITY_LABEL" = "Databáze zveřejněné pro automatické vyplňování";
+"AUTOFILL_PUBLISH_CURRENT_DATABASE" = "Zveřejnit aktuální databázi";
+"AUTOFILL_REMOVE_PUBLICATION" = "Odebrat zveřejnění";
+"AUTOFILL_OPEN_SETTINGS" = "Otevřít nastavení automatického vyplňování";
+"AUTOFILL_PROVIDER_DISABLED" = "Poskytovatel: vypnutý v macOS";
+"AUTOFILL_PROVIDER_AVAILABLE" = "Poskytovatel: dostupný";
+"AUTOFILL_SYNC_FAILED" = "Synchronizace se nezdařila. Uložte databázi znovu nebo odeberte její zveřejnění.";
+"AUTOFILL_SYNCHRONIZING" = "Synchronizace přihlašovacích údajů pro automatické vyplňování...";
+"AUTOFILL_SYNC_COUNT_%lu" = "Synchronizované přihlašovací údaje: %lu";
+"AUTOFILL_REQUIRES_MACOS_11" = "Automatické vyplňování hesel vyžaduje macOS 11 nebo novější.";
+"AUTOFILL_UPDATE_MACOS" = "Aktualizujte macOS, abyste mohli používat poskytovatele přihlašovacích údajů MacPass.";
+"AUTOFILL_PENDING" = "Nevyřízeno";
+"AUTOFILL_CURRENT_DATABASE_PUBLISHED" = "Aktuální databáze zveřejněna";
+"AUTOFILL_PUBLICATION_FAILED" = "Zveřejnění pro automatické vyplňování se nezdařilo. Uložená databáze nebyla změněna.";
+"AUTOFILL_UNLOCK_AND_SAVE" = "Před zveřejněním aktuální databázi odemkněte a uložte.";
+"AUTOFILL_CONFIRM_TITLE" = "Zveřejnit tuto databázi pro automatické vyplňování hesel?";
+"AUTOFILL_CONFIRM_MESSAGE" = "MacPass uloží uživatelská jména, názvy záznamů a adresy webů do chráněného sdíleného kontejneru. Hesla zůstanou zašifrovaná a budou vyžadovat přítomnost uživatele. Automatické vyplňování zůstane dostupné i po uzamčení nebo ukončení MacPass.";
+"AUTOFILL_PUBLISH" = "Zveřejnit";
+"AUTOFILL_ENABLE_FAILED" = "Zveřejnění pro automatické vyplňování se nepodařilo zapnout.";
+"AUTOFILL_CLEANUP_RETRY" = "Autorizace byla odvolána, ale čištění sdílených dat je nutné zopakovat.";
+"AUTOFILL_PUBLICATION_REMOVED" = "Zveřejnění pro automatické vyplňování odebráno.";
+
 /* Count of characters remaining in pickchars dialog */
 "%ld_CHARACTERS_TO_PICK_REMAINING" = "Zbývá vybrat %ld znaků";
 

@@ -1,3 +1,27 @@
+/* Password AutoFill preferences */
+"AUTOFILL_PREFERENCES_TITLE" = "Autorrelleno de contraseñas";
+"AUTOFILL_PUBLICATIONS_ACCESSIBILITY_LABEL" = "Bases de datos publicadas para Autorrelleno";
+"AUTOFILL_PUBLISH_CURRENT_DATABASE" = "Publicar base de datos actual";
+"AUTOFILL_REMOVE_PUBLICATION" = "Eliminar publicación";
+"AUTOFILL_OPEN_SETTINGS" = "Abrir ajustes de Autorrelleno";
+"AUTOFILL_PROVIDER_DISABLED" = "Proveedor: Desactivado en macOS";
+"AUTOFILL_PROVIDER_AVAILABLE" = "Proveedor: Disponible";
+"AUTOFILL_SYNC_FAILED" = "La sincronización ha fallado. Guarda de nuevo la base de datos o elimina su publicación.";
+"AUTOFILL_SYNCHRONIZING" = "Sincronizando credenciales de Autorrelleno...";
+"AUTOFILL_SYNC_COUNT_%lu" = "%lu credenciales sincronizadas";
+"AUTOFILL_REQUIRES_MACOS_11" = "El autorrelleno de contraseñas requiere macOS 11 o posterior.";
+"AUTOFILL_UPDATE_MACOS" = "Actualiza macOS para usar el proveedor de credenciales de MacPass.";
+"AUTOFILL_PENDING" = "Pendiente";
+"AUTOFILL_CURRENT_DATABASE_PUBLISHED" = "Base de datos actual publicada";
+"AUTOFILL_PUBLICATION_FAILED" = "No se ha podido publicar para Autorrelleno. La base de datos guardada no se ha modificado.";
+"AUTOFILL_UNLOCK_AND_SAVE" = "Desbloquea y guarda la base de datos actual antes de publicarla.";
+"AUTOFILL_CONFIRM_TITLE" = "¿Publicar esta base de datos para el autorrelleno de contraseñas?";
+"AUTOFILL_CONFIRM_MESSAGE" = "MacPass guardará nombres de usuario, títulos de entradas y direcciones de sitios web en el contenedor compartido protegido. Las contraseñas permanecerán cifradas y requerirán la presencia del usuario. Autorrelleno seguirá disponible después de bloquear o cerrar MacPass.";
+"AUTOFILL_PUBLISH" = "Publicar";
+"AUTOFILL_ENABLE_FAILED" = "No se ha podido activar la publicación para Autorrelleno.";
+"AUTOFILL_CLEANUP_RETRY" = "Se ha revocado la autorización, pero debe reintentarse la limpieza de los datos compartidos.";
+"AUTOFILL_PUBLICATION_REMOVED" = "Publicación para Autorrelleno eliminada.";
+
 /* Count of characters remaining in pickchars dialog */
 "%ld_CHARACTERS_TO_PICK_REMAINING" = "%ld caracteres disponibles para seleccionar";
 

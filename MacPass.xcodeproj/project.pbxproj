@@ -7,6 +7,82 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AF0000000000000000000011 /* CredentialProviderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AF0000000000000000000004 /* CredentialProviderViewController.m */; };
+		AF0000000000000000000012 /* MPAutoFillConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = AF0000000000000000000008 /* MPAutoFillConstants.m */; };
+		AF0000000000000000000013 /* AuthenticationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF000000000000000000000A /* AuthenticationServices.framework */; };
+		AF0000000000000000000014 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CAD748B15B889B700104512 /* Security.framework */; };
+		AF0000000000000000000015 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C77E36615B84A240093A587 /* Cocoa.framework */; };
+		AF0000000000000000000016 /* MacPassAutoFill.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = AF0000000000000000000001 /* MacPassAutoFill.appex */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		AF0000000000000000000017 /* MPAutoFillConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = AF0000000000000000000008 /* MPAutoFillConstants.m */; };
+		AF0000000000000000000018 /* MPAutoFillConstantsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AF0000000000000000000009 /* MPAutoFillConstantsTests.m */; };
+		AF0000000000000000000019 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C473A8518AFD7250073FD2E /* XCTest.framework */; };
+		AF000000000000000000001A /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = AF000000000000000000001B /* Localizable.strings */; };
+		AF0000000000000000000070 /* MPAutoFillErrors.m in Sources */ = {isa = PBXBuildFile; fileRef = AF000000000000000000000D /* MPAutoFillErrors.m */; };
+		AF0000000000000000000071 /* MPAutoFillCredentialRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = AF000000000000000000000F /* MPAutoFillCredentialRecord.m */; };
+		AF0000000000000000000072 /* MPAutoFillSnapshot.m in Sources */ = {isa = PBXBuildFile; fileRef = AF1000000000000000000011 /* MPAutoFillSnapshot.m */; };
+		AF0000000000000000000073 /* MPAutoFillEnvelopeCrypto.m in Sources */ = {isa = PBXBuildFile; fileRef = AF1000000000000000000013 /* MPAutoFillEnvelopeCrypto.m */; };
+		AF0000000000000000000074 /* MPAutoFillKeychainStore.m in Sources */ = {isa = PBXBuildFile; fileRef = AF1000000000000000000015 /* MPAutoFillKeychainStore.m */; };
+		AF0000000000000000000075 /* LocalAuthentication.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF000000000000000000000B /* LocalAuthentication.framework */; };
+		AF0000000000000000000076 /* MPAutoFillErrors.m in Sources */ = {isa = PBXBuildFile; fileRef = AF000000000000000000000D /* MPAutoFillErrors.m */; };
+		AF0000000000000000000077 /* MPAutoFillCredentialRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = AF000000000000000000000F /* MPAutoFillCredentialRecord.m */; };
+		AF0000000000000000000078 /* MPAutoFillSnapshot.m in Sources */ = {isa = PBXBuildFile; fileRef = AF1000000000000000000011 /* MPAutoFillSnapshot.m */; };
+		AF0000000000000000000079 /* MPAutoFillEnvelopeCrypto.m in Sources */ = {isa = PBXBuildFile; fileRef = AF1000000000000000000013 /* MPAutoFillEnvelopeCrypto.m */; };
+		AF000000000000000000007A /* MPAutoFillKeychainStore.m in Sources */ = {isa = PBXBuildFile; fileRef = AF1000000000000000000015 /* MPAutoFillKeychainStore.m */; };
+		AF000000000000000000007B /* MPAutoFillSnapshotTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AF1000000000000000000016 /* MPAutoFillSnapshotTests.m */; };
+		AF000000000000000000007C /* MPAutoFillEnvelopeCryptoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AF1000000000000000000017 /* MPAutoFillEnvelopeCryptoTests.m */; };
+		AF000000000000000000007D /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CAD748B15B889B700104512 /* Security.framework */; };
+		AF000000000000000000007E /* LocalAuthentication.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF000000000000000000000B /* LocalAuthentication.framework */; };
+		AF000000000000000000007F /* MPAutoFillConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = AF0000000000000000000008 /* MPAutoFillConstants.m */; };
+		AF0000000000000000000080 /* MPAutoFillErrors.m in Sources */ = {isa = PBXBuildFile; fileRef = AF000000000000000000000D /* MPAutoFillErrors.m */; };
+		AF0000000000000000000081 /* MPAutoFillCredentialRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = AF000000000000000000000F /* MPAutoFillCredentialRecord.m */; };
+		AF0000000000000000000082 /* MPAutoFillSnapshot.m in Sources */ = {isa = PBXBuildFile; fileRef = AF1000000000000000000011 /* MPAutoFillSnapshot.m */; };
+		AF0000000000000000000083 /* MPAutoFillEnvelopeCrypto.m in Sources */ = {isa = PBXBuildFile; fileRef = AF1000000000000000000013 /* MPAutoFillEnvelopeCrypto.m */; };
+		AF0000000000000000000084 /* MPAutoFillKeychainStore.m in Sources */ = {isa = PBXBuildFile; fileRef = AF1000000000000000000015 /* MPAutoFillKeychainStore.m */; };
+		AF0000000000000000000086 /* LocalAuthentication.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF000000000000000000000B /* LocalAuthentication.framework */; };
+		AF0000000000000000000087 /* MPAutoFillKeychainStoreTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AF1000000000000000000018 /* MPAutoFillKeychainStoreTests.m */; };
+		AF2000000000000000000001 /* MPAutoFillCredentialIdentifier.m in Sources */ = {isa = PBXBuildFile; fileRef = AF2000000000000000000011 /* MPAutoFillCredentialIdentifier.m */; };
+		AF2000000000000000000002 /* MPAutoFillCredentialIdentifier.m in Sources */ = {isa = PBXBuildFile; fileRef = AF2000000000000000000011 /* MPAutoFillCredentialIdentifier.m */; };
+		AF2000000000000000000003 /* MPAutoFillCredentialIdentifier.m in Sources */ = {isa = PBXBuildFile; fileRef = AF2000000000000000000011 /* MPAutoFillCredentialIdentifier.m */; };
+		AF2000000000000000000004 /* MPAutoFillCredentialIdentifierTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AF2000000000000000000012 /* MPAutoFillCredentialIdentifierTests.m */; };
+		AF2000000000000000000005 /* MPAutoFillServiceMatcher.m in Sources */ = {isa = PBXBuildFile; fileRef = AF2000000000000000000014 /* MPAutoFillServiceMatcher.m */; };
+		AF2000000000000000000006 /* MPAutoFillServiceMatcher.m in Sources */ = {isa = PBXBuildFile; fileRef = AF2000000000000000000014 /* MPAutoFillServiceMatcher.m */; };
+		AF2000000000000000000007 /* MPAutoFillServiceMatcher.m in Sources */ = {isa = PBXBuildFile; fileRef = AF2000000000000000000014 /* MPAutoFillServiceMatcher.m */; };
+		AF2000000000000000000008 /* MPAutoFillServiceMatcherTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AF2000000000000000000015 /* MPAutoFillServiceMatcherTests.m */; };
+		AF2000000000000000000009 /* MPAutoFillSnapshotBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = AF2000000000000000000017 /* MPAutoFillSnapshotBuilder.m */; };
+		AF200000000000000000000A /* MPTestAutoFillSnapshotBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = AF2000000000000000000018 /* MPTestAutoFillSnapshotBuilder.m */; };
+		AF3000000000000000000001 /* MPAutoFillVaultIndex.m in Sources */ = {isa = PBXBuildFile; fileRef = AF3000000000000000000011 /* MPAutoFillVaultIndex.m */; };
+		AF3000000000000000000002 /* MPAutoFillVaultIndex.m in Sources */ = {isa = PBXBuildFile; fileRef = AF3000000000000000000011 /* MPAutoFillVaultIndex.m */; };
+		AF3000000000000000000003 /* MPAutoFillVaultIndex.m in Sources */ = {isa = PBXBuildFile; fileRef = AF3000000000000000000011 /* MPAutoFillVaultIndex.m */; };
+		AF3000000000000000000004 /* MPAutoFillGenerationStore.m in Sources */ = {isa = PBXBuildFile; fileRef = AF3000000000000000000013 /* MPAutoFillGenerationStore.m */; };
+		AF3000000000000000000005 /* MPAutoFillGenerationStore.m in Sources */ = {isa = PBXBuildFile; fileRef = AF3000000000000000000013 /* MPAutoFillGenerationStore.m */; };
+		AF3000000000000000000006 /* MPAutoFillGenerationStore.m in Sources */ = {isa = PBXBuildFile; fileRef = AF3000000000000000000013 /* MPAutoFillGenerationStore.m */; };
+		AF3000000000000000000007 /* MPAutoFillVaultIndexTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AF3000000000000000000014 /* MPAutoFillVaultIndexTests.m */; };
+		AF3000000000000000000008 /* MPAutoFillGenerationStoreTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AF3000000000000000000015 /* MPAutoFillGenerationStoreTests.m */; };
+		AF4000000000000000000001 /* MPAutoFillPublicationRegistry.m in Sources */ = {isa = PBXBuildFile; fileRef = AF4000000000000000000011 /* MPAutoFillPublicationRegistry.m */; };
+		AF4000000000000000000002 /* MPAutoFillCoordinator.m in Sources */ = {isa = PBXBuildFile; fileRef = AF4000000000000000000013 /* MPAutoFillCoordinator.m */; };
+		AF4000000000000000000003 /* MPTestAutoFillCoordinator.m in Sources */ = {isa = PBXBuildFile; fileRef = AF4000000000000000000014 /* MPTestAutoFillCoordinator.m */; };
+		AF4000000000000000000004 /* MPAutoFillPublicationSequencer.m in Sources */ = {isa = PBXBuildFile; fileRef = AF4000000000000000000016 /* MPAutoFillPublicationSequencer.m */; };
+		AF4000000000000000000006 /* MPAutoFillSavePolicy.m in Sources */ = {isa = PBXBuildFile; fileRef = AF4000000000000000000018 /* MPAutoFillSavePolicy.m */; };
+		AF4000000000000000000007 /* MPAutoFillSavePolicy.m in Sources */ = {isa = PBXBuildFile; fileRef = AF4000000000000000000018 /* MPAutoFillSavePolicy.m */; };
+		AF4000000000000000000008 /* MPAutoFillIdentityStoreUpdater.m in Sources */ = {isa = PBXBuildFile; fileRef = AF400000000000000000001A /* MPAutoFillIdentityStoreUpdater.m */; };
+		AF4000000000000000000009 /* AuthenticationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF000000000000000000000A /* AuthenticationServices.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		AF400000000000000000000A /* MPAutoFillIdentityStoreUpdater.m in Sources */ = {isa = PBXBuildFile; fileRef = AF400000000000000000001A /* MPAutoFillIdentityStoreUpdater.m */; };
+		AF400000000000000000000B /* MPAutoFillIdentityStoreUpdaterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AF400000000000000000001B /* MPAutoFillIdentityStoreUpdaterTests.m */; };
+		AF400000000000000000000C /* AuthenticationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF000000000000000000000A /* AuthenticationServices.framework */; };
+		AF400000000000000000000D /* MPAutoFillPublicationRegistry.m in Sources */ = {isa = PBXBuildFile; fileRef = AF4000000000000000000011 /* MPAutoFillPublicationRegistry.m */; };
+		AF5000000000000000000001 /* MPAutoFillRequestCoordinator.m in Sources */ = {isa = PBXBuildFile; fileRef = AF5000000000000000000011 /* MPAutoFillRequestCoordinator.m */; };
+		AF5000000000000000000002 /* MPAutoFillCredentialListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AF5000000000000000000013 /* MPAutoFillCredentialListViewController.m */; };
+		AF5000000000000000000003 /* MPAutoFillRequestCoordinator.m in Sources */ = {isa = PBXBuildFile; fileRef = AF5000000000000000000011 /* MPAutoFillRequestCoordinator.m */; };
+		AF5000000000000000000004 /* MPAutoFillRequestCoordinatorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AF5000000000000000000014 /* MPAutoFillRequestCoordinatorTests.m */; };
+		AF7000000000000000000001 /* AutoFill_KDB_KeyFile.kdb in Resources */ = {isa = PBXBuildFile; fileRef = AF7000000000000000000011 /* AutoFill_KDB_KeyFile.kdb */; };
+		AF7000000000000000000002 /* AutoFill_KDB_Combined.kdb in Resources */ = {isa = PBXBuildFile; fileRef = AF7000000000000000000012 /* AutoFill_KDB_Combined.kdb */; };
+		AF7000000000000000000003 /* AutoFill_KDBX31_KeyFile.kdbx in Resources */ = {isa = PBXBuildFile; fileRef = AF7000000000000000000013 /* AutoFill_KDBX31_KeyFile.kdbx */; };
+		AF7000000000000000000004 /* AutoFill_KDBX4_Password.kdbx in Resources */ = {isa = PBXBuildFile; fileRef = AF7000000000000000000014 /* AutoFill_KDBX4_Password.kdbx */; };
+		AF7000000000000000000005 /* AutoFill_KDBX4_Combined.kdbx in Resources */ = {isa = PBXBuildFile; fileRef = AF7000000000000000000015 /* AutoFill_KDBX4_Combined.kdbx */; };
+		AF7000000000000000000006 /* AutoFill_KDBX41_Password.kdbx in Resources */ = {isa = PBXBuildFile; fileRef = AF7000000000000000000016 /* AutoFill_KDBX41_Password.kdbx */; };
+		AF7000000000000000000007 /* AutoFill_Kdb1HexKey.key in Resources */ = {isa = PBXBuildFile; fileRef = AF7000000000000000000017 /* AutoFill_Kdb1HexKey.key */; };
+		AF7000000000000000000008 /* AutoFill_KeyFileV2.keyx in Resources */ = {isa = PBXBuildFile; fileRef = AF7000000000000000000018 /* AutoFill_KeyFileV2.keyx */; };
+		AF6000000000000000000001 /* MPTestAutoFillPreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = AF6000000000000000000010 /* MPTestAutoFillPreferences.m */; };
 		3C0CDECF21CFEDD200B2A10B /* NSTextView+MPTouchBarExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C0CDECE21CFEDD200B2A10B /* NSTextView+MPTouchBarExtension.m */; };
 		3C0CDED821D28BF700B2A10B /* MPTouchBarButtonCreator.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C0CDED721D28BF700B2A10B /* MPTouchBarButtonCreator.m */; };
 		4C00E33817D8FA3500F37192 /* DDHotKeyCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C00E33717D8FA3500F37192 /* DDHotKeyCenter.m */; };
@@ -331,7 +407,28 @@
 		FA9FD32C1FB5EDD3003CEDD6 /* AutotypeBuilderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA9FD32E1FB5EDD3003CEDD6 /* AutotypeBuilderView.xib */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		AF0000000000000000000061 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4C77E35915B84A240093A587 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AF0000000000000000000041;
+			remoteInfo = MacPassAutoFill;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXCopyFilesBuildPhase section */
+		AF0000000000000000000027 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				AF0000000000000000000016 /* MacPassAutoFill.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		4CC5D36618A1332000AF7FA8 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 12;
@@ -349,6 +446,72 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		AF0000000000000000000001 /* MacPassAutoFill.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = MacPassAutoFill.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		AF0000000000000000000002 /* MacPassAutoFillTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MacPassAutoFillTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		AF0000000000000000000003 /* CredentialProviderViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CredentialProviderViewController.h; sourceTree = "<group>"; };
+		AF0000000000000000000004 /* CredentialProviderViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CredentialProviderViewController.m; sourceTree = "<group>"; };
+		AF0000000000000000000005 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		AF0000000000000000000006 /* MacPassAutoFill.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MacPassAutoFill.entitlements; sourceTree = "<group>"; };
+		AF0000000000000000000007 /* MPAutoFillConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MPAutoFillConstants.h; sourceTree = "<group>"; };
+		AF0000000000000000000008 /* MPAutoFillConstants.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MPAutoFillConstants.m; sourceTree = "<group>"; };
+		AF0000000000000000000009 /* MPAutoFillConstantsTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MPAutoFillConstantsTests.m; sourceTree = "<group>"; };
+		AF000000000000000000000A /* AuthenticationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AuthenticationServices.framework; path = System/Library/Frameworks/AuthenticationServices.framework; sourceTree = SDKROOT; };
+		AF000000000000000000000B /* LocalAuthentication.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LocalAuthentication.framework; path = System/Library/Frameworks/LocalAuthentication.framework; sourceTree = SDKROOT; };
+		AF000000000000000000000C /* MPAutoFillErrors.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MPAutoFillErrors.h; sourceTree = "<group>"; };
+		AF000000000000000000000D /* MPAutoFillErrors.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MPAutoFillErrors.m; sourceTree = "<group>"; };
+		AF000000000000000000000E /* MPAutoFillCredentialRecord.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MPAutoFillCredentialRecord.h; sourceTree = "<group>"; };
+		AF000000000000000000000F /* MPAutoFillCredentialRecord.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MPAutoFillCredentialRecord.m; sourceTree = "<group>"; };
+		AF000000000000000000001C /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
+		AF0000000000000000000010 /* MPAutoFillSnapshot.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MPAutoFillSnapshot.h; sourceTree = "<group>"; };
+		AF1000000000000000000011 /* MPAutoFillSnapshot.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MPAutoFillSnapshot.m; sourceTree = "<group>"; };
+		AF1000000000000000000012 /* MPAutoFillEnvelopeCrypto.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MPAutoFillEnvelopeCrypto.h; sourceTree = "<group>"; };
+		AF1000000000000000000013 /* MPAutoFillEnvelopeCrypto.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MPAutoFillEnvelopeCrypto.m; sourceTree = "<group>"; };
+		AF1000000000000000000014 /* MPAutoFillKeychainStore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MPAutoFillKeychainStore.h; sourceTree = "<group>"; };
+		AF1000000000000000000015 /* MPAutoFillKeychainStore.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MPAutoFillKeychainStore.m; sourceTree = "<group>"; };
+		AF1000000000000000000016 /* MPAutoFillSnapshotTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MPAutoFillSnapshotTests.m; sourceTree = "<group>"; };
+		AF1000000000000000000017 /* MPAutoFillEnvelopeCryptoTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MPAutoFillEnvelopeCryptoTests.m; sourceTree = "<group>"; };
+		AF1000000000000000000018 /* MPAutoFillKeychainStoreTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MPAutoFillKeychainStoreTests.m; sourceTree = "<group>"; };
+		AF2000000000000000000010 /* MPAutoFillCredentialIdentifier.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MPAutoFillCredentialIdentifier.h; sourceTree = "<group>"; };
+		AF2000000000000000000011 /* MPAutoFillCredentialIdentifier.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MPAutoFillCredentialIdentifier.m; sourceTree = "<group>"; };
+		AF2000000000000000000012 /* MPAutoFillCredentialIdentifierTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MPAutoFillCredentialIdentifierTests.m; sourceTree = "<group>"; };
+		AF2000000000000000000013 /* MPAutoFillServiceMatcher.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MPAutoFillServiceMatcher.h; sourceTree = "<group>"; };
+		AF2000000000000000000014 /* MPAutoFillServiceMatcher.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MPAutoFillServiceMatcher.m; sourceTree = "<group>"; };
+		AF2000000000000000000015 /* MPAutoFillServiceMatcherTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MPAutoFillServiceMatcherTests.m; sourceTree = "<group>"; };
+		AF2000000000000000000016 /* MPAutoFillSnapshotBuilder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MPAutoFillSnapshotBuilder.h; sourceTree = "<group>"; };
+		AF2000000000000000000017 /* MPAutoFillSnapshotBuilder.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MPAutoFillSnapshotBuilder.m; sourceTree = "<group>"; };
+		AF2000000000000000000018 /* MPTestAutoFillSnapshotBuilder.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MPTestAutoFillSnapshotBuilder.m; sourceTree = "<group>"; };
+		AF3000000000000000000010 /* MPAutoFillVaultIndex.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MPAutoFillVaultIndex.h; sourceTree = "<group>"; };
+		AF3000000000000000000011 /* MPAutoFillVaultIndex.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MPAutoFillVaultIndex.m; sourceTree = "<group>"; };
+		AF3000000000000000000012 /* MPAutoFillGenerationStore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MPAutoFillGenerationStore.h; sourceTree = "<group>"; };
+		AF3000000000000000000013 /* MPAutoFillGenerationStore.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MPAutoFillGenerationStore.m; sourceTree = "<group>"; };
+		AF3000000000000000000014 /* MPAutoFillVaultIndexTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MPAutoFillVaultIndexTests.m; sourceTree = "<group>"; };
+		AF3000000000000000000015 /* MPAutoFillGenerationStoreTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MPAutoFillGenerationStoreTests.m; sourceTree = "<group>"; };
+		AF4000000000000000000010 /* MPAutoFillPublicationRegistry.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MPAutoFillPublicationRegistry.h; sourceTree = "<group>"; };
+		AF4000000000000000000011 /* MPAutoFillPublicationRegistry.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MPAutoFillPublicationRegistry.m; sourceTree = "<group>"; };
+		AF4000000000000000000012 /* MPAutoFillCoordinator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MPAutoFillCoordinator.h; sourceTree = "<group>"; };
+		AF4000000000000000000013 /* MPAutoFillCoordinator.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MPAutoFillCoordinator.m; sourceTree = "<group>"; };
+		AF4000000000000000000014 /* MPTestAutoFillCoordinator.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MPTestAutoFillCoordinator.m; sourceTree = "<group>"; };
+		AF4000000000000000000015 /* MPAutoFillPublicationSequencer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MPAutoFillPublicationSequencer.h; sourceTree = "<group>"; };
+		AF4000000000000000000016 /* MPAutoFillPublicationSequencer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MPAutoFillPublicationSequencer.m; sourceTree = "<group>"; };
+		AF4000000000000000000017 /* MPAutoFillSavePolicy.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MPAutoFillSavePolicy.h; sourceTree = "<group>"; };
+		AF4000000000000000000018 /* MPAutoFillSavePolicy.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MPAutoFillSavePolicy.m; sourceTree = "<group>"; };
+		AF4000000000000000000019 /* MPAutoFillIdentityStoreUpdater.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MPAutoFillIdentityStoreUpdater.h; sourceTree = "<group>"; };
+		AF400000000000000000001A /* MPAutoFillIdentityStoreUpdater.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MPAutoFillIdentityStoreUpdater.m; sourceTree = "<group>"; };
+		AF400000000000000000001B /* MPAutoFillIdentityStoreUpdaterTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MPAutoFillIdentityStoreUpdaterTests.m; sourceTree = "<group>"; };
+		AF5000000000000000000010 /* MPAutoFillRequestCoordinator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MPAutoFillRequestCoordinator.h; sourceTree = "<group>"; };
+		AF5000000000000000000011 /* MPAutoFillRequestCoordinator.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MPAutoFillRequestCoordinator.m; sourceTree = "<group>"; };
+		AF5000000000000000000012 /* MPAutoFillCredentialListViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MPAutoFillCredentialListViewController.h; sourceTree = "<group>"; };
+		AF5000000000000000000013 /* MPAutoFillCredentialListViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MPAutoFillCredentialListViewController.m; sourceTree = "<group>"; };
+		AF5000000000000000000014 /* MPAutoFillRequestCoordinatorTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MPAutoFillRequestCoordinatorTests.m; sourceTree = "<group>"; };
+		AF6000000000000000000010 /* MPTestAutoFillPreferences.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MPTestAutoFillPreferences.m; sourceTree = "<group>"; };
+		AF7000000000000000000011 /* AutoFill_KDB_KeyFile.kdb */ = {isa = PBXFileReference; lastKnownFileType = file; path = AutoFill_KDB_KeyFile.kdb; sourceTree = "<group>"; };
+		AF7000000000000000000012 /* AutoFill_KDB_Combined.kdb */ = {isa = PBXFileReference; lastKnownFileType = file; path = AutoFill_KDB_Combined.kdb; sourceTree = "<group>"; };
+		AF7000000000000000000013 /* AutoFill_KDBX31_KeyFile.kdbx */ = {isa = PBXFileReference; lastKnownFileType = file; path = AutoFill_KDBX31_KeyFile.kdbx; sourceTree = "<group>"; };
+		AF7000000000000000000014 /* AutoFill_KDBX4_Password.kdbx */ = {isa = PBXFileReference; lastKnownFileType = file; path = AutoFill_KDBX4_Password.kdbx; sourceTree = "<group>"; };
+		AF7000000000000000000015 /* AutoFill_KDBX4_Combined.kdbx */ = {isa = PBXFileReference; lastKnownFileType = file; path = AutoFill_KDBX4_Combined.kdbx; sourceTree = "<group>"; };
+		AF7000000000000000000016 /* AutoFill_KDBX41_Password.kdbx */ = {isa = PBXFileReference; lastKnownFileType = file; path = AutoFill_KDBX41_Password.kdbx; sourceTree = "<group>"; };
+		AF7000000000000000000017 /* AutoFill_Kdb1HexKey.key */ = {isa = PBXFileReference; lastKnownFileType = file; path = AutoFill_Kdb1HexKey.key; sourceTree = "<group>"; };
+		AF7000000000000000000018 /* AutoFill_KeyFileV2.keyx */ = {isa = PBXFileReference; lastKnownFileType = file; path = AutoFill_KeyFileV2.keyx; sourceTree = "<group>"; };
 		3C0CDECD21CFED9000B2A10B /* NSTextView+MPTouchBarExtension.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSTextView+MPTouchBarExtension.h"; sourceTree = "<group>"; };
 		3C0CDECE21CFEDD200B2A10B /* NSTextView+MPTouchBarExtension.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSTextView+MPTouchBarExtension.m"; sourceTree = "<group>"; };
 		3C0CDED721D28BF700B2A10B /* MPTouchBarButtonCreator.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MPTouchBarButtonCreator.m; sourceTree = "<group>"; };
@@ -1233,6 +1396,28 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		AF0000000000000000000022 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AF0000000000000000000013 /* AuthenticationServices.framework in Frameworks */,
+				AF0000000000000000000014 /* Security.framework in Frameworks */,
+				AF0000000000000000000015 /* Cocoa.framework in Frameworks */,
+				AF0000000000000000000075 /* LocalAuthentication.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AF0000000000000000000025 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AF400000000000000000000C /* AuthenticationServices.framework in Frameworks */,
+				AF0000000000000000000019 /* XCTest.framework in Frameworks */,
+				AF000000000000000000007D /* Security.framework in Frameworks */,
+				AF000000000000000000007E /* LocalAuthentication.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		4C45FB16178E09ED0010007D /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -1247,6 +1432,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AF4000000000000000000009 /* AuthenticationServices.framework in Frameworks */,
+				AF0000000000000000000086 /* LocalAuthentication.framework in Frameworks */,
 				4CCA8E9B18D91ED9001A6754 /* Quartz.framework in Frameworks */,
 				4C00E33B17D8FAC100F37192 /* Carbon.framework in Frameworks */,
 				4CAD748E15B88AC100104512 /* libz.dylib in Frameworks */,
@@ -1263,6 +1450,85 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		AF0000000000000000000031 /* MacPassAutoFill */ = {
+			isa = PBXGroup;
+			children = (
+				AF0000000000000000000003 /* CredentialProviderViewController.h */,
+				AF0000000000000000000004 /* CredentialProviderViewController.m */,
+				AF5000000000000000000010 /* MPAutoFillRequestCoordinator.h */,
+				AF5000000000000000000011 /* MPAutoFillRequestCoordinator.m */,
+				AF5000000000000000000012 /* MPAutoFillCredentialListViewController.h */,
+				AF5000000000000000000013 /* MPAutoFillCredentialListViewController.m */,
+				AF0000000000000000000005 /* Info.plist */,
+				AF0000000000000000000006 /* MacPassAutoFill.entitlements */,
+				AF000000000000000000001B /* Localizable.strings */,
+			);
+			path = MacPassAutoFill;
+			sourceTree = "<group>";
+		};
+		AF0000000000000000000032 /* MacPassAutoFillCore */ = {
+			isa = PBXGroup;
+			children = (
+				AF0000000000000000000007 /* MPAutoFillConstants.h */,
+				AF0000000000000000000008 /* MPAutoFillConstants.m */,
+				AF2000000000000000000010 /* MPAutoFillCredentialIdentifier.h */,
+				AF2000000000000000000011 /* MPAutoFillCredentialIdentifier.m */,
+				AF2000000000000000000013 /* MPAutoFillServiceMatcher.h */,
+				AF2000000000000000000014 /* MPAutoFillServiceMatcher.m */,
+				AF3000000000000000000010 /* MPAutoFillVaultIndex.h */,
+				AF3000000000000000000011 /* MPAutoFillVaultIndex.m */,
+				AF3000000000000000000012 /* MPAutoFillGenerationStore.h */,
+				AF3000000000000000000013 /* MPAutoFillGenerationStore.m */,
+				AF000000000000000000000C /* MPAutoFillErrors.h */,
+				AF000000000000000000000D /* MPAutoFillErrors.m */,
+				AF000000000000000000000E /* MPAutoFillCredentialRecord.h */,
+				AF000000000000000000000F /* MPAutoFillCredentialRecord.m */,
+				AF0000000000000000000010 /* MPAutoFillSnapshot.h */,
+				AF1000000000000000000011 /* MPAutoFillSnapshot.m */,
+				AF1000000000000000000012 /* MPAutoFillEnvelopeCrypto.h */,
+				AF1000000000000000000013 /* MPAutoFillEnvelopeCrypto.m */,
+				AF1000000000000000000014 /* MPAutoFillKeychainStore.h */,
+				AF1000000000000000000015 /* MPAutoFillKeychainStore.m */,
+			);
+			path = MacPassAutoFillCore;
+			sourceTree = "<group>";
+		};
+		AF0000000000000000000033 /* MacPassAutoFillTests */ = {
+			isa = PBXGroup;
+			children = (
+				AF5000000000000000000014 /* MPAutoFillRequestCoordinatorTests.m */,
+				AF400000000000000000001B /* MPAutoFillIdentityStoreUpdaterTests.m */,
+				AF0000000000000000000009 /* MPAutoFillConstantsTests.m */,
+				AF2000000000000000000012 /* MPAutoFillCredentialIdentifierTests.m */,
+				AF2000000000000000000015 /* MPAutoFillServiceMatcherTests.m */,
+				AF3000000000000000000014 /* MPAutoFillVaultIndexTests.m */,
+				AF3000000000000000000015 /* MPAutoFillGenerationStoreTests.m */,
+				AF1000000000000000000016 /* MPAutoFillSnapshotTests.m */,
+				AF1000000000000000000017 /* MPAutoFillEnvelopeCryptoTests.m */,
+				AF1000000000000000000018 /* MPAutoFillKeychainStoreTests.m */,
+			);
+			path = MacPassAutoFillTests;
+			sourceTree = "<group>";
+		};
+		AF2000000000000000000020 /* AutoFill */ = {
+			isa = PBXGroup;
+			children = (
+				AF4000000000000000000019 /* MPAutoFillIdentityStoreUpdater.h */,
+				AF400000000000000000001A /* MPAutoFillIdentityStoreUpdater.m */,
+				AF4000000000000000000017 /* MPAutoFillSavePolicy.h */,
+				AF4000000000000000000018 /* MPAutoFillSavePolicy.m */,
+				AF4000000000000000000015 /* MPAutoFillPublicationSequencer.h */,
+				AF4000000000000000000016 /* MPAutoFillPublicationSequencer.m */,
+				AF4000000000000000000012 /* MPAutoFillCoordinator.h */,
+				AF4000000000000000000013 /* MPAutoFillCoordinator.m */,
+				AF4000000000000000000010 /* MPAutoFillPublicationRegistry.h */,
+				AF4000000000000000000011 /* MPAutoFillPublicationRegistry.m */,
+				AF2000000000000000000016 /* MPAutoFillSnapshotBuilder.h */,
+				AF2000000000000000000017 /* MPAutoFillSnapshotBuilder.m */,
+			);
+			path = AutoFill;
+			sourceTree = "<group>";
+		};
 		4C00E33917D8FA3B00F37192 /* DDHotKey */ = {
 			isa = PBXGroup;
 			children = (
@@ -1476,6 +1742,9 @@
 		4C45FB1E178E09ED0010007D /* MacPassTests */ = {
 			isa = PBXGroup;
 			children = (
+				AF6000000000000000000010 /* MPTestAutoFillPreferences.m */,
+				AF4000000000000000000014 /* MPTestAutoFillCoordinator.m */,
+				AF2000000000000000000018 /* MPTestAutoFillSnapshotBuilder.m */,
 				4CCFA12C1BF0CC7A0078E0A1 /* Databases */,
 				4C10207E1B750E2F00BFCD59 /* MPTestAutotype.m */,
 				4C8DEAA11C314D2C00D24C32 /* MPTestAutotypeDelay.m */,
@@ -1672,6 +1941,9 @@
 		4C77E35715B84A240093A587 = {
 			isa = PBXGroup;
 			children = (
+				AF0000000000000000000031 /* MacPassAutoFill */,
+				AF0000000000000000000032 /* MacPassAutoFillCore */,
+				AF0000000000000000000033 /* MacPassAutoFillTests */,
 				4CBC5DDB23C61C8300D14B92 /* TransformerKit.framework */,
 				4CC281881C0F675B00B9174D /* HNHUi.framework */,
 				4C7B63791C0CB55600D7038C /* KeePassKit.framework */,
@@ -1692,6 +1964,8 @@
 			children = (
 				4C77E36215B84A240093A587 /* MacPass.app */,
 				4C45FB1A178E09ED0010007D /* MacPassTests.xctest */,
+				AF0000000000000000000001 /* MacPassAutoFill.appex */,
+				AF0000000000000000000002 /* MacPassAutoFillTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1699,6 +1973,8 @@
 		4C77E36515B84A240093A587 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				AF000000000000000000000A /* AuthenticationServices.framework */,
+				AF000000000000000000000B /* LocalAuthentication.framework */,
 				4CCA8E9A18D91ED9001A6754 /* Quartz.framework */,
 				4C473A8518AFD7250073FD2E /* XCTest.framework */,
 				4CAD748D15B88AC100104512 /* libz.dylib */,
@@ -1725,6 +2001,7 @@
 		4C77E36C15B84A240093A587 /* MacPass */ = {
 			isa = PBXGroup;
 			children = (
+				AF2000000000000000000020 /* AutoFill */,
 				4CF9ECAE1BFDEC5700C58E99 /* Plugin */,
 				4C217D8E17A32BCF00609FAA /* Common */,
 				4C104129178CDD26001B5239 /* Categories */,
@@ -1886,6 +2163,14 @@
 		4CCFA12C1BF0CC7A0078E0A1 /* Databases */ = {
 			isa = PBXGroup;
 			children = (
+				AF7000000000000000000012 /* AutoFill_KDB_Combined.kdb */,
+				AF7000000000000000000011 /* AutoFill_KDB_KeyFile.kdb */,
+				AF7000000000000000000013 /* AutoFill_KDBX31_KeyFile.kdbx */,
+				AF7000000000000000000015 /* AutoFill_KDBX4_Combined.kdbx */,
+				AF7000000000000000000014 /* AutoFill_KDBX4_Password.kdbx */,
+				AF7000000000000000000016 /* AutoFill_KDBX41_Password.kdbx */,
+				AF7000000000000000000017 /* AutoFill_Kdb1HexKey.key */,
+				AF7000000000000000000018 /* AutoFill_KeyFileV2.keyx */,
 				4CCFA1321BF0CC7A0078E0A1 /* Test_Password_1234.kdb */,
 				4CCFA1331BF0CC7A0078E0A1 /* Test_Password_1234.kdbx */,
 			);
@@ -2023,6 +2308,41 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		AF0000000000000000000041 /* MacPassAutoFill */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AF0000000000000000000055 /* Build configuration list for PBXNativeTarget "MacPassAutoFill" */;
+			buildPhases = (
+				AF0000000000000000000021 /* Sources */,
+				AF0000000000000000000022 /* Frameworks */,
+				AF0000000000000000000023 /* Resources */,
+				AF0000000000000000000028 /* Versioning */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MacPassAutoFill;
+			productName = MacPassAutoFill;
+			productReference = AF0000000000000000000001 /* MacPassAutoFill.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+		AF0000000000000000000042 /* MacPassAutoFillTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AF0000000000000000000056 /* Build configuration list for PBXNativeTarget "MacPassAutoFillTests" */;
+			buildPhases = (
+				AF0000000000000000000024 /* Sources */,
+				AF0000000000000000000025 /* Frameworks */,
+				AF0000000000000000000026 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MacPassAutoFillTests;
+			productName = MacPassAutoFillTests;
+			productReference = AF0000000000000000000002 /* MacPassAutoFillTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		4C45FB19178E09ED0010007D /* MacPassTests */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 4C45FB2A178E09ED0010007D /* Build configuration list for PBXNativeTarget "MacPassTests" */;
@@ -2048,11 +2368,13 @@
 				4C77E35E15B84A240093A587 /* Sources */,
 				4C77E35F15B84A240093A587 /* Frameworks */,
 				4C77E36015B84A240093A587 /* Resources */,
+				AF0000000000000000000027 /* Embed App Extensions */,
 				4C44DB1B1C08999F00774EB3 /* Versioning */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				AF0000000000000000000062 /* PBXTargetDependency */,
 			);
 			name = MacPass;
 			productName = MacPass;
@@ -2097,15 +2419,40 @@
 			targets = (
 				4C77E36115B84A240093A587 /* MacPass */,
 				4C45FB19178E09ED0010007D /* MacPassTests */,
+				AF0000000000000000000041 /* MacPassAutoFill */,
+				AF0000000000000000000042 /* MacPassAutoFillTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		AF0000000000000000000023 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AF000000000000000000001A /* Localizable.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AF0000000000000000000026 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		4C45FB17178E09ED0010007D /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AF7000000000000000000002 /* AutoFill_KDB_Combined.kdb in Resources */,
+				AF7000000000000000000001 /* AutoFill_KDB_KeyFile.kdb in Resources */,
+				AF7000000000000000000003 /* AutoFill_KDBX31_KeyFile.kdbx in Resources */,
+				AF7000000000000000000005 /* AutoFill_KDBX4_Combined.kdbx in Resources */,
+				AF7000000000000000000004 /* AutoFill_KDBX4_Password.kdbx in Resources */,
+				AF7000000000000000000006 /* AutoFill_KDBX41_Password.kdbx in Resources */,
+				AF7000000000000000000007 /* AutoFill_Kdb1HexKey.key in Resources */,
+				AF7000000000000000000008 /* AutoFill_KeyFileV2.keyx in Resources */,
 				4C45FB23178E09ED0010007D /* InfoPlist.strings in Resources */,
 				4CCFA13E1BF0CC7A0078E0A1 /* Test_Password_1234.kdbx in Resources */,
 				4CCFA13D1BF0CC7A0078E0A1 /* Test_Password_1234.kdb in Resources */,
@@ -2252,6 +2599,23 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		AF0000000000000000000028 /* Versioning */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${TARGET_BUILD_DIR}/${INFOPLIST_PATH}",
+			);
+			name = Versioning;
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "git=`sh /etc/profile; which git`\nbranch_name=`$git rev-parse --abbrev-ref HEAD`\ngit_count=`$git rev-list $branch_name |wc -l | sed 's/^ *//;s/ *$//'`\n\nbuild_number=\"${git_count}0\"\nif [ $CONFIGURATION != \"Release\" ]; then\n  if [ $branch_name != \"master\" ] && [ $branch_name != release* ]; then\n    build_number+=\"-$branch_name\"\n  fi\nfi\nif [ \"$CI\" = \"true\" ]; then\nbuild_date=`date +\"%Y%m%d%H%m%S\"`\nbuild_number=\"$build_date-continuous\"\nfi\n\nplist=\"${TARGET_BUILD_DIR}/${INFOPLIST_PATH}\"\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $build_number\" \"$plist\"\n";
+			showEnvVarsInLog = 0;
+		};
 		4C44DB1B1C08999F00774EB3 /* Versioning */ = {
 			isa = PBXShellScriptBuildPhase;
 			alwaysOutOfDate = 1;
@@ -2273,10 +2637,64 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		AF0000000000000000000021 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AF0000000000000000000011 /* CredentialProviderViewController.m in Sources */,
+				AF5000000000000000000001 /* MPAutoFillRequestCoordinator.m in Sources */,
+				AF5000000000000000000002 /* MPAutoFillCredentialListViewController.m in Sources */,
+				AF0000000000000000000012 /* MPAutoFillConstants.m in Sources */,
+				AF2000000000000000000001 /* MPAutoFillCredentialIdentifier.m in Sources */,
+				AF2000000000000000000005 /* MPAutoFillServiceMatcher.m in Sources */,
+				AF3000000000000000000001 /* MPAutoFillVaultIndex.m in Sources */,
+				AF3000000000000000000004 /* MPAutoFillGenerationStore.m in Sources */,
+				AF0000000000000000000070 /* MPAutoFillErrors.m in Sources */,
+				AF0000000000000000000071 /* MPAutoFillCredentialRecord.m in Sources */,
+				AF0000000000000000000072 /* MPAutoFillSnapshot.m in Sources */,
+				AF0000000000000000000073 /* MPAutoFillEnvelopeCrypto.m in Sources */,
+				AF0000000000000000000074 /* MPAutoFillKeychainStore.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AF0000000000000000000024 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AF5000000000000000000003 /* MPAutoFillRequestCoordinator.m in Sources */,
+				AF5000000000000000000004 /* MPAutoFillRequestCoordinatorTests.m in Sources */,
+				AF400000000000000000000D /* MPAutoFillPublicationRegistry.m in Sources */,
+				AF400000000000000000000A /* MPAutoFillIdentityStoreUpdater.m in Sources */,
+				AF400000000000000000000B /* MPAutoFillIdentityStoreUpdaterTests.m in Sources */,
+				AF0000000000000000000017 /* MPAutoFillConstants.m in Sources */,
+				AF0000000000000000000018 /* MPAutoFillConstantsTests.m in Sources */,
+				AF2000000000000000000002 /* MPAutoFillCredentialIdentifier.m in Sources */,
+				AF2000000000000000000004 /* MPAutoFillCredentialIdentifierTests.m in Sources */,
+				AF2000000000000000000006 /* MPAutoFillServiceMatcher.m in Sources */,
+				AF2000000000000000000008 /* MPAutoFillServiceMatcherTests.m in Sources */,
+				AF3000000000000000000002 /* MPAutoFillVaultIndex.m in Sources */,
+				AF3000000000000000000005 /* MPAutoFillGenerationStore.m in Sources */,
+				AF3000000000000000000007 /* MPAutoFillVaultIndexTests.m in Sources */,
+				AF3000000000000000000008 /* MPAutoFillGenerationStoreTests.m in Sources */,
+				AF0000000000000000000076 /* MPAutoFillErrors.m in Sources */,
+				AF0000000000000000000077 /* MPAutoFillCredentialRecord.m in Sources */,
+				AF0000000000000000000078 /* MPAutoFillSnapshot.m in Sources */,
+				AF0000000000000000000079 /* MPAutoFillEnvelopeCrypto.m in Sources */,
+				AF000000000000000000007A /* MPAutoFillKeychainStore.m in Sources */,
+				AF000000000000000000007B /* MPAutoFillSnapshotTests.m in Sources */,
+				AF000000000000000000007C /* MPAutoFillEnvelopeCryptoTests.m in Sources */,
+				AF0000000000000000000087 /* MPAutoFillKeychainStoreTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		4C45FB15178E09ED0010007D /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AF6000000000000000000001 /* MPTestAutoFillPreferences.m in Sources */,
+				AF4000000000000000000007 /* MPAutoFillSavePolicy.m in Sources */,
+				AF4000000000000000000003 /* MPTestAutoFillCoordinator.m in Sources */,
+				AF200000000000000000000A /* MPTestAutoFillSnapshotBuilder.m in Sources */,
 				4C58A4A82192EEBE00B13370 /* MPTestIndexPathAdditions.m in Sources */,
 				4C45FB2D178E0BCB0010007D /* MPDatabaseLoading.m in Sources */,
 				4C8DEAA21C314D2C00D24C32 /* MPTestAutotypeDelay.m in Sources */,
@@ -2295,6 +2713,22 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AF4000000000000000000008 /* MPAutoFillIdentityStoreUpdater.m in Sources */,
+				AF4000000000000000000006 /* MPAutoFillSavePolicy.m in Sources */,
+				AF4000000000000000000004 /* MPAutoFillPublicationSequencer.m in Sources */,
+				AF4000000000000000000001 /* MPAutoFillPublicationRegistry.m in Sources */,
+				AF4000000000000000000002 /* MPAutoFillCoordinator.m in Sources */,
+				AF000000000000000000007F /* MPAutoFillConstants.m in Sources */,
+				AF2000000000000000000003 /* MPAutoFillCredentialIdentifier.m in Sources */,
+				AF2000000000000000000007 /* MPAutoFillServiceMatcher.m in Sources */,
+				AF3000000000000000000003 /* MPAutoFillVaultIndex.m in Sources */,
+				AF3000000000000000000006 /* MPAutoFillGenerationStore.m in Sources */,
+				AF2000000000000000000009 /* MPAutoFillSnapshotBuilder.m in Sources */,
+				AF0000000000000000000080 /* MPAutoFillErrors.m in Sources */,
+				AF0000000000000000000081 /* MPAutoFillCredentialRecord.m in Sources */,
+				AF0000000000000000000082 /* MPAutoFillSnapshot.m in Sources */,
+				AF0000000000000000000083 /* MPAutoFillEnvelopeCrypto.m in Sources */,
+				AF0000000000000000000084 /* MPAutoFillKeychainStore.m in Sources */,
 				4C1ECAE322CCD30F00F46069 /* MPAutotypeDoctor.m in Sources */,
 				4CD034AC1BFE113B003C002C /* MPPluginHost.m in Sources */,
 				4C77E37315B84A240093A587 /* main.m in Sources */,
@@ -2460,7 +2894,23 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		AF0000000000000000000062 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AF0000000000000000000041 /* MacPassAutoFill */;
+			targetProxy = AF0000000000000000000061 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin PBXVariantGroup section */
+		AF000000000000000000001B /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				AF000000000000000000001C /* Base */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
 		4C0B533A205C1516003D277E /* PickcharsView.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -3143,6 +3593,100 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		AF0000000000000000000051 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CODE_SIGN_ENTITLEMENTS = MacPassAutoFill/MacPassAutoFill.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = "${CURRENT_PROJECT_VERSION}";
+				DEVELOPMENT_TEAM = 9JYPC6W7B2;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				HEADER_SEARCH_PATHS = MacPassAutoFillCore;
+				INFOPLIST_FILE = MacPassAutoFill/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				OTHER_LDFLAGS = "";
+				PRODUCT_BUNDLE_IDENTIFIER = dev.roszkowski.macpass.autofill;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		AF0000000000000000000052 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CODE_SIGN_ENTITLEMENTS = MacPassAutoFill/MacPassAutoFill.entitlements;
+				CODE_SIGN_IDENTITY = "Developer ID Application";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = "${CURRENT_PROJECT_VERSION}";
+				DEVELOPMENT_TEAM = 9JYPC6W7B2;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				HEADER_SEARCH_PATHS = MacPassAutoFillCore;
+				INFOPLIST_FILE = MacPassAutoFill/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				OTHER_LDFLAGS = "";
+				PRODUCT_BUNDLE_IDENTIFIER = dev.roszkowski.macpass.autofill;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		AF0000000000000000000053 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
+				GENERATE_INFOPLIST_FILE = YES;
+				HEADER_SEARCH_PATHS = MacPassAutoFillCore;
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				OTHER_LDFLAGS = "";
+				PRODUCT_BUNDLE_IDENTIFIER = dev.roszkowski.macpass.autofill.tests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		AF0000000000000000000054 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
+				GENERATE_INFOPLIST_FILE = YES;
+				HEADER_SEARCH_PATHS = MacPassAutoFillCore;
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				OTHER_LDFLAGS = "";
+				PRODUCT_BUNDLE_IDENTIFIER = dev.roszkowski.macpass.autofill.tests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
 		4C45FB28178E09ED0010007D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -3387,6 +3931,24 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		AF0000000000000000000055 /* Build configuration list for PBXNativeTarget "MacPassAutoFill" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AF0000000000000000000051 /* Debug */,
+				AF0000000000000000000052 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AF0000000000000000000056 /* Build configuration list for PBXNativeTarget "MacPassAutoFillTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AF0000000000000000000053 /* Debug */,
+				AF0000000000000000000054 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		4C45FB2A178E09ED0010007D /* Build configuration list for PBXNativeTarget "MacPassTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

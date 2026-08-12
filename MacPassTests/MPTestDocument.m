@@ -11,6 +11,26 @@
 
 #import "MPDocument.h"
 #import "MPConstants.h"
+#import "MPSettingsHelper.h"
+
+@interface MPDocument (MPTestExternalChanges)
+- (void)_handleFileChangeWithStrategy:(MPFileChangeStrategy)strategy setAsDefault:(BOOL)setAsDefault;
+@end
+
+@interface MPExternalChangeDocument : MPDocument
+@property(nonatomic) NSUInteger mergeCount;
+@property(nonatomic) NSUInteger revertCount;
+@end
+
+@implementation MPExternalChangeDocument
+- (void)mergeWithContentsFromURL:(NSURL *)url key:(KPKCompositeKey *)key {
+  self.mergeCount++;
+}
+- (BOOL)revertToContentsOfURL:(NSURL *)url ofType:(NSString *)type error:(NSError **)outError {
+  self.revertCount++;
+  return YES;
+}
+@end
 
 @interface MPTestDocument : XCTestCase
 
@@ -56,6 +76,40 @@
   MPDocument *document = [[MPDocument alloc] initWithType:@"" error:nil];
   document.tree.metaData.defaultUserName = @"database@example.com";
   XCTAssertEqualObjects([document createEntry:document.tree.root].username, @"database@example.com");
+}
+
+- (void)testExternalChangeMergeOnlyChangesInMemoryStateUntilSave {
+  MPExternalChangeDocument *document = [[MPExternalChangeDocument alloc] init];
+  [document _handleFileChangeWithStrategy:MPFileChangeStrategyMerge setAsDefault:NO];
+
+  XCTAssertEqual(document.mergeCount, 1u);
+  XCTAssertEqual(document.revertCount, 0u);
+}
+
+- (void)testExternalChangeKeepMineDoesNotInvokeMergeOrRevert {
+  MPExternalChangeDocument *document = [[MPExternalChangeDocument alloc] init];
+  [document _handleFileChangeWithStrategy:MPFileChangeStrategyKeepMine setAsDefault:NO];
+
+  XCTAssertEqual(document.mergeCount, 0u);
+  XCTAssertEqual(document.revertCount, 0u);
+}
+
+- (void)testExternalChangeUseOtherRoutesThroughAutoFillAwareRevert {
+  MPExternalChangeDocument *document = [[MPExternalChangeDocument alloc] init];
+  [document _handleFileChangeWithStrategy:MPFileChangeStrategyUseOther setAsDefault:NO];
+
+  XCTAssertEqual(document.mergeCount, 0u);
+  XCTAssertEqual(document.revertCount, 1u);
+}
+
+- (void)testUnreadableExternalReplacementFailsDocumentRead {
+  MPDocument *document = [[MPDocument alloc] init];
+  NSURL *missingURL = [NSFileManager.defaultManager.temporaryDirectory
+      URLByAppendingPathComponent:NSUUID.UUID.UUIDString];
+  NSError *error = nil;
+
+  XCTAssertFalse([document readFromURL:missingURL ofType:MPKdbxDocumentUTI error:&error]);
+  XCTAssertNotNil(error);
 }
 
 @end

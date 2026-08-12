@@ -27,6 +27,9 @@ jobs:
         with:
           submodules: recursive
 
+      - name: Test AutoFill release validators
+        run: python3 scripts/test_autofill_release_validators.py
+
       - name: Install Carthage
         run: brew install carthage
 
@@ -116,8 +119,35 @@ jobs:
             CODE_SIGN_IDENTITY=- \
             CODE_SIGN_ENTITLEMENTS="" \
             ENABLE_HARDENED_RUNTIME=NO \
+            CURRENT_PROJECT_VERSION="${{ github.run_number }}" \
+            MARKETING_VERSION="0.0.0" \
             DEVELOPMENT_TEAM="" \
             PROVISIONING_PROFILE_SPECIFIER=""
+
+      - name: Scan product for AutoFill fixture data
+        shell: bash
+        run: |
+          set -euo pipefail
+          product="$RUNNER_TEMP/macpass-derived-data/Build/Products/Debug/MacPass.app"
+          app_plist="$product/Contents/Info.plist"
+          extension_plist="$product/Contents/PlugIns/MacPassAutoFill.appex/Contents/Info.plist"
+          /usr/libexec/PlistBuddy -c "Set :CFBundleShortVersionString 0.0.0" "$app_plist"
+          /usr/libexec/PlistBuddy -c "Set :CFBundleVersion ${{ github.run_number }}" "$app_plist"
+          /usr/libexec/PlistBuddy -c "Set :CFBundleShortVersionString 0.0.0" "$extension_plist"
+          /usr/libexec/PlistBuddy -c "Set :CFBundleVersion ${{ github.run_number }}" "$extension_plist"
+          scripts/validate_autofill_product.sh "$product" "$(uname -m)"
+          patterns='resolved-secret|trashed-secret|Test_Password_1234|AutoFill_KDBX4_Password|AutoFill_KeyFileV2|https://example\.com|/tmp/Database\.kdbx'
+          if python3 scripts/scan_autofill_artifact.py "$product" "$patterns" \
+              --exclude-suffix .xctest > "$RUNNER_TEMP/autofill-product-findings.txt"; then
+            :
+          else
+            status=$?
+            if [ "$status" -eq 2 ]; then exit 2; fi
+            echo "AutoFill fixture data was found in the application product."
+            while IFS= read -r path; do echo "::error file=$path::Sensitive AutoFill fixture marker found"; done \
+              < "$RUNNER_TEMP/autofill-product-findings.txt"
+            exit 1
+          fi
 
       # Keep the healthy suite and all new tests gated while the six explicitly
       # listed legacy tests remain broken on current macOS/Xcode versions.
@@ -129,6 +159,7 @@ jobs:
             -configuration Debug \
             -destination "platform=macOS" \
             -derivedDataPath "$RUNNER_TEMP/macpass-derived-data" \
+            -resultBundlePath "$RUNNER_TEMP/MacPass-CI.xcresult" \
             -skip-testing:MacPassTests/MPDatabaseLoading/testLoadVersion1 \
             -skip-testing:MacPassTests/MPDatabaseLoading/testVersion1WrongPassword \
             -skip-testing:MacPassTests/MPDatabaseSearch/testSearch \
@@ -140,5 +171,39 @@ jobs:
             CODE_SIGN_IDENTITY=- \
             CODE_SIGN_ENTITLEMENTS="" \
             ENABLE_HARDENED_RUNTIME=NO \
+            CURRENT_PROJECT_VERSION="${{ github.run_number }}" \
+            MARKETING_VERSION="0.0.0" \
             DEVELOPMENT_TEAM="" \
             PROVISIONING_PROFILE_SPECIFIER=""
+
+      - name: Scan test evidence for AutoFill fixture data
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          result="$RUNNER_TEMP/MacPass-CI.xcresult"
+          if [ ! -d "$result" ]; then
+            echo "No test result bundle exists; the test step did not run."
+            exit 0
+          fi
+          patterns='resolved-secret|trashed-secret|Test_Password_1234|/tmp/Database\.kdbx'
+          if python3 scripts/scan_autofill_artifact.py "$result" "$patterns" \
+              > "$RUNNER_TEMP/autofill-evidence-findings.txt"; then
+            :
+          else
+            status=$?
+            if [ "$status" -eq 2 ]; then exit 2; fi
+            echo "AutoFill fixture data was found in the test evidence."
+            while IFS= read -r path; do echo "::error file=$path::Sensitive AutoFill fixture marker found"; done \
+              < "$RUNNER_TEMP/autofill-evidence-findings.txt"
+            exit 1
+          fi
+
+      - name: Upload test evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: MacPass-CI-xcresult
+          path: ${{ runner.temp }}/MacPass-CI.xcresult
+          if-no-files-found: warn
+          retention-days: 14

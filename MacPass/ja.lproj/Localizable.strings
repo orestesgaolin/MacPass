@@ -1,3 +1,27 @@
+/* Password AutoFill preferences */
+"AUTOFILL_PREFERENCES_TITLE" = "パスワード自動入力";
+"AUTOFILL_PUBLICATIONS_ACCESSIBILITY_LABEL" = "公開済みの自動入力データベース";
+"AUTOFILL_PUBLISH_CURRENT_DATABASE" = "現在のデータベースを公開";
+"AUTOFILL_REMOVE_PUBLICATION" = "公開を削除";
+"AUTOFILL_OPEN_SETTINGS" = "自動入力設定を開く";
+"AUTOFILL_PROVIDER_DISABLED" = "プロバイダ：macOSで無効";
+"AUTOFILL_PROVIDER_AVAILABLE" = "プロバイダ：利用可能";
+"AUTOFILL_SYNC_FAILED" = "同期に失敗しました。データベースをもう一度保存するか、公開を削除してください。";
+"AUTOFILL_SYNCHRONIZING" = "自動入力の資格情報を同期中...";
+"AUTOFILL_SYNC_COUNT_%lu" = "%lu件の資格情報を同期しました";
+"AUTOFILL_REQUIRES_MACOS_11" = "パスワード自動入力にはmacOS 11以降が必要です。";
+"AUTOFILL_UPDATE_MACOS" = "MacPassの資格情報プロバイダを使用するには、macOSをアップデートしてください。";
+"AUTOFILL_PENDING" = "保留中";
+"AUTOFILL_CURRENT_DATABASE_PUBLISHED" = "現在のデータベースを公開済み";
+"AUTOFILL_PUBLICATION_FAILED" = "自動入力用の公開に失敗しました。保存済みのデータベースには影響ありません。";
+"AUTOFILL_UNLOCK_AND_SAVE" = "公開する前に、現在のデータベースのロックを解除して保存してください。";
+"AUTOFILL_CONFIRM_TITLE" = "このデータベースをパスワード自動入力用に公開しますか？";
+"AUTOFILL_CONFIRM_MESSAGE" = "MacPassは、ユーザ名、エントリ名、Webサイトのアドレスを保護された共有コンテナに保存します。パスワードは暗号化されたままで、アクセスにはユーザ認証が必要です。MacPassをロックまたは終了した後も自動入力を利用できます。";
+"AUTOFILL_PUBLISH" = "公開";
+"AUTOFILL_ENABLE_FAILED" = "自動入力用の公開を有効にできませんでした。";
+"AUTOFILL_CLEANUP_RETRY" = "認証は取り消されましたが、共有データの消去を再試行する必要があります。";
+"AUTOFILL_PUBLICATION_REMOVED" = "自動入力用の公開を削除しました。";
+
 /* Count of characters remaining in pickchars dialog */
 "%ld_CHARACTERS_TO_PICK_REMAINING" = "%ld characters to pick remaining";
 

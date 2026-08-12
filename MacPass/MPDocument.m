@@ -34,6 +34,9 @@
 #import "MPTargetNodeResolving.h"
 #import "MPErrorRecoveryAttempter.h"
 #import "MPPasswordInputController.h"
+#import "MPAutoFillCoordinator.h"
+#import "MPAutoFillPublicationRegistry.h"
+#import "MPAutoFillSavePolicy.h"
 
 #import "KeePassKit/KeePassKit.h"
 
@@ -151,6 +154,88 @@ NSString *const MPDocumentGroupKey                            = @"MPDocumentGrou
   return YES;
 }
 
+- (void)saveToURL:(NSURL *)url
+           ofType:(NSString *)typeName
+ forSaveOperation:(NSSaveOperationType)saveOperation
+completionHandler:(void (^)(NSError *errorOrNil))completionHandler {
+  KPKCompositeKey *saveKey = self.compositeKey;
+  NSString *rootIdentifier = self.root.uuid.UUIDString.lowercaseString;
+  MPAutoFillPublicationRegistry *registry = MPAutoFillPublicationRegistry.sharedRegistry;
+  NSString *publicationIdentifier = saveOperation == NSSaveToOperation ? nil :
+      [registry publicationIdentifierForDocument:self sourceURL:self.fileURL ?: url rootIdentifier:rootIdentifier];
+  MPAutoFillCoordinator *coordinator = publicationIdentifier ? MPAutoFillCoordinator.sharedCoordinator : nil;
+  uint64_t saveToken = coordinator ? [coordinator beginSaveForPublicationIdentifier:publicationIdentifier] : 0;
+  [super saveToURL:url ofType:typeName forSaveOperation:saveOperation completionHandler:^(NSError *errorOrNil) {
+    MPAutoFillSaveAction action = MPAutoFillSaveActionForResult(saveOperation, errorOrNil == nil, coordinator != nil && saveKey != nil);
+    NSData *savedData = nil;
+    NSError *readError = nil;
+    if (action != MPAutoFillSaveActionNone) {
+      // Read before notifying AppKit clients, which may immediately start another save or clear the key while locking.
+      savedData = [NSData dataWithContentsOfURL:url options:NSDataReadingUncached error:&readError];
+    }
+    completionHandler(errorOrNil);
+    if (action == MPAutoFillSaveActionNone) return;
+    if (action == MPAutoFillSaveActionChooseSaveAsPublication) {
+      [self _handleAutoFillSaveAsToURL:url savedData:savedData key:saveKey
+                 publicationIdentifier:publicationIdentifier registry:registry coordinator:coordinator];
+      return;
+    }
+    if (savedData) {
+      [coordinator publishSavedData:savedData key:saveKey publicationIdentifier:publicationIdentifier saveToken:saveToken];
+    } else if (readError) {
+      [NSNotificationCenter.defaultCenter postNotificationName:MPAutoFillPublicationDidFailNotification
+          object:coordinator userInfo:@{MPAutoFillPublicationErrorKey: readError}];
+    }
+  }];
+}
+
+- (void)_handleAutoFillSaveAsToURL:(NSURL *)url
+                         savedData:(NSData *)savedData
+                               key:(KPKCompositeKey *)key
+             publicationIdentifier:(NSString *)publicationIdentifier
+                           registry:(MPAutoFillPublicationRegistry *)registry
+                        coordinator:(MPAutoFillCoordinator *)coordinator {
+  // Save As changed this document's URL. Rebind only after the user selects and completes a publication action.
+  [registry detachDocument:self];
+  if (!savedData) return;
+  NSAlert *alert = [[NSAlert alloc] init];
+  alert.messageText = NSLocalizedString(@"Move AutoFill publication to the saved database?", @"");
+  alert.informativeText = NSLocalizedString(@"Move keeps the existing AutoFill publication with this document. Separate keeps the original publication and creates a new one for this saved database.", @"");
+  [alert addButtonWithTitle:NSLocalizedString(@"Move Publication", @"")];
+  [alert addButtonWithTitle:NSLocalizedString(@"Create Separate Publication", @"")];
+  [alert addButtonWithTitle:NSLocalizedString(@"CANCEL", @"")];
+  void (^handleChoice)(NSModalResponse) = ^(NSModalResponse response) {
+    if (response != NSAlertFirstButtonReturn && response != NSAlertSecondButtonReturn) return;
+    NSError *error = nil;
+    NSString *selectedPublication = publicationIdentifier;
+    if (response == NSAlertFirstButtonReturn) {
+      if (![registry movePublicationIdentifier:publicationIdentifier forDocument:self sourceURL:url
+          rootIdentifier:self.root.uuid.UUIDString.lowercaseString error:&error]) selectedPublication = nil;
+    } else {
+      selectedPublication = NSUUID.UUID.UUIDString.lowercaseString;
+      BOOL prepared = [coordinator preparePublicationIdentifier:selectedPublication registrationBlock:^BOOL(NSError **registrationError) {
+        return [registry enablePublicationIdentifier:selectedPublication forDocument:self sourceURL:url
+            rootIdentifier:self.root.uuid.UUIDString.lowercaseString error:registrationError];
+      } error:&error];
+      if (!prepared) {
+        selectedPublication = nil;
+      }
+    }
+    if (selectedPublication) {
+      uint64_t token = [coordinator beginSaveForPublicationIdentifier:selectedPublication];
+      [coordinator publishSavedData:savedData key:key publicationIdentifier:selectedPublication saveToken:token];
+    } else if (error) {
+      [NSNotificationCenter.defaultCenter postNotificationName:MPAutoFillPublicationDidFailNotification
+          object:coordinator userInfo:@{MPAutoFillPublicationErrorKey: error}];
+    }
+  };
+  if (self.windowForSheet) {
+    [alert beginSheetModalForWindow:self.windowForSheet completionHandler:handleChoice];
+  } else {
+    handleChoice([alert runModal]);
+  }
+}
+
 - (BOOL)checkAutosavingSafetyAndReturnError:(NSError **)outError {
   if(![super checkAutosavingSafetyAndReturnError:outError]) {
     return NO; // default checking has found an error!
@@ -220,14 +305,29 @@ NSString *const MPDocumentGroupKey                            = @"MPDocumentGrou
 - (BOOL)readFromURL:(NSURL *)url ofType:(NSString *)typeName error:(NSError **)outError {
   /*
    Delete our old Tree, and just grab the data
-   */
+  */
   self.tree = nil;
   self.encryptedData = [NSData dataWithContentsOfURL:url options:NSDataReadingUncached error:outError];
-  return YES;
+  return self.encryptedData != nil;
 }
 
 - (BOOL)revertToContentsOfURL:(NSURL *)absoluteURL ofType:(NSString *)typeName error:(NSError **)outError {
+  KPKCompositeKey *replacementKey = self.compositeKey;
+  NSString *expectedRootIdentifier = self.root.uuid.UUIDString.lowercaseString;
+  NSString *publicationIdentifier = [MPAutoFillPublicationRegistry.sharedRegistry
+      publicationIdentifierForDocument:self sourceURL:self.fileURL ?: absoluteURL
+      rootIdentifier:expectedRootIdentifier];
   if([super revertToContentsOfURL:absoluteURL ofType:typeName error:outError]) {
+    if (publicationIdentifier) {
+      NSData *replacementData = self.encryptedData;
+      MPAutoFillCoordinator *coordinator = MPAutoFillCoordinator.sharedCoordinator;
+      if (replacementData && replacementKey) {
+        [coordinator replacePublicationIdentifier:publicationIdentifier withSavedData:replacementData key:replacementKey
+            expectedRootIdentifier:expectedRootIdentifier completion:nil];
+      } else {
+        [coordinator unpublishPublicationIdentifier:publicationIdentifier completion:nil];
+      }
+    }
     [[NSNotificationCenter defaultCenter] postNotificationName:MPDocumentDidRevertNotification object:self];
     return YES;
   }

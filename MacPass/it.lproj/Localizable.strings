@@ -1,3 +1,27 @@
+/* Password AutoFill preferences */
+"AUTOFILL_PREFERENCES_TITLE" = "Riempimento automatico password";
+"AUTOFILL_PUBLICATIONS_ACCESSIBILITY_LABEL" = "Database pubblicati per il riempimento automatico";
+"AUTOFILL_PUBLISH_CURRENT_DATABASE" = "Pubblica database attuale";
+"AUTOFILL_REMOVE_PUBLICATION" = "Rimuovi pubblicazione";
+"AUTOFILL_OPEN_SETTINGS" = "Apri impostazioni di riempimento automatico";
+"AUTOFILL_PROVIDER_DISABLED" = "Provider: disabilitato in macOS";
+"AUTOFILL_PROVIDER_AVAILABLE" = "Provider: disponibile";
+"AUTOFILL_SYNC_FAILED" = "Sincronizzazione non riuscita. Salva di nuovo il database o rimuovine la pubblicazione.";
+"AUTOFILL_SYNCHRONIZING" = "Sincronizzazione delle credenziali di riempimento automatico...";
+"AUTOFILL_SYNC_COUNT_%lu" = "%lu credenziali sincronizzate";
+"AUTOFILL_REQUIRES_MACOS_11" = "Il riempimento automatico delle password richiede macOS 11 o versioni successive.";
+"AUTOFILL_UPDATE_MACOS" = "Aggiorna macOS per usare il provider di credenziali di MacPass.";
+"AUTOFILL_PENDING" = "In sospeso";
+"AUTOFILL_CURRENT_DATABASE_PUBLISHED" = "Database attuale pubblicato";
+"AUTOFILL_PUBLICATION_FAILED" = "Pubblicazione per il riempimento automatico non riuscita. Il database salvato non è stato modificato.";
+"AUTOFILL_UNLOCK_AND_SAVE" = "Sblocca e salva il database attuale prima di pubblicarlo.";
+"AUTOFILL_CONFIRM_TITLE" = "Pubblicare questo database per il riempimento automatico delle password?";
+"AUTOFILL_CONFIRM_MESSAGE" = "MacPass memorizzerà nomi utente, titoli delle voci e indirizzi dei siti web nel contenitore condiviso protetto. Le password resteranno crittografate e richiederanno la presenza dell’utente. Il riempimento automatico resterà disponibile dopo il blocco o la chiusura di MacPass.";
+"AUTOFILL_PUBLISH" = "Pubblica";
+"AUTOFILL_ENABLE_FAILED" = "Impossibile abilitare la pubblicazione per il riempimento automatico.";
+"AUTOFILL_CLEANUP_RETRY" = "L’autorizzazione è stata revocata, ma la pulizia dei dati condivisi deve essere ripetuta.";
+"AUTOFILL_PUBLICATION_REMOVED" = "Pubblicazione per il riempimento automatico rimossa.";
+
 /* Count of characters remaining in pickchars dialog */
 "%ld_CHARACTERS_TO_PICK_REMAINING" = "%ld caratteri rimanenti da scegliere";
 
