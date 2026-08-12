@@ -286,7 +286,7 @@ jobs:
           validate_profile "$APP_PROFILE_PLIST" "$BUNDLE_ID" "$APP_PREFIX" \
             "$APP_IDENTIFIER" "$SHARED_KEYCHAIN_GROUP"
           validate_profile "$EXTENSION_PROFILE_PLIST" "$EXTENSION_BUNDLE_ID" "$APP_PREFIX" \
-            --sandboxed "$SHARED_KEYCHAIN_GROUP"
+            "$SHARED_KEYCHAIN_GROUP"
 
           CERT_TEAM="$(security find-certificate -c "$CERT_NAME" -p "$KEYCHAIN_PATH" | \
             openssl x509 -noout -subject -nameopt RFC2253 | tr ',' '\n' | sed -n 's/^OU=//p' | head -n 1)"

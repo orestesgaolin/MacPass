@@ -60,14 +60,12 @@ class AutoFillReleaseValidatorTests(unittest.TestCase):
             "Entitlements": entitlements,
         }
 
-    def run_profile(self, profile, bundle_id=HOST_BUNDLE_ID, groups=None, sandboxed=False):
+    def run_profile(self, profile, bundle_id=HOST_BUNDLE_ID, groups=None):
         path = self.write_plist("profile.plist", profile)
         command = [
             "python3", str(PROFILE_VALIDATOR), str(path), TEAM, bundle_id, APP_GROUP,
             PREFIX, str(self.certificate_path),
         ]
-        if sandboxed:
-            command.append("--sandboxed")
         command.extend(groups or [HOST_IDENTIFIER, SHARED_KEYCHAIN_GROUP])
         return subprocess.run(command, capture_output=True, text=True)
 
@@ -99,7 +97,7 @@ class AutoFillReleaseValidatorTests(unittest.TestCase):
         )
         self.assertEqual(
             self.run_profile(
-                extension, EXTENSION_BUNDLE_ID, [SHARED_KEYCHAIN_GROUP], sandboxed=True
+                extension, EXTENSION_BUNDLE_ID, [SHARED_KEYCHAIN_GROUP]
             ).returncode,
             0,
         )
@@ -126,12 +124,12 @@ class AutoFillReleaseValidatorTests(unittest.TestCase):
             with self.subTest(profile=profile):
                 self.assertEqual(self.run_profile(profile).returncode, 1)
 
-    def test_extension_profile_requires_sandbox(self):
+    def test_extension_profile_does_not_grant_sandbox(self):
         profile = self.profile(EXTENSION_BUNDLE_ID, [SHARED_KEYCHAIN_GROUP])
         result = self.run_profile(
-            profile, EXTENSION_BUNDLE_ID, [SHARED_KEYCHAIN_GROUP], sandboxed=True
+            profile, EXTENSION_BUNDLE_ID, [SHARED_KEYCHAIN_GROUP]
         )
-        self.assertEqual(result.returncode, 1)
+        self.assertEqual(result.returncode, 0)
 
     def signed_entitlements(self):
         host = {

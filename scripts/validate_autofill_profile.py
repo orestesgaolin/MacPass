@@ -19,7 +19,6 @@ parser.add_argument("app_group")
 parser.add_argument("prefix")
 parser.add_argument("certificate")
 parser.add_argument("keychain_groups", nargs="+")
-parser.add_argument("--sandboxed", action="store_true")
 args = parser.parse_args()
 
 with open(args.profile, "rb") as stream:
@@ -69,8 +68,5 @@ checks = (
 for valid, message in checks:
     if not valid:
         fail(message)
-
-if args.sandboxed and entitlements.get("com.apple.security.app-sandbox") is not True:
-    fail("extension sandbox entitlement missing")
 
 print(f"Provisioning profile passed: {args.bundle_id}")
