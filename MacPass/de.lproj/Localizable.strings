@@ -1,3 +1,27 @@
+/* Password AutoFill preferences */
+"AUTOFILL_PREFERENCES_TITLE" = "Automatisches Ausfüllen von Passwörtern";
+"AUTOFILL_PUBLICATIONS_ACCESSIBILITY_LABEL" = "Veröffentlichte AutoFill-Datenbanken";
+"AUTOFILL_PUBLISH_CURRENT_DATABASE" = "Aktuelle Datenbank veröffentlichen";
+"AUTOFILL_REMOVE_PUBLICATION" = "Veröffentlichung entfernen";
+"AUTOFILL_OPEN_SETTINGS" = "AutoFill-Einstellungen öffnen";
+"AUTOFILL_PROVIDER_DISABLED" = "Anbieter: In macOS deaktiviert";
+"AUTOFILL_PROVIDER_AVAILABLE" = "Anbieter: Verfügbar";
+"AUTOFILL_SYNC_FAILED" = "Synchronisierung fehlgeschlagen. Speichern Sie die Datenbank erneut oder entfernen Sie ihre Veröffentlichung.";
+"AUTOFILL_SYNCHRONIZING" = "AutoFill-Zugangsdaten werden synchronisiert...";
+"AUTOFILL_SYNC_COUNT_%lu" = "%lu Zugangsdaten synchronisiert";
+"AUTOFILL_REQUIRES_MACOS_11" = "Das automatische Ausfüllen von Passwörtern erfordert macOS 11 oder neuer.";
+"AUTOFILL_UPDATE_MACOS" = "Aktualisieren Sie macOS, um den MacPass-Zugangsdatenanbieter zu verwenden.";
+"AUTOFILL_PENDING" = "Ausstehend";
+"AUTOFILL_CURRENT_DATABASE_PUBLISHED" = "Aktuelle Datenbank veröffentlicht";
+"AUTOFILL_PUBLICATION_FAILED" = "AutoFill-Veröffentlichung fehlgeschlagen. Die gespeicherte Datenbank wurde nicht verändert.";
+"AUTOFILL_UNLOCK_AND_SAVE" = "Entsperren und speichern Sie die aktuelle Datenbank, bevor Sie sie veröffentlichen.";
+"AUTOFILL_CONFIRM_TITLE" = "Diese Datenbank zum automatischen Ausfüllen von Passwörtern veröffentlichen?";
+"AUTOFILL_CONFIRM_MESSAGE" = "MacPass speichert Benutzernamen, Eintragstitel und Website-Adressen im geschützten gemeinsamen Container. Passwörter bleiben verschlüsselt und erfordern die Anwesenheit des Benutzers. AutoFill bleibt verfügbar, nachdem MacPass gesperrt oder beendet wurde.";
+"AUTOFILL_PUBLISH" = "Veröffentlichen";
+"AUTOFILL_ENABLE_FAILED" = "AutoFill-Veröffentlichung konnte nicht aktiviert werden.";
+"AUTOFILL_CLEANUP_RETRY" = "Die Autorisierung wurde widerrufen, aber die Bereinigung der gemeinsamen Daten muss erneut versucht werden.";
+"AUTOFILL_PUBLICATION_REMOVED" = "AutoFill-Veröffentlichung entfernt.";
+
 /* Count of characters remaining in pickchars dialog */
 "%ld_CHARACTERS_TO_PICK_REMAINING" = "%ld Zeichen zur Auswahl übrig";
 

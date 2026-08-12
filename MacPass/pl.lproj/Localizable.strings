@@ -1,4 +1,28 @@
 
+/* Password AutoFill preferences */
+"AUTOFILL_PREFERENCES_TITLE" = "Autowypełnianie haseł";
+"AUTOFILL_PUBLICATIONS_ACCESSIBILITY_LABEL" = "Bazy danych opublikowane dla autowypełniania";
+"AUTOFILL_PUBLISH_CURRENT_DATABASE" = "Opublikuj bieżącą bazę danych";
+"AUTOFILL_REMOVE_PUBLICATION" = "Usuń publikację";
+"AUTOFILL_OPEN_SETTINGS" = "Otwórz ustawienia autowypełniania";
+"AUTOFILL_PROVIDER_DISABLED" = "Dostawca: wyłączony w macOS";
+"AUTOFILL_PROVIDER_AVAILABLE" = "Dostawca: dostępny";
+"AUTOFILL_SYNC_FAILED" = "Synchronizacja nie powiodła się. Zapisz bazę danych ponownie lub usuń jej publikację.";
+"AUTOFILL_SYNCHRONIZING" = "Synchronizowanie danych logowania autowypełniania...";
+"AUTOFILL_SYNC_COUNT_%lu" = "Zsynchronizowano dane logowania: %lu";
+"AUTOFILL_REQUIRES_MACOS_11" = "Autowypełnianie haseł wymaga systemu macOS 11 lub nowszego.";
+"AUTOFILL_UPDATE_MACOS" = "Uaktualnij macOS, aby używać dostawcy danych logowania MacPass.";
+"AUTOFILL_PENDING" = "Oczekuje";
+"AUTOFILL_CURRENT_DATABASE_PUBLISHED" = "Opublikowano bieżącą bazę danych";
+"AUTOFILL_PUBLICATION_FAILED" = "Publikacja dla autowypełniania nie powiodła się. Zapisana baza danych nie została zmieniona.";
+"AUTOFILL_UNLOCK_AND_SAVE" = "Odblokuj i zapisz bieżącą bazę danych przed jej opublikowaniem.";
+"AUTOFILL_CONFIRM_TITLE" = "Opublikować tę bazę danych dla autowypełniania haseł?";
+"AUTOFILL_CONFIRM_MESSAGE" = "MacPass zapisze nazwy użytkowników, tytuły wpisów i adresy witryn w chronionym kontenerze współdzielonym. Hasła pozostaną zaszyfrowane i będą wymagać obecności użytkownika. Autowypełnianie pozostanie dostępne po zablokowaniu lub zamknięciu MacPass.";
+"AUTOFILL_PUBLISH" = "Opublikuj";
+"AUTOFILL_ENABLE_FAILED" = "Nie można włączyć publikacji dla autowypełniania.";
+"AUTOFILL_CLEANUP_RETRY" = "Upoważnienie zostało cofnięte, ale czyszczenie danych współdzielonych wymaga ponownej próby.";
+"AUTOFILL_PUBLICATION_REMOVED" = "Usunięto publikację dla autowypełniania.";
+
 /* Count of characters remaining in pickchars dialog */
 "%ld_CHARACTERS_TO_PICK_REMAINING" = "pozostało %ld znaków do wybrania";
 

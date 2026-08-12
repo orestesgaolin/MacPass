@@ -1,3 +1,27 @@
+/* Password AutoFill preferences */
+"AUTOFILL_PREFERENCES_TITLE" = "Автозаповнення паролів";
+"AUTOFILL_PUBLICATIONS_ACCESSIBILITY_LABEL" = "Бази даних, опубліковані для автозаповнення";
+"AUTOFILL_PUBLISH_CURRENT_DATABASE" = "Опублікувати поточну базу даних";
+"AUTOFILL_REMOVE_PUBLICATION" = "Видалити публікацію";
+"AUTOFILL_OPEN_SETTINGS" = "Відкрити параметри автозаповнення";
+"AUTOFILL_PROVIDER_DISABLED" = "Постачальник: вимкнено в macOS";
+"AUTOFILL_PROVIDER_AVAILABLE" = "Постачальник: доступний";
+"AUTOFILL_SYNC_FAILED" = "Не вдалося синхронізувати. Збережіть базу даних ще раз або видаліть її публікацію.";
+"AUTOFILL_SYNCHRONIZING" = "Синхронізація облікових даних для автозаповнення...";
+"AUTOFILL_SYNC_COUNT_%lu" = "Синхронізовано облікових даних: %lu";
+"AUTOFILL_REQUIRES_MACOS_11" = "Для автозаповнення паролів потрібна macOS 11 або новіша.";
+"AUTOFILL_UPDATE_MACOS" = "Оновіть macOS, щоб використовувати постачальника облікових даних MacPass.";
+"AUTOFILL_PENDING" = "Очікується";
+"AUTOFILL_CURRENT_DATABASE_PUBLISHED" = "Поточну базу даних опубліковано";
+"AUTOFILL_PUBLICATION_FAILED" = "Не вдалося опублікувати дані для автозаповнення. Збережену базу даних не змінено.";
+"AUTOFILL_UNLOCK_AND_SAVE" = "Розблокуйте та збережіть поточну базу даних перед публікацією.";
+"AUTOFILL_CONFIRM_TITLE" = "Опублікувати цю базу даних для автозаповнення паролів?";
+"AUTOFILL_CONFIRM_MESSAGE" = "MacPass збереже імена користувачів, назви записів і адреси вебсайтів у захищеному спільному контейнері. Паролі залишаться зашифрованими, а для доступу буде потрібна присутність користувача. Автозаповнення залишиться доступним після блокування або завершення роботи MacPass.";
+"AUTOFILL_PUBLISH" = "Опублікувати";
+"AUTOFILL_ENABLE_FAILED" = "Не вдалося ввімкнути публікацію для автозаповнення.";
+"AUTOFILL_CLEANUP_RETRY" = "Авторизацію відкликано, але очищення спільних даних потрібно повторити.";
+"AUTOFILL_PUBLICATION_REMOVED" = "Публікацію для автозаповнення видалено.";
+
 /* Count of characters remaining in pickchars dialog */
 "%ld_CHARACTERS_TO_PICK_REMAINING" = "%ld characters to pick remaining";
 

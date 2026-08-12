@@ -27,6 +27,9 @@ jobs:
         with:
           submodules: recursive
 
+      - name: Test AutoFill release validators
+        run: python3 scripts/test_autofill_release_validators.py
+
       - name: Install Carthage
         run: brew install carthage
 
@@ -116,8 +119,24 @@ jobs:
             CODE_SIGN_IDENTITY=- \
             CODE_SIGN_ENTITLEMENTS="" \
             ENABLE_HARDENED_RUNTIME=NO \
+            CURRENT_PROJECT_VERSION="${{ github.run_number }}" \
+            MARKETING_VERSION="0.0.0" \
             DEVELOPMENT_TEAM="" \
             PROVISIONING_PROFILE_SPECIFIER=""
+
+      - name: Scan product for AutoFill fixture data
+        shell: bash
+        run: |
+          set -euo pipefail
+          product="$RUNNER_TEMP/macpass-derived-data/Build/Products/Debug/MacPass.app"
+          scripts/validate_autofill_product.sh "$product" "$(uname -m)"
+          patterns='resolved-secret|trashed-secret|Test_Password_1234|AutoFill_KDBX4_Password|AutoFill_KeyFileV2|https://example\.com|/tmp/Database\.kdbx'
+          if LC_ALL=C grep -R -a -E -l --exclude-dir='*.xctest' "$patterns" "$product" > "$RUNNER_TEMP/autofill-product-findings.txt"; then
+            echo "AutoFill fixture data was found in the application product."
+            while IFS= read -r path; do echo "::error file=$path::Sensitive AutoFill fixture marker found"; done \
+              < "$RUNNER_TEMP/autofill-product-findings.txt"
+            exit 1
+          fi
 
       # Keep the healthy suite and all new tests gated while the six explicitly
       # listed legacy tests remain broken on current macOS/Xcode versions.
@@ -129,6 +148,7 @@ jobs:
             -configuration Debug \
             -destination "platform=macOS" \
             -derivedDataPath "$RUNNER_TEMP/macpass-derived-data" \
+            -resultBundlePath "$RUNNER_TEMP/MacPass-CI.xcresult" \
             -skip-testing:MacPassTests/MPDatabaseLoading/testLoadVersion1 \
             -skip-testing:MacPassTests/MPDatabaseLoading/testVersion1WrongPassword \
             -skip-testing:MacPassTests/MPDatabaseSearch/testSearch \
@@ -140,5 +160,31 @@ jobs:
             CODE_SIGN_IDENTITY=- \
             CODE_SIGN_ENTITLEMENTS="" \
             ENABLE_HARDENED_RUNTIME=NO \
+            CURRENT_PROJECT_VERSION="${{ github.run_number }}" \
+            MARKETING_VERSION="0.0.0" \
             DEVELOPMENT_TEAM="" \
             PROVISIONING_PROFILE_SPECIFIER=""
+
+      - name: Scan test evidence for AutoFill fixture data
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          result="$RUNNER_TEMP/MacPass-CI.xcresult"
+          test -d "$result"
+          patterns='resolved-secret|trashed-secret|Test_Password_1234|AutoFill_KDBX4_Password|AutoFill_KeyFileV2|https://example\.com|/tmp/Database\.kdbx'
+          if LC_ALL=C grep -R -a -E -l "$patterns" "$result" > "$RUNNER_TEMP/autofill-evidence-findings.txt"; then
+            echo "AutoFill fixture data was found in the test evidence."
+            while IFS= read -r path; do echo "::error file=$path::Sensitive AutoFill fixture marker found"; done \
+              < "$RUNNER_TEMP/autofill-evidence-findings.txt"
+            exit 1
+          fi
+
+      - name: Upload test evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: MacPass-CI-xcresult
+          path: ${{ runner.temp }}/MacPass-CI.xcresult
+          if-no-files-found: error
+          retention-days: 14

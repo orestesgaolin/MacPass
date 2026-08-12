@@ -13,6 +13,30 @@
 /* Message text in the autotype selection window. Placeholder is %1 - applicationName, %2 windowTitle */
 "AUTOTYPE_CANDIDATE_SELECTION_WINDOW_MESSAGE_%@_%@" = "Er zijn meerdere overeenkomsten voor scherm \"%2$@\" van applicatie \"%1$@\". Selecteer de identiteit om mee in te loggen.";
 
+/* Password AutoFill preferences */
+"AUTOFILL_PREFERENCES_TITLE" = "Wachtwoorden automatisch invullen";
+"AUTOFILL_PUBLICATIONS_ACCESSIBILITY_LABEL" = "Gepubliceerde AutoFill-databases";
+"AUTOFILL_PUBLISH_CURRENT_DATABASE" = "Huidige database publiceren";
+"AUTOFILL_REMOVE_PUBLICATION" = "Publicatie verwijderen";
+"AUTOFILL_OPEN_SETTINGS" = "AutoFill-instellingen openen";
+"AUTOFILL_PROVIDER_DISABLED" = "Aanbieder: uitgeschakeld in macOS";
+"AUTOFILL_PROVIDER_AVAILABLE" = "Aanbieder: beschikbaar";
+"AUTOFILL_SYNC_FAILED" = "Synchronisatie mislukt. Bewaar de database opnieuw of verwijder de publicatie.";
+"AUTOFILL_SYNCHRONIZING" = "AutoFill-inloggegevens synchroniseren...";
+"AUTOFILL_SYNC_COUNT_%lu" = "%lu inloggegevens gesynchroniseerd";
+"AUTOFILL_REQUIRES_MACOS_11" = "Automatisch invullen van wachtwoorden vereist macOS 11 of nieuwer.";
+"AUTOFILL_UPDATE_MACOS" = "Werk macOS bij om de MacPass-aanbieder voor inloggegevens te gebruiken.";
+"AUTOFILL_PENDING" = "In behandeling";
+"AUTOFILL_CURRENT_DATABASE_PUBLISHED" = "Huidige database gepubliceerd";
+"AUTOFILL_PUBLICATION_FAILED" = "Publicatie voor AutoFill mislukt. De bewaarde database is niet gewijzigd.";
+"AUTOFILL_UNLOCK_AND_SAVE" = "Ontgrendel en bewaar de huidige database voordat u deze publiceert.";
+"AUTOFILL_CONFIRM_TITLE" = "Deze database publiceren voor het automatisch invullen van wachtwoorden?";
+"AUTOFILL_CONFIRM_MESSAGE" = "MacPass bewaart gebruikersnamen, titels van vermeldingen en websiteadressen in de beveiligde gedeelde container. Wachtwoorden blijven versleuteld en vereisen aanwezigheid van de gebruiker. AutoFill blijft beschikbaar nadat MacPass is vergrendeld of afgesloten.";
+"AUTOFILL_PUBLISH" = "Publiceren";
+"AUTOFILL_ENABLE_FAILED" = "Publicatie voor AutoFill kon niet worden ingeschakeld.";
+"AUTOFILL_CLEANUP_RETRY" = "De autorisatie is ingetrokken, maar het opschonen van gedeelde gegevens moet opnieuw worden geprobeerd.";
+"AUTOFILL_PUBLICATION_REMOVED" = "Publicatie voor AutoFill verwijderd.";
+
 /* Count of characters remaining in pickchars dialog */
 "%ld_CHARACTERS_TO_PICK_REMAINING" = "%ld tekens over om te kiezen";
 

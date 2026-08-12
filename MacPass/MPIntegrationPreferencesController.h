@@ -50,5 +50,8 @@
 @property (strong) IBOutlet NSTextField *touchIdHotkeyWarningTextField;
 
 - (IBAction)runAutotypeDoctor:(id)sender;
+- (IBAction)enableCurrentDatabaseForAutoFill:(id)sender;
+- (IBAction)removeSelectedAutoFillPublication:(id)sender;
+- (IBAction)openAutoFillSettings:(id)sender;
 
 @end

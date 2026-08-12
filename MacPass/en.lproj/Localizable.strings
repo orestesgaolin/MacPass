@@ -1,3 +1,27 @@
+/* Password AutoFill preferences */
+"AUTOFILL_PREFERENCES_TITLE" = "Password AutoFill";
+"AUTOFILL_PUBLICATIONS_ACCESSIBILITY_LABEL" = "Published AutoFill databases";
+"AUTOFILL_PUBLISH_CURRENT_DATABASE" = "Publish Current Database";
+"AUTOFILL_REMOVE_PUBLICATION" = "Remove Publication";
+"AUTOFILL_OPEN_SETTINGS" = "Open AutoFill Settings";
+"AUTOFILL_PROVIDER_DISABLED" = "Provider: Disabled in macOS";
+"AUTOFILL_PROVIDER_AVAILABLE" = "Provider: Available";
+"AUTOFILL_SYNC_FAILED" = "Synchronization failed. Save the database again or remove its publication.";
+"AUTOFILL_SYNCHRONIZING" = "Synchronizing AutoFill credentials...";
+"AUTOFILL_SYNC_COUNT_%lu" = "%lu credentials synchronized";
+"AUTOFILL_REQUIRES_MACOS_11" = "Password AutoFill requires macOS 11 or later.";
+"AUTOFILL_UPDATE_MACOS" = "Update macOS to use the MacPass credential provider.";
+"AUTOFILL_PENDING" = "Pending";
+"AUTOFILL_CURRENT_DATABASE_PUBLISHED" = "Current Database Published";
+"AUTOFILL_PUBLICATION_FAILED" = "AutoFill publication failed. The saved database was not affected.";
+"AUTOFILL_UNLOCK_AND_SAVE" = "Unlock and save the current database before publishing it.";
+"AUTOFILL_CONFIRM_TITLE" = "Publish this database for Password AutoFill?";
+"AUTOFILL_CONFIRM_MESSAGE" = "MacPass will store usernames, entry titles, and website addresses in the protected shared container. Passwords remain encrypted and require user presence. AutoFill remains available after MacPass locks or quits.";
+"AUTOFILL_PUBLISH" = "Publish";
+"AUTOFILL_ENABLE_FAILED" = "AutoFill publication could not be enabled.";
+"AUTOFILL_CLEANUP_RETRY" = "Authorization was revoked, but shared-data cleanup must be retried.";
+"AUTOFILL_PUBLICATION_REMOVED" = "AutoFill publication removed.";
+
 /* Count of characters remaining in pickchars dialog */
 "%ld_CHARACTERS_TO_PICK_REMAINING" = "%ld characters to pick remaining";
 

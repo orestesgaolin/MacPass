@@ -1,3 +1,27 @@
+/* Password AutoFill preferences */
+"AUTOFILL_PREFERENCES_TITLE" = "密碼自動填寫";
+"AUTOFILL_PUBLICATIONS_ACCESSIBILITY_LABEL" = "已發佈的自動填寫資料庫";
+"AUTOFILL_PUBLISH_CURRENT_DATABASE" = "發佈目前的資料庫";
+"AUTOFILL_REMOVE_PUBLICATION" = "移除發佈";
+"AUTOFILL_OPEN_SETTINGS" = "打開自動填寫設定";
+"AUTOFILL_PROVIDER_DISABLED" = "提供者：已在macOS中停用";
+"AUTOFILL_PROVIDER_AVAILABLE" = "提供者：可用";
+"AUTOFILL_SYNC_FAILED" = "同步失敗。請再次儲存資料庫或移除其發佈。";
+"AUTOFILL_SYNCHRONIZING" = "正在同步自動填寫憑證...";
+"AUTOFILL_SYNC_COUNT_%lu" = "已同步%lu項憑證";
+"AUTOFILL_REQUIRES_MACOS_11" = "密碼自動填寫需要macOS 11或以上版本。";
+"AUTOFILL_UPDATE_MACOS" = "請更新macOS以使用MacPass憑證提供者。";
+"AUTOFILL_PENDING" = "等待中";
+"AUTOFILL_CURRENT_DATABASE_PUBLISHED" = "目前的資料庫已發佈";
+"AUTOFILL_PUBLICATION_FAILED" = "自動填寫發佈失敗。已儲存的資料庫不受影響。";
+"AUTOFILL_UNLOCK_AND_SAVE" = "請先解鎖並儲存目前的資料庫，再進行發佈。";
+"AUTOFILL_CONFIRM_TITLE" = "要發佈此資料庫以供密碼自動填寫使用嗎？";
+"AUTOFILL_CONFIRM_MESSAGE" = "MacPass會將使用者名稱、項目標題和網站位址儲存在受保護的共享容器中。密碼會維持加密，並需要使用者在場驗證。MacPass鎖定或結束後，自動填寫仍然可用。";
+"AUTOFILL_PUBLISH" = "發佈";
+"AUTOFILL_ENABLE_FAILED" = "無法啟用自動填寫發佈。";
+"AUTOFILL_CLEANUP_RETRY" = "授權已撤銷，但必須重試清除共享資料。";
+"AUTOFILL_PUBLICATION_REMOVED" = "已移除自動填寫發佈。";
+
 /* % days ago */
 "%ld_DAYS_AGO" = "%ld 天以前";
 

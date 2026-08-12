@@ -1,0 +1,29 @@
+#import <Foundation/Foundation.h>
+
+@class KPKTree;
+@class MPAutoFillCredentialRecord;
+
+NS_ASSUME_NONNULL_BEGIN
+
+typedef NSString *MPAutoFillEligibilityReason NS_TYPED_EXTENSIBLE_ENUM;
+FOUNDATION_EXPORT MPAutoFillEligibilityReason const MPAutoFillEligibilityReasonHistory;
+FOUNDATION_EXPORT MPAutoFillEligibilityReason const MPAutoFillEligibilityReasonTrash;
+FOUNDATION_EXPORT MPAutoFillEligibilityReason const MPAutoFillEligibilityReasonTemplate;
+FOUNDATION_EXPORT MPAutoFillEligibilityReason const MPAutoFillEligibilityReasonMeta;
+FOUNDATION_EXPORT MPAutoFillEligibilityReason const MPAutoFillEligibilityReasonExpired;
+FOUNDATION_EXPORT MPAutoFillEligibilityReason const MPAutoFillEligibilityReasonEmptyPassword;
+FOUNDATION_EXPORT MPAutoFillEligibilityReason const MPAutoFillEligibilityReasonMalformedURL;
+FOUNDATION_EXPORT MPAutoFillEligibilityReason const MPAutoFillEligibilityReasonUnsupportedPlaceholder;
+FOUNDATION_EXPORT MPAutoFillEligibilityReason const MPAutoFillEligibilityReasonUnresolvedReference;
+FOUNDATION_EXPORT MPAutoFillEligibilityReason const MPAutoFillEligibilityReasonInvalidRecord;
+
+@interface MPAutoFillSnapshotBuildResult : NSObject
+@property(nonatomic, readonly, copy) NSArray<MPAutoFillCredentialRecord *> *records;
+@property(nonatomic, readonly, copy) NSDictionary<NSString *, MPAutoFillEligibilityReason> *excludedEntryReasons;
+@end
+
+@interface MPAutoFillSnapshotBuilder : NSObject
++ (MPAutoFillSnapshotBuildResult *)buildRecordsFromTree:(KPKTree *)tree atDate:(NSDate *)date;
+@end
+
+NS_ASSUME_NONNULL_END

@@ -1,3 +1,27 @@
+/* Password AutoFill preferences */
+"AUTOFILL_PREFERENCES_TITLE" = "密码自动填充";
+"AUTOFILL_PUBLICATIONS_ACCESSIBILITY_LABEL" = "已发布的自动填充数据库";
+"AUTOFILL_PUBLISH_CURRENT_DATABASE" = "发布当前数据库";
+"AUTOFILL_REMOVE_PUBLICATION" = "移除发布";
+"AUTOFILL_OPEN_SETTINGS" = "打开自动填充设置";
+"AUTOFILL_PROVIDER_DISABLED" = "提供程序：已在macOS中停用";
+"AUTOFILL_PROVIDER_AVAILABLE" = "提供程序：可用";
+"AUTOFILL_SYNC_FAILED" = "同步失败。请重新存储数据库或移除其发布。";
+"AUTOFILL_SYNCHRONIZING" = "正在同步自动填充凭证...";
+"AUTOFILL_SYNC_COUNT_%lu" = "已同步%lu项凭证";
+"AUTOFILL_REQUIRES_MACOS_11" = "密码自动填充需要macOS 11或更高版本。";
+"AUTOFILL_UPDATE_MACOS" = "请更新macOS以使用MacPass凭证提供程序。";
+"AUTOFILL_PENDING" = "待处理";
+"AUTOFILL_CURRENT_DATABASE_PUBLISHED" = "当前数据库已发布";
+"AUTOFILL_PUBLICATION_FAILED" = "自动填充发布失败。已存储的数据库未受影响。";
+"AUTOFILL_UNLOCK_AND_SAVE" = "请先解锁并存储当前数据库，再进行发布。";
+"AUTOFILL_CONFIRM_TITLE" = "要发布此数据库以供密码自动填充使用吗？";
+"AUTOFILL_CONFIRM_MESSAGE" = "MacPass会将用户名、条目标题和网站地址存储在受保护的共享容器中。密码保持加密状态，并需要用户在场验证。MacPass锁定或退出后，自动填充仍然可用。";
+"AUTOFILL_PUBLISH" = "发布";
+"AUTOFILL_ENABLE_FAILED" = "无法启用自动填充发布。";
+"AUTOFILL_CLEANUP_RETRY" = "授权已撤销，但必须重试清理共享数据。";
+"AUTOFILL_PUBLICATION_REMOVED" = "已移除自动填充发布。";
+
 /* % days ago */
 "%ld_DAYS_AGO" = "%ld 天以前";
 

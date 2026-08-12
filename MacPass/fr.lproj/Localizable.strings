@@ -1,3 +1,27 @@
+/* Password AutoFill preferences */
+"AUTOFILL_PREFERENCES_TITLE" = "Remplissage automatique des mots de passe";
+"AUTOFILL_PUBLICATIONS_ACCESSIBILITY_LABEL" = "Bases de données publiées pour le remplissage automatique";
+"AUTOFILL_PUBLISH_CURRENT_DATABASE" = "Publier la base de données actuelle";
+"AUTOFILL_REMOVE_PUBLICATION" = "Supprimer la publication";
+"AUTOFILL_OPEN_SETTINGS" = "Ouvrir les réglages de remplissage automatique";
+"AUTOFILL_PROVIDER_DISABLED" = "Fournisseur : désactivé dans macOS";
+"AUTOFILL_PROVIDER_AVAILABLE" = "Fournisseur : disponible";
+"AUTOFILL_SYNC_FAILED" = "Échec de la synchronisation. Enregistrez à nouveau la base de données ou supprimez sa publication.";
+"AUTOFILL_SYNCHRONIZING" = "Synchronisation des identifiants de remplissage automatique...";
+"AUTOFILL_SYNC_COUNT_%lu" = "%lu identifiants synchronisés";
+"AUTOFILL_REQUIRES_MACOS_11" = "Le remplissage automatique des mots de passe nécessite macOS 11 ou version ultérieure.";
+"AUTOFILL_UPDATE_MACOS" = "Mettez macOS à jour pour utiliser le fournisseur d’identifiants MacPass.";
+"AUTOFILL_PENDING" = "En attente";
+"AUTOFILL_CURRENT_DATABASE_PUBLISHED" = "Base de données actuelle publiée";
+"AUTOFILL_PUBLICATION_FAILED" = "Échec de la publication pour le remplissage automatique. La base de données enregistrée n’a pas été modifiée.";
+"AUTOFILL_UNLOCK_AND_SAVE" = "Déverrouillez et enregistrez la base de données actuelle avant de la publier.";
+"AUTOFILL_CONFIRM_TITLE" = "Publier cette base de données pour le remplissage automatique des mots de passe ?";
+"AUTOFILL_CONFIRM_MESSAGE" = "MacPass stockera les noms d’utilisateur, les titres des entrées et les adresses des sites web dans le conteneur partagé protégé. Les mots de passe resteront chiffrés et nécessiteront la présence de l’utilisateur. Le remplissage automatique restera disponible après le verrouillage ou la fermeture de MacPass.";
+"AUTOFILL_PUBLISH" = "Publier";
+"AUTOFILL_ENABLE_FAILED" = "Impossible d’activer la publication pour le remplissage automatique.";
+"AUTOFILL_CLEANUP_RETRY" = "L’autorisation a été révoquée, mais le nettoyage des données partagées doit être réessayé.";
+"AUTOFILL_PUBLICATION_REMOVED" = "Publication pour le remplissage automatique supprimée.";
+
 /* Count of characters remaining in pickchars dialog */
 "%ld_CHARACTERS_TO_PICK_REMAINING" = "%ld caractères restants à choisir";
 
