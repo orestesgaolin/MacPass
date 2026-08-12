@@ -474,7 +474,12 @@ jobs:
             "$APP_ENTITLEMENTS" "$EXTENSION_ENTITLEMENTS" "$TEAM_ID" "$APP_PREFIX"
 
           patterns='resolved-secret|trashed-secret|Test_Password_1234|AutoFill_KDBX4_Password|AutoFill_KeyFileV2|https://example\.com|/tmp/Database\.kdbx'
-          if LC_ALL=C grep -R -a -E -l "$patterns" "$APP" > "$RUNNER_TEMP/autofill-release-findings.txt"; then
+          if python3 scripts/scan_autofill_artifact.py "$APP" "$patterns" \
+              > "$RUNNER_TEMP/autofill-release-findings.txt"; then
+            :
+          else
+            status=$?
+            if [ "$status" -eq 2 ]; then exit 2; fi
             echo "AutoFill fixture data was found in the packaged release application." >&2
             while IFS= read -r path; do echo "::error file=$path::Sensitive AutoFill fixture marker found"; done \
               < "$RUNNER_TEMP/autofill-release-findings.txt"

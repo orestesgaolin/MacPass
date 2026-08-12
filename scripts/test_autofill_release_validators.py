@@ -75,6 +75,9 @@ class AutoFillReleaseValidatorTests(unittest.TestCase):
         self.assertEqual(self.run_profile(self.profile()).returncode, 0)
         wildcard = self.profile(keychain_groups=[PREFIX + "*"])
         self.assertEqual(self.run_profile(wildcard).returncode, 0)
+        wildcard_identifier = self.profile()
+        wildcard_identifier["Entitlements"]["com.apple.application-identifier"] = PREFIX + "*"
+        self.assertEqual(self.run_profile(wildcard_identifier).returncode, 0)
         extension = self.profile(
             EXTENSION_BUNDLE_ID, [SHARED_KEYCHAIN_GROUP], sandboxed=True
         )
