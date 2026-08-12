@@ -411,19 +411,25 @@ jobs:
 
       # ── Package as DMG ──────────────────────────────────────────
       - name: Create DMG Installer
+        env:
+          CERT_NAME: ${{ secrets.MACOS_CERTIFICATE_NAME }}
         run: |
+          set -euo pipefail
           BUILD_DIR="./build/Build/Products/$CONFIGURATION"
           APP="$BUILD_DIR/$APP_NAME.app"
+          DMG="$BUILD_DIR/$APP_NAME-$VERSION.dmg"
 
           echo "Creating DMG installer..."
           create-dmg \
             --volname "$APP_NAME $VERSION" \
             --icon "$APP_NAME.app" 175 120 \
             --app-drop-link 425 120 \
-            "$BUILD_DIR/$APP_NAME-$VERSION.dmg" \
+            "$DMG" \
             "$APP"
 
-          echo "DMG_PATH=$BUILD_DIR/$APP_NAME-$VERSION.dmg" >> "$GITHUB_ENV"
+          codesign --sign "$CERT_NAME" --timestamp "$DMG"
+          codesign --verify --verbose=2 "$DMG"
+          echo "DMG_PATH=$DMG" >> "$GITHUB_ENV"
 
       # ── Notarize DMG ────────────────────────────────────────────
       - name: Notarize DMG
@@ -466,6 +472,7 @@ jobs:
           spctl --assess --type execute --verbose=4 "$APP"
           xcrun stapler validate "$APP"
           xcrun stapler validate "$DMG_PATH"
+          spctl --assess --type open --context context:primary-signature --verbose=4 "$DMG_PATH"
 
           security cms -D -i "$APP/Contents/embedded.provisionprofile" > "$APP_PROFILE_PLIST"
           APP_PREFIX="$(/usr/libexec/PlistBuddy -c 'Print :ApplicationIdentifierPrefix:0' "$APP_PROFILE_PLIST")"
@@ -490,7 +497,9 @@ jobs:
       # ── SHA256 ──────────────────────────────────────────────────
       - name: Generate SHA256 Hashes
         run: |
-          shasum -a 256 "$DMG_PATH" > "$DMG_PATH.sha256"
+          directory="$(dirname "$DMG_PATH")"
+          filename="$(basename "$DMG_PATH")"
+          (cd "$directory" && shasum -a 256 "$filename") > "$DMG_PATH.sha256"
 
           {
             echo "### SHA256 Checksums"
