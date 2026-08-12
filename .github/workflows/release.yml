@@ -613,7 +613,11 @@ jobs:
   # ════════════════════════════════════════════════════════════════
   update-appcast:
     needs: build-sign-notarize
-    if: startsWith(github.ref, 'refs/tags/')
+    if: >-
+      startsWith(github.ref, 'refs/tags/') &&
+      !contains(github.ref_name, '-rc') &&
+      !contains(github.ref_name, '-beta') &&
+      !contains(github.ref_name, '-alpha')
     runs-on: ubuntu-latest
     permissions:
       contents: write
