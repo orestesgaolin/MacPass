@@ -23,7 +23,11 @@ test "$(plist_value "$extension_plist" CFBundleIdentifier)" = "dev.roszkowski.ma
 test "$(plist_value "$extension_plist" LSMinimumSystemVersion)" = "11.0"
 test "$(plist_value "$extension_plist" NSExtension:NSExtensionPointIdentifier)" = \
   "com.apple.authentication-services-credential-provider-ui"
-test "$(plist_value "$extension_plist" NSExtension:NSExtensionAttributes:ASCredentialProviderExtensionShowsConfigurationUI)" = "true"
+if plist_value "$extension_plist" \
+    NSExtension:NSExtensionAttributes:ASCredentialProviderExtensionShowsConfigurationUI >/dev/null 2>&1; then
+  echo "The AutoFill extension must not advertise host-managed configuration UI." >&2
+  exit 1
+fi
 
 app_version="$(plist_value "$app_plist" CFBundleShortVersionString)"
 app_build="$(plist_value "$app_plist" CFBundleVersion)"
