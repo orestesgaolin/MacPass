@@ -79,6 +79,16 @@ class AutoFillReleaseValidatorTests(unittest.TestCase):
             self.run_profile(no_dot_prefix, groups=[HOST_IDENTIFIER, SHARED_KEYCHAIN_GROUP]).returncode,
             0,
         )
+        prefixed_app_group = self.profile()
+        prefixed_app_group["Entitlements"]["com.apple.security.application-groups"] = [
+            PREFIX + APP_GROUP
+        ]
+        self.assertEqual(self.run_profile(prefixed_app_group).returncode, 0)
+        wildcard_app_group = self.profile()
+        wildcard_app_group["Entitlements"]["com.apple.security.application-groups"] = [
+            PREFIX + "*"
+        ]
+        self.assertEqual(self.run_profile(wildcard_app_group).returncode, 0)
         wildcard = self.profile(keychain_groups=[PREFIX + "*"])
         self.assertEqual(self.run_profile(wildcard).returncode, 0)
         wildcard_identifier = self.profile()
@@ -107,6 +117,11 @@ class AutoFillReleaseValidatorTests(unittest.TestCase):
         mutations.append(wrong_certificate)
         wrong_group = self.profile(keychain_groups=["OTHER.*"])
         mutations.append(wrong_group)
+        wrong_app_group = self.profile()
+        wrong_app_group["Entitlements"]["com.apple.security.application-groups"] = [
+            PREFIX + "group.other"
+        ]
+        mutations.append(wrong_app_group)
         for profile in mutations:
             with self.subTest(profile=profile):
                 self.assertEqual(self.run_profile(profile).returncode, 1)

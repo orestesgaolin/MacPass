@@ -46,6 +46,13 @@ def authorizes_identifier(grant, identifier):
     return grant.endswith("*") and identifier.startswith(grant[:-1])
 
 
+def authorizes_app_group(grant, group):
+    return (
+        authorizes_identifier(grant, group)
+        or authorizes_identifier(grant, identifier_prefix + group)
+    )
+
+
 checks = (
     (profile.get("TeamIdentifier") == [args.team], "profile team mismatch"),
     (len(profile_prefixes) == 1 and profile_prefixes[0].rstrip(".") == args.prefix.rstrip("."), "profile prefix mismatch"),
@@ -56,7 +63,7 @@ checks = (
     (certificate in profile.get("DeveloperCertificates", []), "signing certificate is not authorized"),
     (authorizes_identifier(entitlements.get("com.apple.application-identifier", ""), expected_identifier), "application identifier mismatch"),
     (entitlements.get("com.apple.developer.authentication-services.autofill-credential-provider") is True, "AutoFill entitlement missing"),
-    (entitlements.get("com.apple.security.application-groups") == [args.app_group], "App Group mismatch"),
+    (any(authorizes_app_group(grant, args.app_group) for grant in entitlements.get("com.apple.security.application-groups", [])), "App Group mismatch"),
     (all(any(authorizes_keychain_group(grant, group) for grant in actual_keychain_groups) for group in args.keychain_groups), "Keychain group is not authorized"),
 )
 for valid, message in checks:
