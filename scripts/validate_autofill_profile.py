@@ -28,8 +28,10 @@ with open(args.certificate, "rb") as stream:
     certificate = stream.read()
 
 entitlements = profile.get("Entitlements", {})
-expected_identifier = args.prefix + args.bundle_id
+identifier_prefix = args.prefix.rstrip(".") + "."
+expected_identifier = identifier_prefix + args.bundle_id
 actual_keychain_groups = entitlements.get("keychain-access-groups", [])
+profile_prefixes = profile.get("ApplicationIdentifierPrefix", [])
 
 
 def authorizes_keychain_group(grant, group):
@@ -46,7 +48,7 @@ def authorizes_identifier(grant, identifier):
 
 checks = (
     (profile.get("TeamIdentifier") == [args.team], "profile team mismatch"),
-    (profile.get("ApplicationIdentifierPrefix") == [args.prefix], "profile prefix mismatch"),
+    (len(profile_prefixes) == 1 and profile_prefixes[0].rstrip(".") == args.prefix.rstrip("."), "profile prefix mismatch"),
     (profile.get("ExpirationDate", datetime.datetime.min) > datetime.datetime.now(datetime.UTC).replace(tzinfo=None), "profile expired"),
     ("OSX" in profile.get("Platform", []), "profile does not support macOS"),
     (profile.get("ProvisionsAllDevices") is True, "profile is not Developer ID distribution"),

@@ -22,9 +22,10 @@ parser.add_argument("team")
 parser.add_argument("prefix")
 args = parser.parse_args()
 
-host_identifier = args.prefix + "dev.roszkowski.macpass"
+identifier_prefix = args.prefix.rstrip(".") + "."
+host_identifier = identifier_prefix + "dev.roszkowski.macpass"
 extension_identifier = host_identifier + ".autofill"
-shared_keychain_group = args.prefix + "dev.roszkowski.macpass.shared"
+shared_keychain_group = identifier_prefix + "dev.roszkowski.macpass.shared"
 app_group = "group.dev.roszkowski.macpass"
 
 host = load(args.host_entitlements)

@@ -73,6 +73,12 @@ class AutoFillReleaseValidatorTests(unittest.TestCase):
 
     def test_profiles_accept_exact_and_wildcard_keychain_grants(self):
         self.assertEqual(self.run_profile(self.profile()).returncode, 0)
+        no_dot_prefix = self.profile()
+        no_dot_prefix["ApplicationIdentifierPrefix"] = [TEAM]
+        self.assertEqual(
+            self.run_profile(no_dot_prefix, groups=[HOST_IDENTIFIER, SHARED_KEYCHAIN_GROUP]).returncode,
+            0,
+        )
         wildcard = self.profile(keychain_groups=[PREFIX + "*"])
         self.assertEqual(self.run_profile(wildcard).returncode, 0)
         wildcard_identifier = self.profile()
@@ -144,6 +150,18 @@ class AutoFillReleaseValidatorTests(unittest.TestCase):
 
     def test_signed_entitlements_accept_expected_values(self):
         self.assertEqual(self.run_entitlements(*self.signed_entitlements()).returncode, 0)
+        host, extension = self.signed_entitlements()
+        host_path = self.write_plist("host.plist", host)
+        extension_path = self.write_plist("extension.plist", extension)
+        result = subprocess.run(
+            [
+                "python3", str(ENTITLEMENT_VALIDATOR), str(host_path),
+                str(extension_path), TEAM, TEAM,
+            ],
+            capture_output=True,
+            text=True,
+        )
+        self.assertEqual(result.returncode, 0)
 
     def test_signed_entitlements_reject_each_security_boundary(self):
         host, extension = self.signed_entitlements()

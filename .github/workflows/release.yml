@@ -279,6 +279,7 @@ jobs:
           APP_PREFIX="$(/usr/libexec/PlistBuddy -c 'Print :ApplicationIdentifierPrefix:0' "$APP_PROFILE_PLIST")"
           EXTENSION_PREFIX="$(/usr/libexec/PlistBuddy -c 'Print :ApplicationIdentifierPrefix:0' "$EXTENSION_PROFILE_PLIST")"
           test "$APP_PREFIX" = "$EXTENSION_PREFIX"
+          APP_PREFIX="${APP_PREFIX%.}."
           APP_IDENTIFIER="$APP_PREFIX$BUNDLE_ID"
           EXTENSION_IDENTIFIER="$APP_PREFIX$EXTENSION_BUNDLE_ID"
           SHARED_KEYCHAIN_GROUP="${APP_PREFIX}dev.roszkowski.macpass.shared"
