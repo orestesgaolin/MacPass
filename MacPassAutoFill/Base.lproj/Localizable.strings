@@ -1,5 +1,5 @@
-"AUTOFILL_PROVIDER_CONFIGURATION_MESSAGE" = "MacPass publishes saved credentials to this provider. Manage published databases in MacPass.";
-"AUTOFILL_PROVIDER_FINISH_SETUP" = "Finish Setup";
+"AUTOFILL_PROVIDER_CONFIGURATION_MESSAGE" = "No credentials are published. In MacPass, open and save a database, then choose Publish Current Database in Settings > Integration.";
+"AUTOFILL_PROVIDER_FINISH_SETUP" = "Close";
 "AUTOFILL_PROVIDER_CHOOSE_CREDENTIAL" = "Choose a MacPass credential";
 "AUTOFILL_PROVIDER_CANCEL" = "Cancel";
 "AUTOFILL_PROVIDER_FILL_PASSWORD" = "Fill Password";

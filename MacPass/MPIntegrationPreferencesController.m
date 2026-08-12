@@ -197,7 +197,11 @@
 
 - (MPDocument *)_currentAutoFillDocument {
   NSDocument *document = NSDocumentController.sharedDocumentController.currentDocument;
-  return [document isKindOfClass:MPDocument.class] ? (MPDocument *)document : nil;
+  if ([document isKindOfClass:MPDocument.class]) return (MPDocument *)document;
+  for (NSDocument *candidate in NSApp.orderedDocuments) {
+    if ([candidate isKindOfClass:MPDocument.class]) return (MPDocument *)candidate;
+  }
+  return nil;
 }
 
 - (void)_updateAutoFillSettings {
@@ -233,13 +237,19 @@
   self.autoFillRemoveButton.enabled = summaries.count > 0;
   MPDocument *document = [self _currentAutoFillDocument];
   if (@available(macOS 11.0, *)) {
+    MPAutoFillIdentityStoreUpdater *updater = MPAutoFillIdentityStoreUpdater.sharedUpdater;
     NSString *rootIdentifier = document.root.uuid.UUIDString.lowercaseString;
     BOOL published = document && [MPAutoFillPublicationRegistry.sharedRegistry
         publicationIdentifierForDocument:document sourceURL:document.fileURL rootIdentifier:rootIdentifier] != nil;
     self.autoFillEnableButton.title = published ? NSLocalizedString(@"AUTOFILL_CURRENT_DATABASE_PUBLISHED", @"") :
         NSLocalizedString(@"AUTOFILL_PUBLISH_CURRENT_DATABASE", @"");
-    self.autoFillEnableButton.enabled = !published && document.fileURL.isFileURL && document.tree != nil &&
+    BOOL readyToPublish = document.fileURL.isFileURL && document.tree != nil &&
         document.compositeKey.hasKeys && !document.documentEdited;
+    self.autoFillEnableButton.enabled = !published && readyToPublish;
+    if (!published && !readyToPublish && updater.state != MPAutoFillIdentitySyncStateFailed &&
+        updater.state != MPAutoFillIdentitySyncStateSynchronizing) {
+      self.autoFillStatusLabel.stringValue = NSLocalizedString(@"AUTOFILL_UNLOCK_AND_SAVE", @"");
+    }
   } else {
     self.autoFillEnableButton.enabled = NO;
   }
@@ -296,11 +306,7 @@
 }
 
 - (IBAction)openAutoFillSettings:(id)sender {
-  if (@available(macOS 15.0, *)) {
-    [ASSettingsHelper requestToTurnOnCredentialProviderExtensionWithCompletionHandler:^(BOOL enabled) {
-      dispatch_async(dispatch_get_main_queue(), ^{ [self _updateAutoFillSettings]; });
-    }];
-  } else if (@available(macOS 14.0, *)) {
+  if (@available(macOS 14.0, *)) {
     [ASSettingsHelper openCredentialProviderAppSettingsWithCompletionHandler:nil];
   } else if (@available(macOS 11.0, *)) {
     [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"x-apple.systempreferences:com.apple.Passwords-Settings.extension"]];
