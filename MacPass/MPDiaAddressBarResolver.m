@@ -65,6 +65,11 @@ static BOOL MPStringContainsAnyToken(NSString *string, NSArray<NSString *> *toke
   if(![runningApplication.bundleIdentifier isEqualToString:MPDiaBundleIdentifier]) {
     return nil;
   }
+  if(@available(macOS 10.14, *)) {
+    if(!AXIsProcessTrusted()) {
+      return nil;
+    }
+  }
 
   id applicationElement = CFBridgingRelease(AXUIElementCreateApplication(runningApplication.processIdentifier));
   AXUIElementRef application = (__bridge AXUIElementRef)applicationElement;
@@ -100,7 +105,8 @@ static BOOL MPStringContainsAnyToken(NSString *string, NSArray<NSString *> *toke
     NSString *role = MPAccessibilityString(attributes, kAXRoleAttribute);
     insideToolbar = insideToolbar || [role isEqualToString:(__bridge NSString *)kAXToolbarRole];
     BOOL isTextInput = [role isEqualToString:(__bridge NSString *)kAXTextFieldRole]
-                    || [role isEqualToString:(__bridge NSString *)kAXComboBoxRole];
+                    || [role isEqualToString:(__bridge NSString *)kAXComboBoxRole]
+                    || [role isEqualToString:(__bridge NSString *)kAXTextAreaRole];
     if(isTextInput) {
       NSArray<NSString *> *candidateAttributeNames = @[
         (__bridge NSString *)kAXSubroleAttribute,
@@ -145,7 +151,8 @@ static BOOL MPStringContainsAnyToken(NSString *string, NSArray<NSString *> *toke
                                            insideToolbar:(BOOL)insideToolbar {
   NSString *role = MPAccessibilityString(attributes, kAXRoleAttribute);
   BOOL isTextInput = [role isEqualToString:(__bridge NSString *)kAXTextFieldRole]
-                  || [role isEqualToString:(__bridge NSString *)kAXComboBoxRole];
+                  || [role isEqualToString:(__bridge NSString *)kAXComboBoxRole]
+                  || [role isEqualToString:(__bridge NSString *)kAXTextAreaRole];
   if(!isTextInput) {
     return nil;
   }
@@ -164,7 +171,9 @@ static BOOL MPStringContainsAnyToken(NSString *string, NSArray<NSString *> *toke
     }
   }
   NSString *metadata = [metadataParts componentsJoinedByString:@" "];
-  BOOL explicitlyAddressBar = MPStringContainsAnyToken(metadata, @[@"address", @"location", @"omnibox", @"url bar"]);
+  NSString *identifier = MPAccessibilityString(attributes, kAXIdentifierAttribute);
+  BOOL isDiaAssistantBar = [identifier isEqualToString:@"navigationBarAssistantBarTextField"];
+  BOOL explicitlyAddressBar = isDiaAssistantBar || MPStringContainsAnyToken(metadata, @[@"address", @"location", @"omnibox", @"url bar"]);
   NSString *subrole = MPAccessibilityString(attributes, kAXSubroleAttribute);
   BOOL toolbarSearchField = insideToolbar
                          && ([subrole isEqualToString:(__bridge NSString *)kAXSearchFieldSubrole]

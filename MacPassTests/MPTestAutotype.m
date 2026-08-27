@@ -30,8 +30,8 @@
 
 - (void)testDiaAddressBarAccessibilityValue {
   NSDictionary *attributes = @{
-    NSAccessibilityRoleAttribute: NSAccessibilityTextFieldRole,
-    NSAccessibilityDescriptionAttribute: @"Address and search bar",
+    NSAccessibilityRoleAttribute: NSAccessibilityTextAreaRole,
+    NSAccessibilityIdentifierAttribute: @"navigationBarAssistantBarTextField",
     NSAccessibilityValueAttribute: @" appstoreconnect.apple.com / App Store Connect "
   };
 
