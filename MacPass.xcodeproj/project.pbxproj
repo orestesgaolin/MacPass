@@ -42,6 +42,7 @@
 		4C1FA07B18231900003A3F8C /* MPDocument+Autotype.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C1FA07A18231900003A3F8C /* MPDocument+Autotype.m */; };
 		4C2057EE23CDF6F900C731EC /* MPPathCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C2057ED23CDF6F900C731EC /* MPPathCell.m */; };
 		4C2057F423CF3BA600C731EC /* MPAutotypeEnvironment.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C2057F323CF3BA600C731EC /* MPAutotypeEnvironment.m */; };
+		D0D1A0012F5A000000D1A001 /* MPDiaAddressBarResolver.m in Sources */ = {isa = PBXBuildFile; fileRef = D0D1A0032F5A000000D1A003 /* MPDiaAddressBarResolver.m */; };
 		4C2057F723CF3E9A00C731EC /* NSRunningApplication+MPAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C2057F623CF3E9A00C731EC /* NSRunningApplication+MPAdditions.m */; };
 		4C20E4C123E4753A00807FAE /* MPDocumentSplitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C20E4BF23E4753A00807FAE /* MPDocumentSplitViewController.m */; };
 		4C20E4C223E4753A00807FAE /* DocumentSplitView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C20E4C023E4753A00807FAE /* DocumentSplitView.xib */; };
@@ -444,6 +445,8 @@
 		4C2057EF23CDFC2000C731EC /* MPPathControl+Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MPPathControl+Private.h"; sourceTree = "<group>"; };
 		4C2057F223CF3BA600C731EC /* MPAutotypeEnvironment.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MPAutotypeEnvironment.h; sourceTree = "<group>"; };
 		4C2057F323CF3BA600C731EC /* MPAutotypeEnvironment.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MPAutotypeEnvironment.m; sourceTree = "<group>"; };
+		D0D1A0022F5A000000D1A002 /* MPDiaAddressBarResolver.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MPDiaAddressBarResolver.h; sourceTree = "<group>"; };
+		D0D1A0032F5A000000D1A003 /* MPDiaAddressBarResolver.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MPDiaAddressBarResolver.m; sourceTree = "<group>"; };
 		4C2057F523CF3E9A00C731EC /* NSRunningApplication+MPAdditions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSRunningApplication+MPAdditions.h"; sourceTree = "<group>"; };
 		4C2057F623CF3E9A00C731EC /* NSRunningApplication+MPAdditions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSRunningApplication+MPAdditions.m"; sourceTree = "<group>"; };
 		4C20E4BE23E4753A00807FAE /* MPDocumentSplitViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MPDocumentSplitViewController.h; sourceTree = "<group>"; };
@@ -1776,6 +1779,8 @@
 				4C1ECAE222CCD30F00F46069 /* MPAutotypeDoctor.m */,
 				4C2057F223CF3BA600C731EC /* MPAutotypeEnvironment.h */,
 				4C2057F323CF3BA600C731EC /* MPAutotypeEnvironment.m */,
+				D0D1A0022F5A000000D1A002 /* MPDiaAddressBarResolver.h */,
+				D0D1A0032F5A000000D1A003 /* MPDiaAddressBarResolver.m */,
 				4CA3530918A53CB800839B0F /* MPKeyMapper.h */,
 				4CA3530A18A53CB800839B0F /* MPKeyMapper.m */,
 				4C3499FE218852160055AF45 /* MPKeyTyper.h */,
@@ -2347,6 +2352,7 @@
 				4C46B88517063A070046109A /* NSString+MPPasswordCreation.m in Sources */,
 				4C5A11FE1708DE8700223D8A /* MPPasswordCreatorViewController.m in Sources */,
 				4C2057F423CF3BA600C731EC /* MPAutotypeEnvironment.m in Sources */,
+				D0D1A0012F5A000000D1A001 /* MPDiaAddressBarResolver.m in Sources */,
 				4CE5B54B173AFBA700207B39 /* MPDocument.m in Sources */,
 				4CE082C31F6FCD2A0034FF56 /* MPCollectionView.m in Sources */,
 				4C4A100F176286FD00BBF2CA /* MPTableView.m in Sources */,

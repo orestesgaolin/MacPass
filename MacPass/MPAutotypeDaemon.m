@@ -282,7 +282,9 @@ static MPAutotypeDaemon *_sharedInstance;
 - (MPAutotypeContext *)_autotypeContextForDocuments:(NSArray<MPDocument *> *)documents withEnvironment:(MPAutotypeEnvironment *)environment {
   NSMutableArray *autotypeCandidates = [[NSMutableArray alloc] init];
   for(MPDocument *document in documents) {
-    NSArray *contexts = [document autotypContextsForWindowTitle:environment.windowTitle preferredEntry:environment.preferredEntry];
+    NSArray *contexts = [document autotypContextsForWindowTitle:environment.windowTitle
+                                              normalizedURLHost:environment.normalizedURLHost
+                                                 preferredEntry:environment.preferredEntry];
     if(contexts ) {
       [autotypeCandidates addObjectsFromArray:contexts];
     }

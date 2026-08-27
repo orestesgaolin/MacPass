@@ -15,6 +15,7 @@
 #import "MPAutotypeContext.h"
 #import "MPAutotypePaste.h"
 #import "MPAutotypeKeyPress.h"
+#import "MPDiaAddressBarResolver.h"
 
 #import "MPSettingsHelper.h"
 
@@ -26,6 +27,51 @@
 @end
 
 @implementation MPTestAutotype
+
+- (void)testDiaAddressBarAccessibilityValue {
+  NSDictionary *attributes = @{
+    NSAccessibilityRoleAttribute: NSAccessibilityTextAreaRole,
+    NSAccessibilityIdentifierAttribute: @"navigationBarAssistantBarTextField",
+    NSAccessibilityValueAttribute: @" appstoreconnect.apple.com / App Store Connect "
+  };
+
+  NSString *value = [MPDiaAddressBarResolver addressBarValueForAccessibilityAttributes:attributes insideToolbar:NO];
+
+  XCTAssertEqualObjects(value, @"appstoreconnect.apple.com / App Store Connect");
+}
+
+- (void)testDiaAddressBarAccessibilityValueFallsBackToValueDescription {
+  NSDictionary *attributes = @{
+    NSAccessibilityRoleAttribute: NSAccessibilityTextFieldRole,
+    NSAccessibilityIdentifierAttribute: @"address-bar",
+    NSAccessibilityValueDescriptionAttribute: @"example.com / Example"
+  };
+
+  NSString *value = [MPDiaAddressBarResolver addressBarValueForAccessibilityAttributes:attributes insideToolbar:NO];
+
+  XCTAssertEqualObjects(value, @"example.com / Example");
+}
+
+- (void)testDiaAddressBarResolverRejectsWebPageTextFields {
+  NSDictionary *attributes = @{
+    NSAccessibilityRoleAttribute: NSAccessibilityTextFieldRole,
+    NSAccessibilityDescriptionAttribute: @"Email",
+    NSAccessibilityValueAttribute: @"person@example.com"
+  };
+
+  NSString *value = [MPDiaAddressBarResolver addressBarValueForAccessibilityAttributes:attributes insideToolbar:NO];
+
+  XCTAssertNil(value);
+}
+
+- (void)testDiaURLHostNormalizationIgnoresSchemeAndWWWPrefix {
+  NSString *addressBarHost = [MPDiaAddressBarResolver normalizedHostForAddressBarValue:@"appstoreconnect.apple.com / App Store Connect"];
+
+  XCTAssertEqualObjects(addressBarHost, @"appstoreconnect.apple.com");
+  XCTAssertEqualObjects([MPDiaAddressBarResolver normalizedHostForEntryURL:@"https://appstoreconnect.apple.com"], addressBarHost);
+  XCTAssertEqualObjects([MPDiaAddressBarResolver normalizedHostForEntryURL:@"www.appstoreconnect.apple.com"], addressBarHost);
+  XCTAssertEqualObjects([MPDiaAddressBarResolver normalizedHostForEntryURL:@"https://www.appstoreconnect.apple.com/login"], addressBarHost);
+}
 
 - (void)setUp {
   [super setUp];

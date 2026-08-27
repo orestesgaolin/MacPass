@@ -224,6 +224,7 @@ FOUNDATION_EXPORT NSString *const MPDocumentGroupKey;
  *  @return NSArray of MPAutotypeContext objects matching the window title.
  */
 - (NSArray *)autotypContextsForWindowTitle:(NSString *)windowTitle preferredEntry:(KPKEntry *)entryOrNil;
+- (NSArray *)autotypContextsForWindowTitle:(NSString *)windowTitle normalizedURLHost:(NSString *)normalizedURLHost preferredEntry:(KPKEntry *)entryOrNil;
 /**
  *  Checks if the document has malformed autotype items
  *
@@ -281,4 +282,3 @@ FOUNDATION_EXTERN NSString *const kMPDocumentSearchResultsKey;
 - (IBAction)toggleSearchFlags:(id)sender;
 
 @end
-

@@ -26,6 +26,7 @@
 #import "KeePassKit/KeePassKit.h"
 
 #import "MPSettingsHelper.h"
+#import "MPDiaAddressBarResolver.h"
 
 @implementation MPDocument (Autotype)
 
@@ -46,6 +47,10 @@
 }
 
 - (NSArray *)autotypContextsForWindowTitle:(NSString *)windowTitle preferredEntry:(KPKEntry *)entry {
+  return [self autotypContextsForWindowTitle:windowTitle normalizedURLHost:nil preferredEntry:entry];
+}
+
+- (NSArray *)autotypContextsForWindowTitle:(NSString *)windowTitle normalizedURLHost:(NSString *)normalizedURLHost preferredEntry:(KPKEntry *)entry {
   if(!windowTitle) {
     return nil;
   }
@@ -91,6 +96,10 @@
     if(matchHost && !foundMatch) {
       NSURL *url = [NSURL URLWithString:entry.url];
       foundMatch = url.host != nil && [windowTitle localizedCaseInsensitiveContainsString:url.host];
+    }
+    if((matchURL || matchHost) && !foundMatch && normalizedURLHost.length > 0) {
+      NSString *entryHost = [MPDiaAddressBarResolver normalizedHostForEntryURL:entry.url];
+      foundMatch = [entryHost isEqualToString:normalizedURLHost];
     }
     /* test for tags */
     if(matchTags && !foundMatch) {

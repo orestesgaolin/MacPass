@@ -10,6 +10,7 @@
 #import "NSRunningApplication+MPAdditions.h"
 #import "MPPluginHost.h"
 #import "MPPlugin.h"
+#import "MPDiaAddressBarResolver.h"
 
 @implementation MPAutotypeEnvironment
 
@@ -37,11 +38,20 @@
       
       /* if we have any resolvers, let them provide the window title */
       NSArray *resolvers = [MPPluginHost.sharedHost windowTitleResolverForRunningApplication:targetApplication];
+      BOOL pluginDidResolveWindowTitle = NO;
       for(MPPlugin<MPAutotypeWindowTitleResolverPlugin> *resolver in resolvers) {
         NSString *windowTitle = [resolver windowTitleForRunningApplication:targetApplication];
         if(windowTitle.length > 0) {
           _windowTitle = windowTitle;
+          pluginDidResolveWindowTitle = YES;
           break;
+        }
+      }
+      if(!pluginDidResolveWindowTitle) {
+        NSString *diaAddressBarValue = [MPDiaAddressBarResolver addressBarValueForRunningApplication:targetApplication];
+        if(diaAddressBarValue.length > 0) {
+          _windowTitle = diaAddressBarValue;
+          _normalizedURLHost = [MPDiaAddressBarResolver normalizedHostForAddressBarValue:diaAddressBarValue];
         }
       }
     }
