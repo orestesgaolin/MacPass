@@ -503,31 +503,35 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          set -euo pipefail
           REPO="${{ github.repository }}"
 
-          # Start appcast XML
-          cat > appcast.xml << 'HEADER'
+          # Generate the complete appcast in one pass.
+          {
+          cat << HEADER
           <?xml version="1.0" encoding="utf-8"?>
           <rss version="2.0" xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle" xmlns:dc="http://purl.org/dc/elements/1.1/">
             <channel>
               <title>MacPass Updates</title>
-              <link>https://github.com/$REPO</link>
+              <link>https://github.com/${REPO}</link>
               <description>Most recent changes with links to updates.</description>
               <language>en</language>
           HEADER
-
-          # Rewrite the repo URL into the template
-          sed -i "s|\$REPO|${REPO}|g" appcast.xml
 
           # Query all releases and generate items
           # sparkle:version must be numeric (for version comparison).
           # Parse build number from release name/title with or without prefix,
           # e.g. "MacPass 0.8.3+rc2 (19)" or "0.8.3+rc2 (19)".
-          gh api "repos/${REPO}/releases" --paginate --jq '.[] | select(.draft == false)' | \
+          gh api -H "Accept: application/vnd.github.full+json" \
+            "repos/${REPO}/releases" --paginate --jq '.[] | select(.draft == false)' | \
           jq -c '.' | while read -r release; do
             TAG=$(echo "$release" | jq -r '.tag_name')
             NAME=$(echo "$release" | jq -r '.name // .tag_name')
             PUB_DATE=$(echo "$release" | jq -r '.published_at')
+            RELEASE_URL=$(echo "$release" | jq -r '.html_url')
+            # GitHub's full media type provides the release body rendered as HTML.
+            # Escape it for XML; Sparkle decodes the text before rendering it as HTML.
+            RELEASE_NOTES=$(echo "$release" | jq -r '(.body_html // "") | @html')
 
             # Find the .dmg asset (exclude noSparkle variant — appcast is for Sparkle updates only)
             ZIP_URL=$(echo "$release" | jq -r '[.assets // [] | .[] | select((.name | endswith(".dmg")) and (.name | contains("noSparkle") | not))] | first // empty | .browser_download_url')
@@ -543,31 +547,48 @@ jobs:
               continue
             fi
 
-            printf '    <item>\n' >> appcast.xml
-            printf '      <title>%s</title>\n' "$NAME" >> appcast.xml
-            printf '      <pubDate>%s</pubDate>\n' "$PUB_DATE" >> appcast.xml
-            printf '      <sparkle:version>%s</sparkle:version>\n' "$BUILD_NUM" >> appcast.xml
-            printf '      <sparkle:shortVersionString>%s</sparkle:shortVersionString>\n' "$TAG" >> appcast.xml
-            printf '      <sparkle:minimumSystemVersion>10.14</sparkle:minimumSystemVersion>\n' >> appcast.xml
-            printf '      <enclosure\n' >> appcast.xml
-            printf '        url="%s"\n' "$ZIP_URL" >> appcast.xml
-            printf '        length="%s"\n' "$ZIP_SIZE" >> appcast.xml
-            printf '        type="application/octet-stream"\n' >> appcast.xml
-            printf '        sparkle:version="%s"\n' "$BUILD_NUM" >> appcast.xml
-            printf '        sparkle:shortVersionString="%s"\n' "$TAG" >> appcast.xml
-            printf '      />\n' >> appcast.xml
-            printf '    </item>\n' >> appcast.xml
+            printf '    <item>\n'
+            printf '      <title>%s</title>\n' "$NAME"
+            printf '      <pubDate>%s</pubDate>\n' "$PUB_DATE"
+            printf '      <sparkle:version>%s</sparkle:version>\n' "$BUILD_NUM"
+            printf '      <sparkle:shortVersionString>%s</sparkle:shortVersionString>\n' "$TAG"
+            printf '      <sparkle:minimumSystemVersion>10.14</sparkle:minimumSystemVersion>\n'
+            if [ -n "$RELEASE_NOTES" ]; then
+              printf '      <description>%s</description>\n' "$RELEASE_NOTES"
+            fi
+            printf '      <sparkle:fullReleaseNotesLink>https://github.com/%s/releases</sparkle:fullReleaseNotesLink>\n' "$REPO"
+            printf '      <link>%s</link>\n' "$RELEASE_URL"
+            printf '      <enclosure\n'
+            printf '        url="%s"\n' "$ZIP_URL"
+            printf '        length="%s"\n' "$ZIP_SIZE"
+            printf '        type="application/octet-stream"\n'
+            printf '        sparkle:version="%s"\n' "$BUILD_NUM"
+            printf '        sparkle:shortVersionString="%s"\n' "$TAG"
+            printf '      />\n'
+            printf '    </item>\n'
           done
 
           # Close appcast XML
-          cat >> appcast.xml << 'FOOTER'
+          cat << 'FOOTER'
             </channel>
           </rss>
           FOOTER
+          } > appcast.xml
 
           # Move to a dedicated directory for gh-pages deployment
           mkdir -p _site
           mv appcast.xml _site/appcast.xml
+
+          python3 - << 'PY'
+          import xml.etree.ElementTree as ET
+
+          root = ET.parse("_site/appcast.xml").getroot()
+          items = root.findall("./channel/item")
+          if not items:
+              raise SystemExit("Generated appcast has no update items")
+          if not any(item.find("description") is not None for item in items):
+              raise SystemExit("Generated appcast has no embedded release notes")
+          PY
 
           echo "Generated appcast.xml:"
           cat _site/appcast.xml
