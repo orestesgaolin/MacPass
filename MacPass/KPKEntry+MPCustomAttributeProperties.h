@@ -23,7 +23,15 @@
 #import <KeePassKit/KeePassKit.h>
 
 FOUNDATION_EXTERN NSString *const MPCustomAttributePropertyPrefix;
+FOUNDATION_EXTERN NSString *const MPAutotypePriorityAttributeKey;
+FOUNDATION_EXTERN NSInteger const MPDefaultAutotypePriority;
 
 @interface KPKEntry (MPCustomAttributeProperties)
+
+/**
+ *  Controls the ordering of matches in the Global Auto-Type candidate list.
+ *  Lower values are shown first. Entries without the custom attribute use 100.
+ */
+@property (nonatomic) NSInteger autotypePriority;
 
 @end

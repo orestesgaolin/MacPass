@@ -49,6 +49,7 @@
 #import "MPPasteBoardController.h"
 #import "MPContextButton.h"
 #import "MPAddCustomFieldContextMenuDelegate.h"
+#import "KPKEntry+MPCustomAttributeProperties.h"
 
 #import "MPArrayController.h"
 
@@ -510,6 +511,7 @@ typedef NS_ENUM(NSUInteger, MPInpspectorEditorIndex) {
                       self.removeWindowAssociationButton,
                       self.enableAutotypeCheckButton,
                       self.obfuscateAutotypeCheckButton,
+                      self.autotypePriorityTextField,
                       self.customEntrySequenceTextField,
                       self.windowTitleComboBox,
                       self.associationSequenceTextField];
@@ -586,6 +588,10 @@ typedef NS_ENUM(NSUInteger, MPInpspectorEditorIndex) {
                                  toObject:self
                               withKeyPath:[NSString stringWithFormat:@"%@.%@.%@", NSStringFromSelector(@selector(representedObject)), NSStringFromSelector(@selector(autotype)), NSStringFromSelector(@selector(obfuscateDataTransfer))]
                                   options:nil];
+  [self.autotypePriorityTextField bind:NSValueBinding
+                              toObject:self
+                           withKeyPath:[NSString stringWithFormat:@"%@.%@", NSStringFromSelector(@selector(representedObject)), NSStringFromSelector(@selector(autotypePriority))]
+                               options:@{ NSValidatesImmediatelyBindingOption: @YES }];
   
   /* Use enabled2 since NSEnabledBinding is already bound! */
   [self.customEntrySequenceTextField bind:@"enabled2"

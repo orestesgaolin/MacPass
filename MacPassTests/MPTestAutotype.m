@@ -16,6 +16,7 @@
 #import "MPAutotypePaste.h"
 #import "MPAutotypeKeyPress.h"
 #import "MPDiaAddressBarResolver.h"
+#import "KPKEntry+MPCustomAttributeProperties.h"
 
 #import "MPSettingsHelper.h"
 
@@ -27,6 +28,45 @@
 @end
 
 @implementation MPTestAutotype
+
+- (void)testAutotypePriorityDefaultsToOneHundredAndPersistsNonDefaultValue {
+  XCTAssertEqual(self.entry.autotypePriority, 100);
+
+  self.entry.autotypePriority = 25;
+  XCTAssertEqual(self.entry.autotypePriority, 25);
+  XCTAssertEqualObjects([self.entry valueForAttributeWithKey:MPAutotypePriorityAttributeKey], @"25");
+
+  self.entry.autotypePriority = 100;
+  XCTAssertEqual(self.entry.autotypePriority, 100);
+  XCTAssertNil([self.entry customAttributeWithKey:MPAutotypePriorityAttributeKey]);
+}
+
+- (void)testInvalidAutotypePriorityUsesDefault {
+  [self.entry addCustomAttribute:[[KPKAttribute alloc] initWithKey:MPAutotypePriorityAttributeKey value:@"not a number"]];
+
+  XCTAssertEqual(self.entry.autotypePriority, 100);
+}
+
+- (void)testAutotypeCandidatesSortByPriorityThenTitle {
+  KPKEntry *alpha = [[KPKEntry alloc] init];
+  alpha.title = @"Alpha";
+  alpha.autotypePriority = 100;
+  KPKEntry *beta = [[KPKEntry alloc] init];
+  beta.title = @"beta";
+  beta.autotypePriority = 100;
+  KPKEntry *urgent = [[KPKEntry alloc] init];
+  urgent.title = @"Zulu";
+  urgent.autotypePriority = 10;
+
+  NSArray<MPAutotypeContext *> *contexts = @[
+    [[MPAutotypeContext alloc] initWithEntry:beta andSequence:@"{USERNAME}"],
+    [[MPAutotypeContext alloc] initWithEntry:alpha andSequence:@"{USERNAME}"],
+    [[MPAutotypeContext alloc] initWithEntry:urgent andSequence:@"{USERNAME}"]
+  ];
+  NSArray<MPAutotypeContext *> *sorted = [contexts sortedArrayUsingSelector:@selector(compareForCandidateSelection:)];
+
+  XCTAssertEqualObjects([sorted valueForKeyPath:@"entry.title"], (@[ @"Zulu", @"Alpha", @"beta" ]));
+}
 
 - (void)testDiaAddressBarAccessibilityValue {
   NSDictionary *attributes = @{

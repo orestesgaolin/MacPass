@@ -68,6 +68,7 @@
 @property (strong) IBOutlet NSView *autotypView;
 @property (weak) IBOutlet NSButton *enableAutotypeCheckButton;
 @property (weak) IBOutlet NSButton *obfuscateAutotypeCheckButton;
+@property (weak) IBOutlet NSTextField *autotypePriorityTextField;
 @property (weak) IBOutlet NSTableView *windowAssociationsTableView;
 @property (weak) IBOutlet NSButton *showCustomEntrySequenceAutotypeBuilderButton;
 @property (weak) IBOutlet NSTextField *customEntrySequenceTextField;

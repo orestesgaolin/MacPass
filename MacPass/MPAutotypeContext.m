@@ -21,6 +21,7 @@
 //
 
 #import "MPAutotypeContext.h"
+#import "KPKEntry+MPCustomAttributeProperties.h"
 
 #import "KeePassKit/KeePassKit.h"
 
@@ -69,6 +70,18 @@
     return NO;
   }
   return [self.normalizedCommand isEqualToString:context.normalizedCommand];
+}
+
+- (NSComparisonResult)compareForCandidateSelection:(MPAutotypeContext *)context {
+  NSInteger priority = self.entry.autotypePriority;
+  NSInteger otherPriority = context.entry.autotypePriority;
+  if(priority < otherPriority) {
+    return NSOrderedAscending;
+  }
+  if(priority > otherPriority) {
+    return NSOrderedDescending;
+  }
+  return [(self.entry.title ?: @"") localizedCaseInsensitiveCompare:(context.entry.title ?: @"")];
 }
 
 - (BOOL)valid {

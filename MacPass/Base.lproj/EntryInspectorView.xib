@@ -14,6 +14,7 @@
                 <outlet property="addWindowAssociationButton" destination="Iy9-9L-Aev" id="kDA-Mm-lah"/>
                 <outlet property="associationSequenceTextField" destination="NjR-ea-Y7k" id="kTb-Y5-XrZ"/>
                 <outlet property="attachmentTableView" destination="137" id="265"/>
+                <outlet property="autotypePriorityTextField" destination="Pri-num-001" id="Pri-out-001"/>
                 <outlet property="autotypView" destination="zv7-wE-Bmg" id="m1g-dk-hFv"/>
                 <outlet property="customEntrySequenceTextField" destination="cDK-DM-F5z" id="CDU-Oq-AHP"/>
                 <outlet property="customFieldsTableView" destination="193" id="266"/>
@@ -536,10 +537,10 @@
             <point key="canvasLocation" x="-310" y="-1413"/>
         </customView>
         <view translatesAutoresizingMaskIntoConstraints="NO" id="zv7-wE-Bmg" customClass="HNHUIScrollDocumentViewAdapter">
-            <rect key="frame" x="0.0" y="0.0" width="301" height="424"/>
+            <rect key="frame" x="0.0" y="0.0" width="301" height="459"/>
             <subviews>
                 <button translatesAutoresizingMaskIntoConstraints="NO" id="kdV-Xa-8p3">
-                    <rect key="frame" x="18" y="399" width="263" height="16"/>
+                    <rect key="frame" x="18" y="434" width="263" height="16"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="14" id="c9A-Ju-Cj9"/>
                     </constraints>
@@ -549,7 +550,7 @@
                     </buttonCell>
                 </button>
                 <button translatesAutoresizingMaskIntoConstraints="NO" id="I7L-Am-Qpa">
-                    <rect key="frame" x="18" y="379" width="263" height="16"/>
+                    <rect key="frame" x="18" y="414" width="263" height="16"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="14" id="KKP-xg-uUu"/>
                     </constraints>
@@ -558,6 +559,26 @@
                         <font key="font" metaFont="system"/>
                     </buttonCell>
                 </button>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Pri-lbl-001">
+                    <rect key="frame" x="18" y="388" width="48" height="14"/>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Priority" id="Pri-cell-lbl">
+                        <font key="font" metaFont="smallSystem"/>
+                        <color key="textColor" name="disabledControlTextColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Pri-num-001">
+                    <rect key="frame" x="76" y="383" width="80" height="21"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="80" id="Pri-width-001"/>
+                    </constraints>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="Pri-cell-num">
+                        <numberFormatter key="formatter" formatterBehavior="default10_4" numberStyle="decimal" allowsFloats="NO" usesGroupingSeparator="NO" groupingSize="0" minimumIntegerDigits="1" maximumIntegerDigits="19" id="Pri-fmt-001"/>
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
                 <textField verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="45R-v4-ywl">
                     <rect key="frame" x="18" y="358" width="265" height="14"/>
                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Autotype Sequence" id="bQ5-0E-h3O">
@@ -735,7 +756,12 @@
                 <constraint firstItem="2YH-c2-Cwc" firstAttribute="leading" secondItem="zv7-wE-Bmg" secondAttribute="leading" constant="20" symbolic="YES" id="BdU-1m-yTi"/>
                 <constraint firstItem="HQa-of-iwh" firstAttribute="leading" secondItem="zv7-wE-Bmg" secondAttribute="leading" constant="20" symbolic="YES" id="CYT-rP-Wen"/>
                 <constraint firstItem="NjR-ea-Y7k" firstAttribute="top" secondItem="z03-zW-GN3" secondAttribute="bottom" constant="8" symbolic="YES" id="Dqe-xB-aEy"/>
-                <constraint firstItem="45R-v4-ywl" firstAttribute="top" secondItem="I7L-Am-Qpa" secondAttribute="bottom" constant="8" symbolic="YES" id="K2L-ZF-2Ef"/>
+                <constraint firstItem="Pri-lbl-001" firstAttribute="top" secondItem="I7L-Am-Qpa" secondAttribute="bottom" constant="8" symbolic="YES" id="Pri-top-001"/>
+                <constraint firstItem="Pri-num-001" firstAttribute="baseline" secondItem="Pri-lbl-001" secondAttribute="baseline" id="Pri-base-001"/>
+                <constraint firstItem="Pri-lbl-001" firstAttribute="leading" secondItem="zv7-wE-Bmg" secondAttribute="leading" constant="20" symbolic="YES" id="Pri-lead-001"/>
+                <constraint firstItem="Pri-num-001" firstAttribute="leading" secondItem="Pri-lbl-001" secondAttribute="trailing" constant="12" id="Pri-gap-001"/>
+                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="Pri-num-001" secondAttribute="trailing" constant="20" symbolic="YES" id="Pri-trail-001"/>
+                <constraint firstItem="45R-v4-ywl" firstAttribute="top" secondItem="Pri-num-001" secondAttribute="bottom" constant="8" symbolic="YES" id="K2L-ZF-2Ef"/>
                 <constraint firstAttribute="trailing" secondItem="I7L-Am-Qpa" secondAttribute="trailing" constant="20" symbolic="YES" id="KwU-jX-9oi"/>
                 <constraint firstItem="2YH-c2-Cwc" firstAttribute="top" secondItem="iR3-FU-MYu" secondAttribute="bottom" constant="8" symbolic="YES" id="Ln0-Dy-Ix2"/>
                 <constraint firstItem="45R-v4-ywl" firstAttribute="leading" secondItem="zv7-wE-Bmg" secondAttribute="leading" constant="20" symbolic="YES" id="NnC-gf-qsa"/>

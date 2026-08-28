@@ -24,8 +24,42 @@
 #import <objc/runtime.h>
 
 NSString *const MPCustomAttributePropertyPrefix = @"mp_valueForCustomAttribute";
+NSString *const MPAutotypePriorityAttributeKey = @"Auto-Type Priority";
+NSInteger const MPDefaultAutotypePriority = 100;
 
 @implementation KPKEntry (MPCustomAttributeProperties)
+
+- (NSInteger)autotypePriority {
+  NSString *storedValue = [self valueForAttributeWithKey:MPAutotypePriorityAttributeKey];
+  if(storedValue.length == 0) {
+    return MPDefaultAutotypePriority;
+  }
+
+  NSScanner *scanner = [NSScanner scannerWithString:storedValue];
+  NSInteger priority;
+  if(![scanner scanInteger:&priority] || !scanner.isAtEnd) {
+    return MPDefaultAutotypePriority;
+  }
+  return priority;
+}
+
+- (void)setAutotypePriority:(NSInteger)autotypePriority {
+  KPKAttribute *attribute = [self customAttributeWithKey:MPAutotypePriorityAttributeKey];
+  if(autotypePriority == MPDefaultAutotypePriority) {
+    if(attribute) {
+      [self removeCustomAttribute:attribute];
+    }
+    return;
+  }
+
+  NSString *storedValue = [NSString stringWithFormat:@"%ld", (long)autotypePriority];
+  if(attribute) {
+    attribute.value = storedValue;
+  }
+  else {
+    [self addCustomAttribute:[[KPKAttribute alloc] initWithKey:MPAutotypePriorityAttributeKey value:storedValue]];
+  }
+}
 
 // generic getter
 static id propertyIMP(id self, SEL _cmd) {

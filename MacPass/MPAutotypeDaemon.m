@@ -289,6 +289,7 @@ static MPAutotypeDaemon *_sharedInstance;
       [autotypeCandidates addObjectsFromArray:contexts];
     }
   }
+  [autotypeCandidates sortUsingSelector:@selector(compareForCandidateSelection:)];
 
   if(autotypeCandidates.count == 0) {
     return nil; // we do not have found anything

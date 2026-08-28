@@ -72,4 +72,9 @@
 
 - (BOOL)isEqualToAutotypeContext:(MPAutotypeContext *)context;
 
+/**
+ *  Orders candidate contexts by entry priority, then alphabetically by title.
+ */
+- (NSComparisonResult)compareForCandidateSelection:(MPAutotypeContext *)context;
+
 @end
