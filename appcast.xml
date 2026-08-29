@@ -1,0 +1,822 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle" xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <channel>
+    <title>MacPass Updates</title>
+    <link>https://github.com/orestesgaolin/MacPass</link>
+    <description>Most recent changes with links to updates.</description>
+    <language>en</language>
+    <item>
+      <title>MacPass 0.8.13-rc2 (75)</title>
+      <pubDate>2026-08-29T16:01:02Z</pubDate>
+      <sparkle:version>75</sparkle:version>
+      <sparkle:shortVersionString>0.8.13-rc2</sparkle:shortVersionString>
+      <sparkle:minimumSystemVersion>10.14</sparkle:minimumSystemVersion>
+      <description>&lt;h2&gt;Changes&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;Features&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;add KeePass field reference support&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Bug Fixes&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;verify Carthage checkout without git metadata&lt;/li&gt;
+&lt;li&gt;preserve first field reference insertion&lt;/li&gt;
+&lt;li&gt;clarify field reference translations&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;strong&gt;Verification&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;This release was built with GitHub Actions and includes &lt;a href=&quot;https://docs.github.com/en/actions/security-for-github-actions/using-artifact-attestations/using-artifact-attestations-to-establish-provenance-for-builds&quot;&gt;SLSA build provenance attestations&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;To verify the artifacts:&lt;/p&gt;
+&lt;div class=&quot;highlight highlight-source-shell notranslate position-relative overflow-auto&quot; data-snippet-clipboard-copy-content=&quot;gh attestation verify MacPass-0.8.13-rc2.dmg --owner orestesgaolin&quot;&gt;&lt;pre&gt;gh attestation verify MacPass-0.8.13-rc2.dmg --owner orestesgaolin&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;strong&gt;Build Info&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Version&lt;/strong&gt;: 0.8.13-rc2&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Build&lt;/strong&gt;: 75&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Runner&lt;/strong&gt;: macOS 15 (arm64)&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Commit&lt;/strong&gt;: &lt;a class=&quot;commit-link&quot; data-hovercard-type=&quot;commit&quot; data-hovercard-url=&quot;https://github.com/orestesgaolin/MacPass/commit/e765bf0083c7cf82c42d2cb2133fb4c727671a0b/hovercard&quot; href=&quot;https://github.com/orestesgaolin/MacPass/commit/e765bf0083c7cf82c42d2cb2133fb4c727671a0b&quot;&gt;&lt;tt&gt;e765bf0&lt;/tt&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Full Changelog&lt;/strong&gt;: &lt;a class=&quot;commit-link&quot; href=&quot;https://github.com/orestesgaolin/MacPass/compare/0.8.13-rc1...0.8.13-rc2&quot;&gt;&lt;tt&gt;0.8.13-rc1...0.8.13-rc2&lt;/tt&gt;&lt;/a&gt;&lt;/p&gt;</description>
+      <sparkle:fullReleaseNotesLink>https://github.com/orestesgaolin/MacPass/releases</sparkle:fullReleaseNotesLink>
+      <link>https://github.com/orestesgaolin/MacPass/releases/tag/0.8.13-rc2</link>
+      <enclosure
+        url="https://github.com/orestesgaolin/MacPass/releases/download/0.8.13-rc2/MacPass-0.8.13-rc2.dmg"
+        length="5225176"
+        type="application/octet-stream"
+        sparkle:version="75"
+        sparkle:shortVersionString="0.8.13-rc2"
+      />
+    </item>
+    <item>
+      <title>MacPass 0.8.13-rc1 (74)</title>
+      <pubDate>2026-08-28T09:14:38Z</pubDate>
+      <sparkle:version>74</sparkle:version>
+      <sparkle:shortVersionString>0.8.13-rc1</sparkle:shortVersionString>
+      <sparkle:minimumSystemVersion>10.14</sparkle:minimumSystemVersion>
+      <description>&lt;h2&gt;Changes&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;Features&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;prioritize autotype candidates&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Bug Fixes&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;show release notes in Sparkle updater&lt;/li&gt;
+&lt;/ul&gt;
+&lt;details&gt;
+&lt;p&gt;&lt;strong&gt;Verification&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;This release was built with GitHub Actions and includes &lt;a href=&quot;https://docs.github.com/en/actions/security-for-github-actions/using-artifact-attestations/using-artifact-attestations-to-establish-provenance-for-builds&quot;&gt;SLSA build provenance attestations&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;To verify the artifacts:&lt;/p&gt;
+&lt;div class=&quot;highlight highlight-source-shell notranslate position-relative overflow-auto&quot; data-snippet-clipboard-copy-content=&quot;gh attestation verify MacPass-0.8.13-rc1.dmg --owner orestesgaolin&quot;&gt;&lt;pre&gt;gh attestation verify MacPass-0.8.13-rc1.dmg --owner orestesgaolin&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;strong&gt;Build Info&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Version&lt;/strong&gt;: 0.8.13-rc1&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Build&lt;/strong&gt;: 74&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Runner&lt;/strong&gt;: macOS 15 (arm64)&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Commit&lt;/strong&gt;: &lt;a class=&quot;commit-link&quot; data-hovercard-type=&quot;commit&quot; data-hovercard-url=&quot;https://github.com/orestesgaolin/MacPass/commit/88613876257b6957a83b83ce5d34ada85ed40420/hovercard&quot; href=&quot;https://github.com/orestesgaolin/MacPass/commit/88613876257b6957a83b83ce5d34ada85ed40420&quot;&gt;&lt;tt&gt;8861387&lt;/tt&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Full Changelog&lt;/strong&gt;: &lt;a class=&quot;commit-link&quot; href=&quot;https://github.com/orestesgaolin/MacPass/compare/0.8.12...0.8.13-rc1&quot;&gt;&lt;tt&gt;0.8.12...0.8.13-rc1&lt;/tt&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;/details&gt;</description>
+      <sparkle:fullReleaseNotesLink>https://github.com/orestesgaolin/MacPass/releases</sparkle:fullReleaseNotesLink>
+      <link>https://github.com/orestesgaolin/MacPass/releases/tag/0.8.13-rc1</link>
+      <enclosure
+        url="https://github.com/orestesgaolin/MacPass/releases/download/0.8.13-rc1/MacPass-0.8.13-rc1.dmg"
+        length="5129094"
+        type="application/octet-stream"
+        sparkle:version="74"
+        sparkle:shortVersionString="0.8.13-rc1"
+      />
+    </item>
+    <item>
+      <title>MacPass 0.8.12-rc4 (72)</title>
+      <pubDate>2026-08-27T09:03:43Z</pubDate>
+      <sparkle:version>72</sparkle:version>
+      <sparkle:shortVersionString>0.8.12-rc4</sparkle:shortVersionString>
+      <sparkle:minimumSystemVersion>10.14</sparkle:minimumSystemVersion>
+      <description>&lt;h2&gt;Changes&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;Bug Fixes&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;recognize Dia assistant address field&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;strong&gt;Verification&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;This release was built with GitHub Actions and includes &lt;a href=&quot;https://docs.github.com/en/actions/security-for-github-actions/using-artifact-attestations/using-artifact-attestations-to-establish-provenance-for-builds&quot;&gt;SLSA build provenance attestations&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;To verify the artifacts:&lt;/p&gt;
+&lt;div class=&quot;highlight highlight-source-shell notranslate position-relative overflow-auto&quot; data-snippet-clipboard-copy-content=&quot;gh attestation verify MacPass-0.8.12-rc4.dmg --owner orestesgaolin&quot;&gt;&lt;pre&gt;gh attestation verify MacPass-0.8.12-rc4.dmg --owner orestesgaolin&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;strong&gt;Build Info&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Version&lt;/strong&gt;: 0.8.12-rc4&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Build&lt;/strong&gt;: 72&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Runner&lt;/strong&gt;: macOS 15 (arm64)&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Commit&lt;/strong&gt;: &lt;a class=&quot;commit-link&quot; data-hovercard-type=&quot;commit&quot; data-hovercard-url=&quot;https://github.com/orestesgaolin/MacPass/commit/d9e107753c03aad102ed5562fb4ebe2069bb44d5/hovercard&quot; href=&quot;https://github.com/orestesgaolin/MacPass/commit/d9e107753c03aad102ed5562fb4ebe2069bb44d5&quot;&gt;&lt;tt&gt;d9e1077&lt;/tt&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Full Changelog&lt;/strong&gt;: &lt;a class=&quot;commit-link&quot; href=&quot;https://github.com/orestesgaolin/MacPass/compare/0.8.12-rc3...0.8.12-rc4&quot;&gt;&lt;tt&gt;0.8.12-rc3...0.8.12-rc4&lt;/tt&gt;&lt;/a&gt;&lt;/p&gt;</description>
+      <sparkle:fullReleaseNotesLink>https://github.com/orestesgaolin/MacPass/releases</sparkle:fullReleaseNotesLink>
+      <link>https://github.com/orestesgaolin/MacPass/releases/tag/0.8.12-rc4</link>
+      <enclosure
+        url="https://github.com/orestesgaolin/MacPass/releases/download/0.8.12-rc4/MacPass-0.8.12-rc4.dmg"
+        length="5117872"
+        type="application/octet-stream"
+        sparkle:version="72"
+        sparkle:shortVersionString="0.8.12-rc4"
+      />
+    </item>
+    <item>
+      <title>MacPass 0.8.12 (73)</title>
+      <pubDate>2026-08-27T09:32:45Z</pubDate>
+      <sparkle:version>73</sparkle:version>
+      <sparkle:shortVersionString>0.8.12</sparkle:shortVersionString>
+      <sparkle:minimumSystemVersion>10.14</sparkle:minimumSystemVersion>
+      <description>&lt;h2&gt;Changes&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;Features&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;updated layout of the initial page (&lt;a class=&quot;issue-link js-issue-link&quot; data-error-text=&quot;Failed to load title&quot; data-id=&quot;5113227773&quot; data-permission-text=&quot;Title is private&quot; data-url=&quot;https://github.com/orestesgaolin/MacPass/issues/14&quot; data-hovercard-type=&quot;pull_request&quot; data-hovercard-url=&quot;/orestesgaolin/MacPass/pull/14/hovercard&quot; href=&quot;https://github.com/orestesgaolin/MacPass/pull/14&quot;&gt;#14&lt;/a&gt;)&lt;/li&gt;
+&lt;li&gt;match Dia URLs during global autotype (&lt;a class=&quot;issue-link js-issue-link&quot; data-error-text=&quot;Failed to load title&quot; data-id=&quot;5265649875&quot; data-permission-text=&quot;Title is private&quot; data-url=&quot;https://github.com/orestesgaolin/MacPass/issues/17&quot; data-hovercard-type=&quot;pull_request&quot; data-hovercard-url=&quot;/orestesgaolin/MacPass/pull/17/hovercard&quot; href=&quot;https://github.com/orestesgaolin/MacPass/pull/17&quot;&gt;#17&lt;/a&gt;)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Bug Fixes&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;do not block the test host with the plugin repository alert (&lt;a class=&quot;issue-link js-issue-link&quot; data-error-text=&quot;Failed to load title&quot; data-id=&quot;5118713903&quot; data-permission-text=&quot;Title is private&quot; data-url=&quot;https://github.com/orestesgaolin/MacPass/issues/15&quot; data-hovercard-type=&quot;pull_request&quot; data-hovercard-url=&quot;/orestesgaolin/MacPass/pull/15/hovercard&quot; href=&quot;https://github.com/orestesgaolin/MacPass/pull/15&quot;&gt;#15&lt;/a&gt;)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;strong&gt;Verification&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;This release was built with GitHub Actions and includes &lt;a href=&quot;https://docs.github.com/en/actions/security-for-github-actions/using-artifact-attestations/using-artifact-attestations-to-establish-provenance-for-builds&quot;&gt;SLSA build provenance attestations&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;To verify the artifacts:&lt;/p&gt;
+&lt;div class=&quot;highlight highlight-source-shell notranslate position-relative overflow-auto&quot; data-snippet-clipboard-copy-content=&quot;gh attestation verify MacPass-0.8.12.dmg --owner orestesgaolin&quot;&gt;&lt;pre&gt;gh attestation verify MacPass-0.8.12.dmg --owner orestesgaolin&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;strong&gt;Build Info&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Version&lt;/strong&gt;: 0.8.12&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Build&lt;/strong&gt;: 73&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Runner&lt;/strong&gt;: macOS 15 (arm64)&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Commit&lt;/strong&gt;: &lt;a class=&quot;commit-link&quot; data-hovercard-type=&quot;commit&quot; data-hovercard-url=&quot;https://github.com/orestesgaolin/MacPass/commit/48344b5c54ce966fa90e6d32edb275f198646606/hovercard&quot; href=&quot;https://github.com/orestesgaolin/MacPass/commit/48344b5c54ce966fa90e6d32edb275f198646606&quot;&gt;&lt;tt&gt;48344b5&lt;/tt&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;What&apos;s Changed&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;fix: do not block the test host with the plugin repository alert by &lt;a class=&quot;user-mention notranslate&quot; data-hovercard-type=&quot;user&quot; data-hovercard-url=&quot;/users/orestesgaolin/hovercard&quot; data-octo-click=&quot;hovercard-link-click&quot; data-octo-dimensions=&quot;link_type:self&quot; href=&quot;https://github.com/orestesgaolin&quot;&gt;@orestesgaolin&lt;/a&gt; in &lt;a class=&quot;issue-link js-issue-link&quot; data-error-text=&quot;Failed to load title&quot; data-id=&quot;5118713903&quot; data-permission-text=&quot;Title is private&quot; data-url=&quot;https://github.com/orestesgaolin/MacPass/issues/15&quot; data-hovercard-type=&quot;pull_request&quot; data-hovercard-url=&quot;/orestesgaolin/MacPass/pull/15/hovercard&quot; href=&quot;https://github.com/orestesgaolin/MacPass/pull/15&quot;&gt;#15&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;feat: updated layout of the initial page by &lt;a class=&quot;user-mention notranslate&quot; data-hovercard-type=&quot;user&quot; data-hovercard-url=&quot;/users/orestesgaolin/hovercard&quot; data-octo-click=&quot;hovercard-link-click&quot; data-octo-dimensions=&quot;link_type:self&quot; href=&quot;https://github.com/orestesgaolin&quot;&gt;@orestesgaolin&lt;/a&gt; in &lt;a class=&quot;issue-link js-issue-link&quot; data-error-text=&quot;Failed to load title&quot; data-id=&quot;5113227773&quot; data-permission-text=&quot;Title is private&quot; data-url=&quot;https://github.com/orestesgaolin/MacPass/issues/14&quot; data-hovercard-type=&quot;pull_request&quot; data-hovercard-url=&quot;/orestesgaolin/MacPass/pull/14/hovercard&quot; href=&quot;https://github.com/orestesgaolin/MacPass/pull/14&quot;&gt;#14&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;feat: match Dia URLs during global autotype by &lt;a class=&quot;user-mention notranslate&quot; data-hovercard-type=&quot;user&quot; data-hovercard-url=&quot;/users/orestesgaolin/hovercard&quot; data-octo-click=&quot;hovercard-link-click&quot; data-octo-dimensions=&quot;link_type:self&quot; href=&quot;https://github.com/orestesgaolin&quot;&gt;@orestesgaolin&lt;/a&gt; in &lt;a class=&quot;issue-link js-issue-link&quot; data-error-text=&quot;Failed to load title&quot; data-id=&quot;5265649875&quot; data-permission-text=&quot;Title is private&quot; data-url=&quot;https://github.com/orestesgaolin/MacPass/issues/17&quot; data-hovercard-type=&quot;pull_request&quot; data-hovercard-url=&quot;/orestesgaolin/MacPass/pull/17/hovercard&quot; href=&quot;https://github.com/orestesgaolin/MacPass/pull/17&quot;&gt;#17&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Full Changelog&lt;/strong&gt;: &lt;a class=&quot;commit-link&quot; href=&quot;https://github.com/orestesgaolin/MacPass/compare/0.8.11...0.8.12&quot;&gt;&lt;tt&gt;0.8.11...0.8.12&lt;/tt&gt;&lt;/a&gt;&lt;/p&gt;</description>
+      <sparkle:fullReleaseNotesLink>https://github.com/orestesgaolin/MacPass/releases</sparkle:fullReleaseNotesLink>
+      <link>https://github.com/orestesgaolin/MacPass/releases/tag/0.8.12</link>
+      <enclosure
+        url="https://github.com/orestesgaolin/MacPass/releases/download/0.8.12/MacPass-0.8.12.dmg"
+        length="5117991"
+        type="application/octet-stream"
+        sparkle:version="73"
+        sparkle:shortVersionString="0.8.12"
+      />
+    </item>
+    <item>
+      <title>MacPass 0.8.12-rc3 (71)</title>
+      <pubDate>2026-08-27T08:50:46Z</pubDate>
+      <sparkle:version>71</sparkle:version>
+      <sparkle:shortVersionString>0.8.12-rc3</sparkle:shortVersionString>
+      <sparkle:minimumSystemVersion>10.14</sparkle:minimumSystemVersion>
+      <description>&lt;h2&gt;Changes&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;Features&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;match Dia URLs during global autotype&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;strong&gt;Verification&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;This release was built with GitHub Actions and includes &lt;a href=&quot;https://docs.github.com/en/actions/security-for-github-actions/using-artifact-attestations/using-artifact-attestations-to-establish-provenance-for-builds&quot;&gt;SLSA build provenance attestations&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;To verify the artifacts:&lt;/p&gt;
+&lt;div class=&quot;highlight highlight-source-shell notranslate position-relative overflow-auto&quot; data-snippet-clipboard-copy-content=&quot;gh attestation verify MacPass-0.8.12-rc3.dmg --owner orestesgaolin&quot;&gt;&lt;pre&gt;gh attestation verify MacPass-0.8.12-rc3.dmg --owner orestesgaolin&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;strong&gt;Build Info&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Version&lt;/strong&gt;: 0.8.12-rc3&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Build&lt;/strong&gt;: 71&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Runner&lt;/strong&gt;: macOS 15 (arm64)&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Commit&lt;/strong&gt;: &lt;a class=&quot;commit-link&quot; data-hovercard-type=&quot;commit&quot; data-hovercard-url=&quot;https://github.com/orestesgaolin/MacPass/commit/2a668c01069bbb658730c3a8af72bcb4081275b7/hovercard&quot; href=&quot;https://github.com/orestesgaolin/MacPass/commit/2a668c01069bbb658730c3a8af72bcb4081275b7&quot;&gt;&lt;tt&gt;2a668c0&lt;/tt&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Full Changelog&lt;/strong&gt;: &lt;a class=&quot;commit-link&quot; href=&quot;https://github.com/orestesgaolin/MacPass/compare/0.8.12-rc1...0.8.12-rc3&quot;&gt;&lt;tt&gt;0.8.12-rc1...0.8.12-rc3&lt;/tt&gt;&lt;/a&gt;&lt;/p&gt;</description>
+      <sparkle:fullReleaseNotesLink>https://github.com/orestesgaolin/MacPass/releases</sparkle:fullReleaseNotesLink>
+      <link>https://github.com/orestesgaolin/MacPass/releases/tag/0.8.12-rc3</link>
+      <enclosure
+        url="https://github.com/orestesgaolin/MacPass/releases/download/0.8.12-rc3/MacPass-0.8.12-rc3.dmg"
+        length="5117455"
+        type="application/octet-stream"
+        sparkle:version="71"
+        sparkle:shortVersionString="0.8.12-rc3"
+      />
+    </item>
+    <item>
+      <title>MacPass 0.8.12-rc1 (62)</title>
+      <pubDate>2026-08-11T15:10:51Z</pubDate>
+      <sparkle:version>62</sparkle:version>
+      <sparkle:shortVersionString>0.8.12-rc1</sparkle:shortVersionString>
+      <sparkle:minimumSystemVersion>10.14</sparkle:minimumSystemVersion>
+      <description>&lt;h2&gt;Changes&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;Features&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;updated layout of the initial page (&lt;a class=&quot;issue-link js-issue-link&quot; data-error-text=&quot;Failed to load title&quot; data-id=&quot;5113227773&quot; data-permission-text=&quot;Title is private&quot; data-url=&quot;https://github.com/orestesgaolin/MacPass/issues/14&quot; data-hovercard-type=&quot;pull_request&quot; data-hovercard-url=&quot;/orestesgaolin/MacPass/pull/14/hovercard&quot; href=&quot;https://github.com/orestesgaolin/MacPass/pull/14&quot;&gt;#14&lt;/a&gt;)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Bug Fixes&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;do not block the test host with the plugin repository alert (&lt;a class=&quot;issue-link js-issue-link&quot; data-error-text=&quot;Failed to load title&quot; data-id=&quot;5118713903&quot; data-permission-text=&quot;Title is private&quot; data-url=&quot;https://github.com/orestesgaolin/MacPass/issues/15&quot; data-hovercard-type=&quot;pull_request&quot; data-hovercard-url=&quot;/orestesgaolin/MacPass/pull/15/hovercard&quot; href=&quot;https://github.com/orestesgaolin/MacPass/pull/15&quot;&gt;#15&lt;/a&gt;)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;strong&gt;Verification&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;This release was built with GitHub Actions and includes &lt;a href=&quot;https://docs.github.com/en/actions/security-for-github-actions/using-artifact-attestations/using-artifact-attestations-to-establish-provenance-for-builds&quot;&gt;SLSA build provenance attestations&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;To verify the artifacts:&lt;/p&gt;
+&lt;div class=&quot;highlight highlight-source-shell notranslate position-relative overflow-auto&quot; data-snippet-clipboard-copy-content=&quot;gh attestation verify MacPass-0.8.12-rc1.dmg --owner orestesgaolin&quot;&gt;&lt;pre&gt;gh attestation verify MacPass-0.8.12-rc1.dmg --owner orestesgaolin&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;strong&gt;Build Info&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Version&lt;/strong&gt;: 0.8.12-rc1&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Build&lt;/strong&gt;: 62&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Runner&lt;/strong&gt;: macOS 15 (arm64)&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Commit&lt;/strong&gt;: &lt;a class=&quot;commit-link&quot; data-hovercard-type=&quot;commit&quot; data-hovercard-url=&quot;https://github.com/orestesgaolin/MacPass/commit/6dc0bac586f6e00b087e749b962aa61f8b22eb3d/hovercard&quot; href=&quot;https://github.com/orestesgaolin/MacPass/commit/6dc0bac586f6e00b087e749b962aa61f8b22eb3d&quot;&gt;&lt;tt&gt;6dc0bac&lt;/tt&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;What&apos;s Changed&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;fix: do not block the test host with the plugin repository alert by &lt;a class=&quot;user-mention notranslate&quot; data-hovercard-type=&quot;user&quot; data-hovercard-url=&quot;/users/orestesgaolin/hovercard&quot; data-octo-click=&quot;hovercard-link-click&quot; data-octo-dimensions=&quot;link_type:self&quot; href=&quot;https://github.com/orestesgaolin&quot;&gt;@orestesgaolin&lt;/a&gt; in &lt;a class=&quot;issue-link js-issue-link&quot; data-error-text=&quot;Failed to load title&quot; data-id=&quot;5118713903&quot; data-permission-text=&quot;Title is private&quot; data-url=&quot;https://github.com/orestesgaolin/MacPass/issues/15&quot; data-hovercard-type=&quot;pull_request&quot; data-hovercard-url=&quot;/orestesgaolin/MacPass/pull/15/hovercard&quot; href=&quot;https://github.com/orestesgaolin/MacPass/pull/15&quot;&gt;#15&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;feat: updated layout of the initial page by &lt;a class=&quot;user-mention notranslate&quot; data-hovercard-type=&quot;user&quot; data-hovercard-url=&quot;/users/orestesgaolin/hovercard&quot; data-octo-click=&quot;hovercard-link-click&quot; data-octo-dimensions=&quot;link_type:self&quot; href=&quot;https://github.com/orestesgaolin&quot;&gt;@orestesgaolin&lt;/a&gt; in &lt;a class=&quot;issue-link js-issue-link&quot; data-error-text=&quot;Failed to load title&quot; data-id=&quot;5113227773&quot; data-permission-text=&quot;Title is private&quot; data-url=&quot;https://github.com/orestesgaolin/MacPass/issues/14&quot; data-hovercard-type=&quot;pull_request&quot; data-hovercard-url=&quot;/orestesgaolin/MacPass/pull/14/hovercard&quot; href=&quot;https://github.com/orestesgaolin/MacPass/pull/14&quot;&gt;#14&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Full Changelog&lt;/strong&gt;: &lt;a class=&quot;commit-link&quot; href=&quot;https://github.com/orestesgaolin/MacPass/compare/0.8.11...0.8.12-rc1&quot;&gt;&lt;tt&gt;0.8.11...0.8.12-rc1&lt;/tt&gt;&lt;/a&gt;&lt;/p&gt;</description>
+      <sparkle:fullReleaseNotesLink>https://github.com/orestesgaolin/MacPass/releases</sparkle:fullReleaseNotesLink>
+      <link>https://github.com/orestesgaolin/MacPass/releases/tag/0.8.12-rc1</link>
+      <enclosure
+        url="https://github.com/orestesgaolin/MacPass/releases/download/0.8.12-rc1/MacPass-0.8.12-rc1.dmg"
+        length="5109692"
+        type="application/octet-stream"
+        sparkle:version="62"
+        sparkle:shortVersionString="0.8.12-rc1"
+      />
+    </item>
+    <item>
+      <title>MacPass 0.8.11 (60)</title>
+      <pubDate>2026-08-07T11:13:27Z</pubDate>
+      <sparkle:version>60</sparkle:version>
+      <sparkle:shortVersionString>0.8.11</sparkle:shortVersionString>
+      <sparkle:minimumSystemVersion>10.14</sparkle:minimumSystemVersion>
+      <description>&lt;h2&gt;Changes&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;Features&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;improve spanish translations (&lt;a class=&quot;issue-link js-issue-link&quot; data-error-text=&quot;Failed to load title&quot; data-id=&quot;4969693883&quot; data-permission-text=&quot;Title is private&quot; data-url=&quot;https://github.com/orestesgaolin/MacPass/issues/11&quot; data-hovercard-type=&quot;pull_request&quot; data-hovercard-url=&quot;/orestesgaolin/MacPass/pull/11/hovercard&quot; href=&quot;https://github.com/orestesgaolin/MacPass/pull/11&quot;&gt;#11&lt;/a&gt;)&lt;/li&gt;
+&lt;li&gt;highlight the entry in its group when jumping there from search results (&lt;a class=&quot;issue-link js-issue-link&quot; data-error-text=&quot;Failed to load title&quot; data-id=&quot;4927296510&quot; data-permission-text=&quot;Title is private&quot; data-url=&quot;https://github.com/orestesgaolin/MacPass/issues/10&quot; data-hovercard-type=&quot;pull_request&quot; data-hovercard-url=&quot;/orestesgaolin/MacPass/pull/10/hovercard&quot; href=&quot;https://github.com/orestesgaolin/MacPass/pull/10&quot;&gt;#10&lt;/a&gt;)&lt;/li&gt;
+&lt;li&gt;fix spanish translation (&lt;a class=&quot;issue-link js-issue-link&quot; data-error-text=&quot;Failed to load title&quot; data-id=&quot;5074522709&quot; data-permission-text=&quot;Title is private&quot; data-url=&quot;https://github.com/orestesgaolin/MacPass/issues/12&quot; data-hovercard-type=&quot;pull_request&quot; data-hovercard-url=&quot;/orestesgaolin/MacPass/pull/12/hovercard&quot; href=&quot;https://github.com/orestesgaolin/MacPass/pull/12&quot;&gt;#12&lt;/a&gt;)&lt;/li&gt;
+&lt;li&gt;define folder specific default user e-mails (&lt;a class=&quot;issue-link js-issue-link&quot; data-error-text=&quot;Failed to load title&quot; data-id=&quot;5078921786&quot; data-permission-text=&quot;Title is private&quot; data-url=&quot;https://github.com/orestesgaolin/MacPass/issues/13&quot; data-hovercard-type=&quot;pull_request&quot; data-hovercard-url=&quot;/orestesgaolin/MacPass/pull/13/hovercard&quot; href=&quot;https://github.com/orestesgaolin/MacPass/pull/13&quot;&gt;#13&lt;/a&gt;)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;strong&gt;Verification&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;This release was built with GitHub Actions and includes &lt;a href=&quot;https://docs.github.com/en/actions/security-for-github-actions/using-artifact-attestations/using-artifact-attestations-to-establish-provenance-for-builds&quot;&gt;SLSA build provenance attestations&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;To verify the artifacts:&lt;/p&gt;
+&lt;div class=&quot;highlight highlight-source-shell notranslate position-relative overflow-auto&quot; data-snippet-clipboard-copy-content=&quot;gh attestation verify MacPass-0.8.11.dmg --owner orestesgaolin&quot;&gt;&lt;pre&gt;gh attestation verify MacPass-0.8.11.dmg --owner orestesgaolin&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;strong&gt;Build Info&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Version&lt;/strong&gt;: 0.8.11&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Build&lt;/strong&gt;: 60&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Runner&lt;/strong&gt;: macOS 15 (arm64)&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Commit&lt;/strong&gt;: &lt;a class=&quot;commit-link&quot; data-hovercard-type=&quot;commit&quot; data-hovercard-url=&quot;https://github.com/orestesgaolin/MacPass/commit/aeff3c76bd1f41f778becc05c3c039f54341f765/hovercard&quot; href=&quot;https://github.com/orestesgaolin/MacPass/commit/aeff3c76bd1f41f778becc05c3c039f54341f765&quot;&gt;&lt;tt&gt;aeff3c7&lt;/tt&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;What&apos;s Changed&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;feat: improve spanish translations by &lt;a class=&quot;user-mention notranslate&quot; data-hovercard-type=&quot;user&quot; data-hovercard-url=&quot;/users/madelman/hovercard&quot; data-octo-click=&quot;hovercard-link-click&quot; data-octo-dimensions=&quot;link_type:self&quot; href=&quot;https://github.com/madelman&quot;&gt;@madelman&lt;/a&gt; in &lt;a class=&quot;issue-link js-issue-link&quot; data-error-text=&quot;Failed to load title&quot; data-id=&quot;4969693883&quot; data-permission-text=&quot;Title is private&quot; data-url=&quot;https://github.com/orestesgaolin/MacPass/issues/11&quot; data-hovercard-type=&quot;pull_request&quot; data-hovercard-url=&quot;/orestesgaolin/MacPass/pull/11/hovercard&quot; href=&quot;https://github.com/orestesgaolin/MacPass/pull/11&quot;&gt;#11&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;fix: highlight the entry in its group when jumping there from search results by &lt;a class=&quot;user-mention notranslate&quot; data-hovercard-type=&quot;user&quot; data-hovercard-url=&quot;/users/orestesgaolin/hovercard&quot; data-octo-click=&quot;hovercard-link-click&quot; data-octo-dimensions=&quot;link_type:self&quot; href=&quot;https://github.com/orestesgaolin&quot;&gt;@orestesgaolin&lt;/a&gt; in &lt;a class=&quot;issue-link js-issue-link&quot; data-error-text=&quot;Failed to load title&quot; data-id=&quot;4927296510&quot; data-permission-text=&quot;Title is private&quot; data-url=&quot;https://github.com/orestesgaolin/MacPass/issues/10&quot; data-hovercard-type=&quot;pull_request&quot; data-hovercard-url=&quot;/orestesgaolin/MacPass/pull/10/hovercard&quot; href=&quot;https://github.com/orestesgaolin/MacPass/pull/10&quot;&gt;#10&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;feat: fix missing spanish translation by &lt;a class=&quot;user-mention notranslate&quot; data-hovercard-type=&quot;user&quot; data-hovercard-url=&quot;/users/madelman/hovercard&quot; data-octo-click=&quot;hovercard-link-click&quot; data-octo-dimensions=&quot;link_type:self&quot; href=&quot;https://github.com/madelman&quot;&gt;@madelman&lt;/a&gt; in &lt;a class=&quot;issue-link js-issue-link&quot; data-error-text=&quot;Failed to load title&quot; data-id=&quot;5074522709&quot; data-permission-text=&quot;Title is private&quot; data-url=&quot;https://github.com/orestesgaolin/MacPass/issues/12&quot; data-hovercard-type=&quot;pull_request&quot; data-hovercard-url=&quot;/orestesgaolin/MacPass/pull/12/hovercard&quot; href=&quot;https://github.com/orestesgaolin/MacPass/pull/12&quot;&gt;#12&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;feat: define folder specific default user e-mails by &lt;a class=&quot;user-mention notranslate&quot; data-hovercard-type=&quot;user&quot; data-hovercard-url=&quot;/users/orestesgaolin/hovercard&quot; data-octo-click=&quot;hovercard-link-click&quot; data-octo-dimensions=&quot;link_type:self&quot; href=&quot;https://github.com/orestesgaolin&quot;&gt;@orestesgaolin&lt;/a&gt; in &lt;a class=&quot;issue-link js-issue-link&quot; data-error-text=&quot;Failed to load title&quot; data-id=&quot;5078921786&quot; data-permission-text=&quot;Title is private&quot; data-url=&quot;https://github.com/orestesgaolin/MacPass/issues/13&quot; data-hovercard-type=&quot;pull_request&quot; data-hovercard-url=&quot;/orestesgaolin/MacPass/pull/13/hovercard&quot; href=&quot;https://github.com/orestesgaolin/MacPass/pull/13&quot;&gt;#13&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;New Contributors&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a class=&quot;user-mention notranslate&quot; data-hovercard-type=&quot;user&quot; data-hovercard-url=&quot;/users/madelman/hovercard&quot; data-octo-click=&quot;hovercard-link-click&quot; data-octo-dimensions=&quot;link_type:self&quot; href=&quot;https://github.com/madelman&quot;&gt;@madelman&lt;/a&gt; made their first contribution in &lt;a class=&quot;issue-link js-issue-link&quot; data-error-text=&quot;Failed to load title&quot; data-id=&quot;4969693883&quot; data-permission-text=&quot;Title is private&quot; data-url=&quot;https://github.com/orestesgaolin/MacPass/issues/11&quot; data-hovercard-type=&quot;pull_request&quot; data-hovercard-url=&quot;/orestesgaolin/MacPass/pull/11/hovercard&quot; href=&quot;https://github.com/orestesgaolin/MacPass/pull/11&quot;&gt;#11&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Full Changelog&lt;/strong&gt;: &lt;a class=&quot;commit-link&quot; href=&quot;https://github.com/orestesgaolin/MacPass/compare/0.8.9...0.8.11&quot;&gt;&lt;tt&gt;0.8.9...0.8.11&lt;/tt&gt;&lt;/a&gt;&lt;/p&gt;</description>
+      <sparkle:fullReleaseNotesLink>https://github.com/orestesgaolin/MacPass/releases</sparkle:fullReleaseNotesLink>
+      <link>https://github.com/orestesgaolin/MacPass/releases/tag/0.8.11</link>
+      <enclosure
+        url="https://github.com/orestesgaolin/MacPass/releases/download/0.8.11/MacPass-0.8.11.dmg"
+        length="5092387"
+        type="application/octet-stream"
+        sparkle:version="60"
+        sparkle:shortVersionString="0.8.11"
+      />
+    </item>
+    <item>
+      <title>MacPass 0.8.11-rc2 (58)</title>
+      <pubDate>2026-08-03T17:10:22Z</pubDate>
+      <sparkle:version>58</sparkle:version>
+      <sparkle:shortVersionString>0.8.11-rc2</sparkle:shortVersionString>
+      <sparkle:minimumSystemVersion>10.14</sparkle:minimumSystemVersion>
+      <description>&lt;h2&gt;Changes&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;Features&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;define folder specific default user e-mails&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;strong&gt;Verification&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;This release was built with GitHub Actions and includes &lt;a href=&quot;https://docs.github.com/en/actions/security-for-github-actions/using-artifact-attestations/using-artifact-attestations-to-establish-provenance-for-builds&quot;&gt;SLSA build provenance attestations&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;To verify the artifacts:&lt;/p&gt;
+&lt;div class=&quot;highlight highlight-source-shell notranslate position-relative overflow-auto&quot; data-snippet-clipboard-copy-content=&quot;gh attestation verify MacPass-0.8.11-rc2.dmg --owner orestesgaolin&quot;&gt;&lt;pre&gt;gh attestation verify MacPass-0.8.11-rc2.dmg --owner orestesgaolin&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;strong&gt;Build Info&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Version&lt;/strong&gt;: 0.8.11-rc2&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Build&lt;/strong&gt;: 58&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Runner&lt;/strong&gt;: macOS 15 (arm64)&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Commit&lt;/strong&gt;: &lt;a class=&quot;commit-link&quot; data-hovercard-type=&quot;commit&quot; data-hovercard-url=&quot;https://github.com/orestesgaolin/MacPass/commit/91741805e408640045fc4b569255864ef95ad743/hovercard&quot; href=&quot;https://github.com/orestesgaolin/MacPass/commit/91741805e408640045fc4b569255864ef95ad743&quot;&gt;&lt;tt&gt;9174180&lt;/tt&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Full Changelog&lt;/strong&gt;: &lt;a class=&quot;commit-link&quot; href=&quot;https://github.com/orestesgaolin/MacPass/compare/0.8.10-rc2...0.8.11-rc2&quot;&gt;&lt;tt&gt;0.8.10-rc2...0.8.11-rc2&lt;/tt&gt;&lt;/a&gt;&lt;/p&gt;</description>
+      <sparkle:fullReleaseNotesLink>https://github.com/orestesgaolin/MacPass/releases</sparkle:fullReleaseNotesLink>
+      <link>https://github.com/orestesgaolin/MacPass/releases/tag/0.8.11-rc2</link>
+      <enclosure
+        url="https://github.com/orestesgaolin/MacPass/releases/download/0.8.11-rc2/MacPass-0.8.11-rc2.dmg"
+        length="5092155"
+        type="application/octet-stream"
+        sparkle:version="58"
+        sparkle:shortVersionString="0.8.11-rc2"
+      />
+    </item>
+    <item>
+      <title>MacPass 0.8.10-rc2 (57)</title>
+      <pubDate>2026-08-03T09:47:20Z</pubDate>
+      <sparkle:version>57</sparkle:version>
+      <sparkle:shortVersionString>0.8.10-rc2</sparkle:shortVersionString>
+      <sparkle:minimumSystemVersion>10.14</sparkle:minimumSystemVersion>
+      <description>&lt;h2&gt;Changes&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;Features&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;improve spanish translations (&lt;a class=&quot;issue-link js-issue-link&quot; data-error-text=&quot;Failed to load title&quot; data-id=&quot;4969693883&quot; data-permission-text=&quot;Title is private&quot; data-url=&quot;https://github.com/orestesgaolin/MacPass/issues/11&quot; data-hovercard-type=&quot;pull_request&quot; data-hovercard-url=&quot;/orestesgaolin/MacPass/pull/11/hovercard&quot; href=&quot;https://github.com/orestesgaolin/MacPass/pull/11&quot;&gt;#11&lt;/a&gt;)&lt;/li&gt;
+&lt;li&gt;highlight the entry in its group when jumping there from search results (&lt;a class=&quot;issue-link js-issue-link&quot; data-error-text=&quot;Failed to load title&quot; data-id=&quot;4927296510&quot; data-permission-text=&quot;Title is private&quot; data-url=&quot;https://github.com/orestesgaolin/MacPass/issues/10&quot; data-hovercard-type=&quot;pull_request&quot; data-hovercard-url=&quot;/orestesgaolin/MacPass/pull/10/hovercard&quot; href=&quot;https://github.com/orestesgaolin/MacPass/pull/10&quot;&gt;#10&lt;/a&gt;)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;strong&gt;Verification&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;This release was built with GitHub Actions and includes &lt;a href=&quot;https://docs.github.com/en/actions/security-for-github-actions/using-artifact-attestations/using-artifact-attestations-to-establish-provenance-for-builds&quot;&gt;SLSA build provenance attestations&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;To verify the artifacts:&lt;/p&gt;
+&lt;div class=&quot;highlight highlight-source-shell notranslate position-relative overflow-auto&quot; data-snippet-clipboard-copy-content=&quot;gh attestation verify MacPass-0.8.10-rc2.dmg --owner orestesgaolin&quot;&gt;&lt;pre&gt;gh attestation verify MacPass-0.8.10-rc2.dmg --owner orestesgaolin&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;strong&gt;Build Info&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Version&lt;/strong&gt;: 0.8.10-rc2&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Build&lt;/strong&gt;: 57&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Runner&lt;/strong&gt;: macOS 15 (arm64)&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Commit&lt;/strong&gt;: &lt;a class=&quot;commit-link&quot; data-hovercard-type=&quot;commit&quot; data-hovercard-url=&quot;https://github.com/orestesgaolin/MacPass/commit/4423a209a1e2d3f515c8fe9198f38d3dc1a7d113/hovercard&quot; href=&quot;https://github.com/orestesgaolin/MacPass/commit/4423a209a1e2d3f515c8fe9198f38d3dc1a7d113&quot;&gt;&lt;tt&gt;4423a20&lt;/tt&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;What&apos;s Changed&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;feat: improve spanish translations by &lt;a class=&quot;user-mention notranslate&quot; data-hovercard-type=&quot;user&quot; data-hovercard-url=&quot;/users/madelman/hovercard&quot; data-octo-click=&quot;hovercard-link-click&quot; data-octo-dimensions=&quot;link_type:self&quot; href=&quot;https://github.com/madelman&quot;&gt;@madelman&lt;/a&gt; in &lt;a class=&quot;issue-link js-issue-link&quot; data-error-text=&quot;Failed to load title&quot; data-id=&quot;4969693883&quot; data-permission-text=&quot;Title is private&quot; data-url=&quot;https://github.com/orestesgaolin/MacPass/issues/11&quot; data-hovercard-type=&quot;pull_request&quot; data-hovercard-url=&quot;/orestesgaolin/MacPass/pull/11/hovercard&quot; href=&quot;https://github.com/orestesgaolin/MacPass/pull/11&quot;&gt;#11&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;fix: highlight the entry in its group when jumping there from search results by &lt;a class=&quot;user-mention notranslate&quot; data-hovercard-type=&quot;user&quot; data-hovercard-url=&quot;/users/orestesgaolin/hovercard&quot; data-octo-click=&quot;hovercard-link-click&quot; data-octo-dimensions=&quot;link_type:self&quot; href=&quot;https://github.com/orestesgaolin&quot;&gt;@orestesgaolin&lt;/a&gt; in &lt;a class=&quot;issue-link js-issue-link&quot; data-error-text=&quot;Failed to load title&quot; data-id=&quot;4927296510&quot; data-permission-text=&quot;Title is private&quot; data-url=&quot;https://github.com/orestesgaolin/MacPass/issues/10&quot; data-hovercard-type=&quot;pull_request&quot; data-hovercard-url=&quot;/orestesgaolin/MacPass/pull/10/hovercard&quot; href=&quot;https://github.com/orestesgaolin/MacPass/pull/10&quot;&gt;#10&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;New Contributors&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a class=&quot;user-mention notranslate&quot; data-hovercard-type=&quot;user&quot; data-hovercard-url=&quot;/users/madelman/hovercard&quot; data-octo-click=&quot;hovercard-link-click&quot; data-octo-dimensions=&quot;link_type:self&quot; href=&quot;https://github.com/madelman&quot;&gt;@madelman&lt;/a&gt; made their first contribution in &lt;a class=&quot;issue-link js-issue-link&quot; data-error-text=&quot;Failed to load title&quot; data-id=&quot;4969693883&quot; data-permission-text=&quot;Title is private&quot; data-url=&quot;https://github.com/orestesgaolin/MacPass/issues/11&quot; data-hovercard-type=&quot;pull_request&quot; data-hovercard-url=&quot;/orestesgaolin/MacPass/pull/11/hovercard&quot; href=&quot;https://github.com/orestesgaolin/MacPass/pull/11&quot;&gt;#11&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Full Changelog&lt;/strong&gt;: &lt;a class=&quot;commit-link&quot; href=&quot;https://github.com/orestesgaolin/MacPass/compare/0.8.9...0.8.10-rc2&quot;&gt;&lt;tt&gt;0.8.9...0.8.10-rc2&lt;/tt&gt;&lt;/a&gt;&lt;/p&gt;</description>
+      <sparkle:fullReleaseNotesLink>https://github.com/orestesgaolin/MacPass/releases</sparkle:fullReleaseNotesLink>
+      <link>https://github.com/orestesgaolin/MacPass/releases/tag/0.8.10-rc2</link>
+      <enclosure
+        url="https://github.com/orestesgaolin/MacPass/releases/download/0.8.10-rc2/MacPass-0.8.10-rc2.dmg"
+        length="5086174"
+        type="application/octet-stream"
+        sparkle:version="57"
+        sparkle:shortVersionString="0.8.10-rc2"
+      />
+    </item>
+    <item>
+      <title>MacPass 0.8.10-rc1 (56)</title>
+      <pubDate>2026-07-20T08:53:20Z</pubDate>
+      <sparkle:version>56</sparkle:version>
+      <sparkle:shortVersionString>0.8.10-rc1</sparkle:shortVersionString>
+      <sparkle:minimumSystemVersion>10.14</sparkle:minimumSystemVersion>
+      <description>&lt;h2&gt;Changes&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;Features&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;highlight the entry in its group when jumping there from search results&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;strong&gt;Verification&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;This release was built with GitHub Actions and includes &lt;a href=&quot;https://docs.github.com/en/actions/security-for-github-actions/using-artifact-attestations/using-artifact-attestations-to-establish-provenance-for-builds&quot;&gt;SLSA build provenance attestations&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;To verify the artifacts:&lt;/p&gt;
+&lt;div class=&quot;highlight highlight-source-shell notranslate position-relative overflow-auto&quot; data-snippet-clipboard-copy-content=&quot;gh attestation verify MacPass-0.8.10-rc1.dmg --owner orestesgaolin&quot;&gt;&lt;pre&gt;gh attestation verify MacPass-0.8.10-rc1.dmg --owner orestesgaolin&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;strong&gt;Build Info&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Version&lt;/strong&gt;: 0.8.10-rc1&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Build&lt;/strong&gt;: 56&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Runner&lt;/strong&gt;: macOS 15 (arm64)&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Commit&lt;/strong&gt;: &lt;a class=&quot;commit-link&quot; data-hovercard-type=&quot;commit&quot; data-hovercard-url=&quot;https://github.com/orestesgaolin/MacPass/commit/c2fbb930f1264847eba4b4d48095e094333785a3/hovercard&quot; href=&quot;https://github.com/orestesgaolin/MacPass/commit/c2fbb930f1264847eba4b4d48095e094333785a3&quot;&gt;&lt;tt&gt;c2fbb93&lt;/tt&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Full Changelog&lt;/strong&gt;: &lt;a class=&quot;commit-link&quot; href=&quot;https://github.com/orestesgaolin/MacPass/compare/0.8.9...0.8.10-rc1&quot;&gt;&lt;tt&gt;0.8.9...0.8.10-rc1&lt;/tt&gt;&lt;/a&gt;&lt;/p&gt;</description>
+      <sparkle:fullReleaseNotesLink>https://github.com/orestesgaolin/MacPass/releases</sparkle:fullReleaseNotesLink>
+      <link>https://github.com/orestesgaolin/MacPass/releases/tag/0.8.10-rc1</link>
+      <enclosure
+        url="https://github.com/orestesgaolin/MacPass/releases/download/0.8.10-rc1/MacPass-0.8.10-rc1.dmg"
+        length="5084101"
+        type="application/octet-stream"
+        sparkle:version="56"
+        sparkle:shortVersionString="0.8.10-rc1"
+      />
+    </item>
+    <item>
+      <title>MacPass 0.8.9-rc1 (54)</title>
+      <pubDate>2026-07-20T07:37:19Z</pubDate>
+      <sparkle:version>54</sparkle:version>
+      <sparkle:shortVersionString>0.8.9-rc1</sparkle:shortVersionString>
+      <sparkle:minimumSystemVersion>10.14</sparkle:minimumSystemVersion>
+      <description>&lt;h2&gt;Changes&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;Bug Fixes&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;navigate to the correct group when double-clicking it in search results&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;strong&gt;Verification&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;This release was built with GitHub Actions and includes &lt;a href=&quot;https://docs.github.com/en/actions/security-for-github-actions/using-artifact-attestations/using-artifact-attestations-to-establish-provenance-for-builds&quot;&gt;SLSA build provenance attestations&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;To verify the artifacts:&lt;/p&gt;
+&lt;div class=&quot;highlight highlight-source-shell notranslate position-relative overflow-auto&quot; data-snippet-clipboard-copy-content=&quot;gh attestation verify MacPass-0.8.9-rc1.dmg --owner orestesgaolin&quot;&gt;&lt;pre&gt;gh attestation verify MacPass-0.8.9-rc1.dmg --owner orestesgaolin&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;strong&gt;Build Info&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Version&lt;/strong&gt;: 0.8.9-rc1&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Build&lt;/strong&gt;: 54&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Runner&lt;/strong&gt;: macOS 15 (arm64)&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Commit&lt;/strong&gt;: &lt;a class=&quot;commit-link&quot; data-hovercard-type=&quot;commit&quot; data-hovercard-url=&quot;https://github.com/orestesgaolin/MacPass/commit/0757a27de4cabdb675f2fea3bde8e06cfb90d761/hovercard&quot; href=&quot;https://github.com/orestesgaolin/MacPass/commit/0757a27de4cabdb675f2fea3bde8e06cfb90d761&quot;&gt;&lt;tt&gt;0757a27&lt;/tt&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;What&apos;s Changed&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;fix: restore main menu and Dock icon when showing MacPass from the status bar item by &lt;a class=&quot;user-mention notranslate&quot; data-hovercard-type=&quot;user&quot; data-hovercard-url=&quot;/users/orestesgaolin/hovercard&quot; data-octo-click=&quot;hovercard-link-click&quot; data-octo-dimensions=&quot;link_type:self&quot; href=&quot;https://github.com/orestesgaolin&quot;&gt;@orestesgaolin&lt;/a&gt; in &lt;a class=&quot;issue-link js-issue-link&quot; data-error-text=&quot;Failed to load title&quot; data-id=&quot;4911708552&quot; data-permission-text=&quot;Title is private&quot; data-url=&quot;https://github.com/orestesgaolin/MacPass/issues/5&quot; data-hovercard-type=&quot;pull_request&quot; data-hovercard-url=&quot;/orestesgaolin/MacPass/pull/5/hovercard&quot; href=&quot;https://github.com/orestesgaolin/MacPass/pull/5&quot;&gt;#5&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Full Changelog&lt;/strong&gt;: &lt;a class=&quot;commit-link&quot; href=&quot;https://github.com/orestesgaolin/MacPass/compare/0.8.7-rc3...0.8.9-rc1&quot;&gt;&lt;tt&gt;0.8.7-rc3...0.8.9-rc1&lt;/tt&gt;&lt;/a&gt;&lt;/p&gt;</description>
+      <sparkle:fullReleaseNotesLink>https://github.com/orestesgaolin/MacPass/releases</sparkle:fullReleaseNotesLink>
+      <link>https://github.com/orestesgaolin/MacPass/releases/tag/0.8.9-rc1</link>
+      <enclosure
+        url="https://github.com/orestesgaolin/MacPass/releases/download/0.8.9-rc1/MacPass-0.8.9-rc1.dmg"
+        length="5083390"
+        type="application/octet-stream"
+        sparkle:version="54"
+        sparkle:shortVersionString="0.8.9-rc1"
+      />
+    </item>
+    <item>
+      <title>MacPass 0.8.9 (55)</title>
+      <pubDate>2026-07-20T08:06:30Z</pubDate>
+      <sparkle:version>55</sparkle:version>
+      <sparkle:shortVersionString>0.8.9</sparkle:shortVersionString>
+      <sparkle:minimumSystemVersion>10.14</sparkle:minimumSystemVersion>
+      <description>&lt;h2&gt;Changes&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;Bug Fixes&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;don&apos;t reset toolbar display mode when exiting search (&lt;a class=&quot;issue-link js-issue-link&quot; data-error-text=&quot;Failed to load title&quot; data-id=&quot;4923762106&quot; data-permission-text=&quot;Title is private&quot; data-url=&quot;https://github.com/orestesgaolin/MacPass/issues/6&quot; data-hovercard-type=&quot;pull_request&quot; data-hovercard-url=&quot;/orestesgaolin/MacPass/pull/6/hovercard&quot; href=&quot;https://github.com/orestesgaolin/MacPass/pull/6&quot;&gt;#6&lt;/a&gt;)&lt;/li&gt;
+&lt;li&gt;navigate to the correct group when double-clicking it in search results (&lt;a class=&quot;issue-link js-issue-link&quot; data-error-text=&quot;Failed to load title&quot; data-id=&quot;4926768770&quot; data-permission-text=&quot;Title is private&quot; data-url=&quot;https://github.com/orestesgaolin/MacPass/issues/8&quot; data-hovercard-type=&quot;pull_request&quot; data-hovercard-url=&quot;/orestesgaolin/MacPass/pull/8/hovercard&quot; href=&quot;https://github.com/orestesgaolin/MacPass/pull/8&quot;&gt;#8&lt;/a&gt;)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;strong&gt;Verification&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;This release was built with GitHub Actions and includes &lt;a href=&quot;https://docs.github.com/en/actions/security-for-github-actions/using-artifact-attestations/using-artifact-attestations-to-establish-provenance-for-builds&quot;&gt;SLSA build provenance attestations&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;To verify the artifacts:&lt;/p&gt;
+&lt;div class=&quot;highlight highlight-source-shell notranslate position-relative overflow-auto&quot; data-snippet-clipboard-copy-content=&quot;gh attestation verify MacPass-0.8.9.dmg --owner orestesgaolin&quot;&gt;&lt;pre&gt;gh attestation verify MacPass-0.8.9.dmg --owner orestesgaolin&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;strong&gt;Build Info&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Version&lt;/strong&gt;: 0.8.9&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Build&lt;/strong&gt;: 55&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Runner&lt;/strong&gt;: macOS 15 (arm64)&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Commit&lt;/strong&gt;: &lt;a class=&quot;commit-link&quot; data-hovercard-type=&quot;commit&quot; data-hovercard-url=&quot;https://github.com/orestesgaolin/MacPass/commit/7cf4fff5b1a33c0253cce108f091b9c0be32e106/hovercard&quot; href=&quot;https://github.com/orestesgaolin/MacPass/commit/7cf4fff5b1a33c0253cce108f091b9c0be32e106&quot;&gt;&lt;tt&gt;7cf4fff&lt;/tt&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;What&apos;s Changed&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;fix: don&apos;t reset toolbar display mode when exiting search by &lt;a class=&quot;user-mention notranslate&quot; data-hovercard-type=&quot;user&quot; data-hovercard-url=&quot;/users/orestesgaolin/hovercard&quot; data-octo-click=&quot;hovercard-link-click&quot; data-octo-dimensions=&quot;link_type:self&quot; href=&quot;https://github.com/orestesgaolin&quot;&gt;@orestesgaolin&lt;/a&gt; in &lt;a class=&quot;issue-link js-issue-link&quot; data-error-text=&quot;Failed to load title&quot; data-id=&quot;4923762106&quot; data-permission-text=&quot;Title is private&quot; data-url=&quot;https://github.com/orestesgaolin/MacPass/issues/6&quot; data-hovercard-type=&quot;pull_request&quot; data-hovercard-url=&quot;/orestesgaolin/MacPass/pull/6/hovercard&quot; href=&quot;https://github.com/orestesgaolin/MacPass/pull/6&quot;&gt;#6&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;fix: navigate to the correct group when double-clicking it in search results by &lt;a class=&quot;user-mention notranslate&quot; data-hovercard-type=&quot;user&quot; data-hovercard-url=&quot;/users/orestesgaolin/hovercard&quot; data-octo-click=&quot;hovercard-link-click&quot; data-octo-dimensions=&quot;link_type:self&quot; href=&quot;https://github.com/orestesgaolin&quot;&gt;@orestesgaolin&lt;/a&gt; in &lt;a class=&quot;issue-link js-issue-link&quot; data-error-text=&quot;Failed to load title&quot; data-id=&quot;4926768770&quot; data-permission-text=&quot;Title is private&quot; data-url=&quot;https://github.com/orestesgaolin/MacPass/issues/8&quot; data-hovercard-type=&quot;pull_request&quot; data-hovercard-url=&quot;/orestesgaolin/MacPass/pull/8/hovercard&quot; href=&quot;https://github.com/orestesgaolin/MacPass/pull/8&quot;&gt;#8&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Full Changelog&lt;/strong&gt;: &lt;a class=&quot;commit-link&quot; href=&quot;https://github.com/orestesgaolin/MacPass/compare/0.8.8...0.8.9&quot;&gt;&lt;tt&gt;0.8.8...0.8.9&lt;/tt&gt;&lt;/a&gt;&lt;/p&gt;</description>
+      <sparkle:fullReleaseNotesLink>https://github.com/orestesgaolin/MacPass/releases</sparkle:fullReleaseNotesLink>
+      <link>https://github.com/orestesgaolin/MacPass/releases/tag/0.8.9</link>
+      <enclosure
+        url="https://github.com/orestesgaolin/MacPass/releases/download/0.8.9/MacPass-0.8.9.dmg"
+        length="5083552"
+        type="application/octet-stream"
+        sparkle:version="55"
+        sparkle:shortVersionString="0.8.9"
+      />
+    </item>
+    <item>
+      <title>MacPass 0.8.7-rc5 (52)</title>
+      <pubDate>2026-07-19T17:37:09Z</pubDate>
+      <sparkle:version>52</sparkle:version>
+      <sparkle:shortVersionString>0.8.7-rc5</sparkle:shortVersionString>
+      <sparkle:minimumSystemVersion>10.14</sparkle:minimumSystemVersion>
+      <description>&lt;h2&gt;Changes&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;Features&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;keep the database open when closing its window with a hidden Dock icon&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Bug Fixes&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;don&apos;t reset toolbar display mode when exiting search&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;strong&gt;Verification&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;This release was built with GitHub Actions and includes &lt;a href=&quot;https://docs.github.com/en/actions/security-for-github-actions/using-artifact-attestations/using-artifact-attestations-to-establish-provenance-for-builds&quot;&gt;SLSA build provenance attestations&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;To verify the artifacts:&lt;/p&gt;
+&lt;div class=&quot;highlight highlight-source-shell notranslate position-relative overflow-auto&quot; data-snippet-clipboard-copy-content=&quot;gh attestation verify MacPass-0.8.7-rc5.dmg --owner orestesgaolin&quot;&gt;&lt;pre&gt;gh attestation verify MacPass-0.8.7-rc5.dmg --owner orestesgaolin&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;strong&gt;Build Info&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Version&lt;/strong&gt;: 0.8.7-rc5&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Build&lt;/strong&gt;: 52&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Runner&lt;/strong&gt;: macOS 15 (arm64)&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Commit&lt;/strong&gt;: &lt;a class=&quot;commit-link&quot; data-hovercard-type=&quot;commit&quot; data-hovercard-url=&quot;https://github.com/orestesgaolin/MacPass/commit/644f3743355871e1fb4bedd16644e4f1d72310a2/hovercard&quot; href=&quot;https://github.com/orestesgaolin/MacPass/commit/644f3743355871e1fb4bedd16644e4f1d72310a2&quot;&gt;&lt;tt&gt;644f374&lt;/tt&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;What&apos;s Changed&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;fix: restore main menu and Dock icon when showing MacPass from the status bar item by &lt;a class=&quot;user-mention notranslate&quot; data-hovercard-type=&quot;user&quot; data-hovercard-url=&quot;/users/orestesgaolin/hovercard&quot; data-octo-click=&quot;hovercard-link-click&quot; data-octo-dimensions=&quot;link_type:self&quot; href=&quot;https://github.com/orestesgaolin&quot;&gt;@orestesgaolin&lt;/a&gt; in &lt;a class=&quot;issue-link js-issue-link&quot; data-error-text=&quot;Failed to load title&quot; data-id=&quot;4911708552&quot; data-permission-text=&quot;Title is private&quot; data-url=&quot;https://github.com/orestesgaolin/MacPass/issues/5&quot; data-hovercard-type=&quot;pull_request&quot; data-hovercard-url=&quot;/orestesgaolin/MacPass/pull/5/hovercard&quot; href=&quot;https://github.com/orestesgaolin/MacPass/pull/5&quot;&gt;#5&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Full Changelog&lt;/strong&gt;: &lt;a class=&quot;commit-link&quot; href=&quot;https://github.com/orestesgaolin/MacPass/compare/0.8.7-rc3...0.8.7-rc5&quot;&gt;&lt;tt&gt;0.8.7-rc3...0.8.7-rc5&lt;/tt&gt;&lt;/a&gt;&lt;/p&gt;</description>
+      <sparkle:fullReleaseNotesLink>https://github.com/orestesgaolin/MacPass/releases</sparkle:fullReleaseNotesLink>
+      <link>https://github.com/orestesgaolin/MacPass/releases/tag/0.8.7-rc5</link>
+      <enclosure
+        url="https://github.com/orestesgaolin/MacPass/releases/download/0.8.7-rc5/MacPass-0.8.7-rc5.dmg"
+        length="5083466"
+        type="application/octet-stream"
+        sparkle:version="52"
+        sparkle:shortVersionString="0.8.7-rc5"
+      />
+    </item>
+    <item>
+      <title>MacPass 0.8.8 (53)</title>
+      <pubDate>2026-07-19T17:53:56Z</pubDate>
+      <sparkle:version>53</sparkle:version>
+      <sparkle:shortVersionString>0.8.8</sparkle:shortVersionString>
+      <sparkle:minimumSystemVersion>10.14</sparkle:minimumSystemVersion>
+      <description>&lt;h2&gt;Changes&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;Features&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;keep the database open when closing its window with a hidden Dock icon&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Bug Fixes&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;restore main menu and Dock icon when showing MacPass from the status bar item&lt;/li&gt;
+&lt;li&gt;hide the Dock icon immediately when the setting is enabled&lt;/li&gt;
+&lt;li&gt;make activation policy switching reliable&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;strong&gt;Verification&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;This release was built with GitHub Actions and includes &lt;a href=&quot;https://docs.github.com/en/actions/security-for-github-actions/using-artifact-attestations/using-artifact-attestations-to-establish-provenance-for-builds&quot;&gt;SLSA build provenance attestations&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;To verify the artifacts:&lt;/p&gt;
+&lt;div class=&quot;highlight highlight-source-shell notranslate position-relative overflow-auto&quot; data-snippet-clipboard-copy-content=&quot;gh attestation verify MacPass-0.8.8.dmg --owner orestesgaolin&quot;&gt;&lt;pre&gt;gh attestation verify MacPass-0.8.8.dmg --owner orestesgaolin&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;strong&gt;Build Info&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Version&lt;/strong&gt;: 0.8.8&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Build&lt;/strong&gt;: 53&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Runner&lt;/strong&gt;: macOS 15 (arm64)&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Commit&lt;/strong&gt;: &lt;a class=&quot;commit-link&quot; data-hovercard-type=&quot;commit&quot; data-hovercard-url=&quot;https://github.com/orestesgaolin/MacPass/commit/0a75283ff9e69f4142d28ff7b6d531c1775859df/hovercard&quot; href=&quot;https://github.com/orestesgaolin/MacPass/commit/0a75283ff9e69f4142d28ff7b6d531c1775859df&quot;&gt;&lt;tt&gt;0a75283&lt;/tt&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;What&apos;s Changed&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;fix: restore main menu and Dock icon when showing MacPass from the status bar item by &lt;a class=&quot;user-mention notranslate&quot; data-hovercard-type=&quot;user&quot; data-hovercard-url=&quot;/users/orestesgaolin/hovercard&quot; data-octo-click=&quot;hovercard-link-click&quot; data-octo-dimensions=&quot;link_type:self&quot; href=&quot;https://github.com/orestesgaolin&quot;&gt;@orestesgaolin&lt;/a&gt; in &lt;a class=&quot;issue-link js-issue-link&quot; data-error-text=&quot;Failed to load title&quot; data-id=&quot;4911708552&quot; data-permission-text=&quot;Title is private&quot; data-url=&quot;https://github.com/orestesgaolin/MacPass/issues/5&quot; data-hovercard-type=&quot;pull_request&quot; data-hovercard-url=&quot;/orestesgaolin/MacPass/pull/5/hovercard&quot; href=&quot;https://github.com/orestesgaolin/MacPass/pull/5&quot;&gt;#5&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Full Changelog&lt;/strong&gt;: &lt;a class=&quot;commit-link&quot; href=&quot;https://github.com/orestesgaolin/MacPass/compare/0.8.6...0.8.8&quot;&gt;&lt;tt&gt;0.8.6...0.8.8&lt;/tt&gt;&lt;/a&gt;&lt;/p&gt;</description>
+      <sparkle:fullReleaseNotesLink>https://github.com/orestesgaolin/MacPass/releases</sparkle:fullReleaseNotesLink>
+      <link>https://github.com/orestesgaolin/MacPass/releases/tag/0.8.8</link>
+      <enclosure
+        url="https://github.com/orestesgaolin/MacPass/releases/download/0.8.8/MacPass-0.8.8.dmg"
+        length="5083315"
+        type="application/octet-stream"
+        sparkle:version="53"
+        sparkle:shortVersionString="0.8.8"
+      />
+    </item>
+    <item>
+      <title>MacPass 0.8.7-rc3 (50)</title>
+      <pubDate>2026-07-17T14:40:23Z</pubDate>
+      <sparkle:version>50</sparkle:version>
+      <sparkle:shortVersionString>0.8.7-rc3</sparkle:shortVersionString>
+      <sparkle:minimumSystemVersion>10.14</sparkle:minimumSystemVersion>
+      <description>&lt;h2&gt;Changes&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;Bug Fixes&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;make activation policy switching reliable&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;strong&gt;Verification&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;This release was built with GitHub Actions and includes &lt;a href=&quot;https://docs.github.com/en/actions/security-for-github-actions/using-artifact-attestations/using-artifact-attestations-to-establish-provenance-for-builds&quot;&gt;SLSA build provenance attestations&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;To verify the artifacts:&lt;/p&gt;
+&lt;div class=&quot;highlight highlight-source-shell notranslate position-relative overflow-auto&quot; data-snippet-clipboard-copy-content=&quot;gh attestation verify MacPass-0.8.7-rc3.dmg --owner orestesgaolin&quot;&gt;&lt;pre&gt;gh attestation verify MacPass-0.8.7-rc3.dmg --owner orestesgaolin&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;strong&gt;Build Info&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Version&lt;/strong&gt;: 0.8.7-rc3&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Build&lt;/strong&gt;: 50&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Runner&lt;/strong&gt;: macOS 15 (arm64)&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Commit&lt;/strong&gt;: &lt;a class=&quot;commit-link&quot; data-hovercard-type=&quot;commit&quot; data-hovercard-url=&quot;https://github.com/orestesgaolin/MacPass/commit/ccb19ed046648baf583bcf7afff749f39cbf5e60/hovercard&quot; href=&quot;https://github.com/orestesgaolin/MacPass/commit/ccb19ed046648baf583bcf7afff749f39cbf5e60&quot;&gt;&lt;tt&gt;ccb19ed&lt;/tt&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Full Changelog&lt;/strong&gt;: &lt;a class=&quot;commit-link&quot; href=&quot;https://github.com/orestesgaolin/MacPass/compare/0.8.7-rc2...0.8.7-rc3&quot;&gt;&lt;tt&gt;0.8.7-rc2...0.8.7-rc3&lt;/tt&gt;&lt;/a&gt;&lt;/p&gt;</description>
+      <sparkle:fullReleaseNotesLink>https://github.com/orestesgaolin/MacPass/releases</sparkle:fullReleaseNotesLink>
+      <link>https://github.com/orestesgaolin/MacPass/releases/tag/0.8.7-rc3</link>
+      <enclosure
+        url="https://github.com/orestesgaolin/MacPass/releases/download/0.8.7-rc3/MacPass-0.8.7-rc3.dmg"
+        length="5088847"
+        type="application/octet-stream"
+        sparkle:version="50"
+        sparkle:shortVersionString="0.8.7-rc3"
+      />
+    </item>
+    <item>
+      <title>MacPass 0.8.7-rc2 (49)</title>
+      <pubDate>2026-07-17T13:37:49Z</pubDate>
+      <sparkle:version>49</sparkle:version>
+      <sparkle:shortVersionString>0.8.7-rc2</sparkle:shortVersionString>
+      <sparkle:minimumSystemVersion>10.14</sparkle:minimumSystemVersion>
+      <description>&lt;h2&gt;Changes&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;Bug Fixes&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;hide the Dock icon immediately when the setting is enabled&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;strong&gt;Verification&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;This release was built with GitHub Actions and includes &lt;a href=&quot;https://docs.github.com/en/actions/security-for-github-actions/using-artifact-attestations/using-artifact-attestations-to-establish-provenance-for-builds&quot;&gt;SLSA build provenance attestations&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;To verify the artifacts:&lt;/p&gt;
+&lt;div class=&quot;highlight highlight-source-shell notranslate position-relative overflow-auto&quot; data-snippet-clipboard-copy-content=&quot;gh attestation verify MacPass-0.8.7-rc2.dmg --owner orestesgaolin&quot;&gt;&lt;pre&gt;gh attestation verify MacPass-0.8.7-rc2.dmg --owner orestesgaolin&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;strong&gt;Build Info&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Version&lt;/strong&gt;: 0.8.7-rc2&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Build&lt;/strong&gt;: 49&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Runner&lt;/strong&gt;: macOS 15 (arm64)&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Commit&lt;/strong&gt;: &lt;a class=&quot;commit-link&quot; data-hovercard-type=&quot;commit&quot; data-hovercard-url=&quot;https://github.com/orestesgaolin/MacPass/commit/208e0231966241d1c56e91e0907821c4e4a790f9/hovercard&quot; href=&quot;https://github.com/orestesgaolin/MacPass/commit/208e0231966241d1c56e91e0907821c4e4a790f9&quot;&gt;&lt;tt&gt;208e023&lt;/tt&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Full Changelog&lt;/strong&gt;: &lt;a class=&quot;commit-link&quot; href=&quot;https://github.com/orestesgaolin/MacPass/compare/0.8.7-rc1...0.8.7-rc2&quot;&gt;&lt;tt&gt;0.8.7-rc1...0.8.7-rc2&lt;/tt&gt;&lt;/a&gt;&lt;/p&gt;</description>
+      <sparkle:fullReleaseNotesLink>https://github.com/orestesgaolin/MacPass/releases</sparkle:fullReleaseNotesLink>
+      <link>https://github.com/orestesgaolin/MacPass/releases/tag/0.8.7-rc2</link>
+      <enclosure
+        url="https://github.com/orestesgaolin/MacPass/releases/download/0.8.7-rc2/MacPass-0.8.7-rc2.dmg"
+        length="5088106"
+        type="application/octet-stream"
+        sparkle:version="49"
+        sparkle:shortVersionString="0.8.7-rc2"
+      />
+    </item>
+    <item>
+      <title>MacPass 0.8.7-rc1 (48)</title>
+      <pubDate>2026-07-17T13:31:15Z</pubDate>
+      <sparkle:version>48</sparkle:version>
+      <sparkle:shortVersionString>0.8.7-rc1</sparkle:shortVersionString>
+      <sparkle:minimumSystemVersion>10.14</sparkle:minimumSystemVersion>
+      <description>&lt;h2&gt;Changes&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;Bug Fixes&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;restore main menu and Dock icon when showing MacPass from the status bar item&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;strong&gt;Verification&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;This release was built with GitHub Actions and includes &lt;a href=&quot;https://docs.github.com/en/actions/security-for-github-actions/using-artifact-attestations/using-artifact-attestations-to-establish-provenance-for-builds&quot;&gt;SLSA build provenance attestations&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;To verify the artifacts:&lt;/p&gt;
+&lt;div class=&quot;highlight highlight-source-shell notranslate position-relative overflow-auto&quot; data-snippet-clipboard-copy-content=&quot;gh attestation verify MacPass-0.8.7-rc1.dmg --owner orestesgaolin&quot;&gt;&lt;pre&gt;gh attestation verify MacPass-0.8.7-rc1.dmg --owner orestesgaolin&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;strong&gt;Build Info&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Version&lt;/strong&gt;: 0.8.7-rc1&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Build&lt;/strong&gt;: 48&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Runner&lt;/strong&gt;: macOS 15 (arm64)&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Commit&lt;/strong&gt;: &lt;a class=&quot;commit-link&quot; data-hovercard-type=&quot;commit&quot; data-hovercard-url=&quot;https://github.com/orestesgaolin/MacPass/commit/6d22f767160f673094490436af2f0b63a118fcb1/hovercard&quot; href=&quot;https://github.com/orestesgaolin/MacPass/commit/6d22f767160f673094490436af2f0b63a118fcb1&quot;&gt;&lt;tt&gt;6d22f76&lt;/tt&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Full Changelog&lt;/strong&gt;: &lt;a class=&quot;commit-link&quot; href=&quot;https://github.com/orestesgaolin/MacPass/compare/0.8.6...0.8.7-rc1&quot;&gt;&lt;tt&gt;0.8.6...0.8.7-rc1&lt;/tt&gt;&lt;/a&gt;&lt;/p&gt;</description>
+      <sparkle:fullReleaseNotesLink>https://github.com/orestesgaolin/MacPass/releases</sparkle:fullReleaseNotesLink>
+      <link>https://github.com/orestesgaolin/MacPass/releases/tag/0.8.7-rc1</link>
+      <enclosure
+        url="https://github.com/orestesgaolin/MacPass/releases/download/0.8.7-rc1/MacPass-0.8.7-rc1.dmg"
+        length="5088599"
+        type="application/octet-stream"
+        sparkle:version="48"
+        sparkle:shortVersionString="0.8.7-rc1"
+      />
+    </item>
+    <item>
+      <title>MacPass 0.8.6-rc2 (46)</title>
+      <pubDate>2026-07-17T13:09:22Z</pubDate>
+      <sparkle:version>46</sparkle:version>
+      <sparkle:shortVersionString>0.8.6-rc2</sparkle:shortVersionString>
+      <sparkle:minimumSystemVersion>10.14</sparkle:minimumSystemVersion>
+      <description>&lt;h2&gt;Changes&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;Features&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;add option to hide the Dock icon &lt;a class=&quot;issue-link js-issue-link&quot; data-error-text=&quot;Failed to load title&quot; data-id=&quot;168956657&quot; data-permission-text=&quot;Title is private&quot; data-url=&quot;https://github.com/MacPass/MacPass/issues/484&quot; data-hovercard-type=&quot;issue&quot; data-hovercard-url=&quot;/MacPass/MacPass/issues/484/hovercard&quot; href=&quot;https://github.com/MacPass/MacPass/issues/484&quot;&gt;MacPass#484&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;show status bar item while the Dock icon is hidden&lt;/li&gt;
+&lt;li&gt;select downloaded icon as entry icon &lt;a class=&quot;issue-link js-issue-link&quot; data-error-text=&quot;Failed to load title&quot; data-id=&quot;1331572366&quot; data-permission-text=&quot;Title is private&quot; data-url=&quot;https://github.com/MacPass/MacPass/issues/1236&quot; data-hovercard-type=&quot;issue&quot; data-hovercard-url=&quot;/MacPass/MacPass/issues/1236/hovercard&quot; href=&quot;https://github.com/MacPass/MacPass/issues/1236&quot;&gt;MacPass#1236&lt;/a&gt; (&lt;a class=&quot;issue-link js-issue-link&quot; data-error-text=&quot;Failed to load title&quot; data-id=&quot;4910999974&quot; data-permission-text=&quot;Title is private&quot; data-url=&quot;https://github.com/orestesgaolin/MacPass/issues/3&quot; data-hovercard-type=&quot;pull_request&quot; data-hovercard-url=&quot;/orestesgaolin/MacPass/pull/3/hovercard&quot; href=&quot;https://github.com/orestesgaolin/MacPass/pull/3&quot;&gt;#3&lt;/a&gt;)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;strong&gt;Verification&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;This release was built with GitHub Actions and includes &lt;a href=&quot;https://docs.github.com/en/actions/security-for-github-actions/using-artifact-attestations/using-artifact-attestations-to-establish-provenance-for-builds&quot;&gt;SLSA build provenance attestations&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;To verify the artifacts:&lt;/p&gt;
+&lt;div class=&quot;highlight highlight-source-shell notranslate position-relative overflow-auto&quot; data-snippet-clipboard-copy-content=&quot;gh attestation verify MacPass-0.8.6-rc2.dmg --owner orestesgaolin&quot;&gt;&lt;pre&gt;gh attestation verify MacPass-0.8.6-rc2.dmg --owner orestesgaolin&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;strong&gt;Build Info&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Version&lt;/strong&gt;: 0.8.6-rc2&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Build&lt;/strong&gt;: 46&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Runner&lt;/strong&gt;: macOS 15 (arm64)&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Commit&lt;/strong&gt;: &lt;a class=&quot;commit-link&quot; data-hovercard-type=&quot;commit&quot; data-hovercard-url=&quot;https://github.com/orestesgaolin/MacPass/commit/6af2db47e6d9e32100f0f215e0713fba037784fe/hovercard&quot; href=&quot;https://github.com/orestesgaolin/MacPass/commit/6af2db47e6d9e32100f0f215e0713fba037784fe&quot;&gt;&lt;tt&gt;6af2db4&lt;/tt&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;What&apos;s Changed&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;feat: select downloaded icon as entry&apos;s icon by &lt;a class=&quot;user-mention notranslate&quot; data-hovercard-type=&quot;user&quot; data-hovercard-url=&quot;/users/orestesgaolin/hovercard&quot; data-octo-click=&quot;hovercard-link-click&quot; data-octo-dimensions=&quot;link_type:self&quot; href=&quot;https://github.com/orestesgaolin&quot;&gt;@orestesgaolin&lt;/a&gt; in &lt;a class=&quot;issue-link js-issue-link&quot; data-error-text=&quot;Failed to load title&quot; data-id=&quot;4910999974&quot; data-permission-text=&quot;Title is private&quot; data-url=&quot;https://github.com/orestesgaolin/MacPass/issues/3&quot; data-hovercard-type=&quot;pull_request&quot; data-hovercard-url=&quot;/orestesgaolin/MacPass/pull/3/hovercard&quot; href=&quot;https://github.com/orestesgaolin/MacPass/pull/3&quot;&gt;#3&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;New Contributors&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a class=&quot;user-mention notranslate&quot; data-hovercard-type=&quot;user&quot; data-hovercard-url=&quot;/users/orestesgaolin/hovercard&quot; data-octo-click=&quot;hovercard-link-click&quot; data-octo-dimensions=&quot;link_type:self&quot; href=&quot;https://github.com/orestesgaolin&quot;&gt;@orestesgaolin&lt;/a&gt; made their first contribution in &lt;a class=&quot;issue-link js-issue-link&quot; data-error-text=&quot;Failed to load title&quot; data-id=&quot;4910999974&quot; data-permission-text=&quot;Title is private&quot; data-url=&quot;https://github.com/orestesgaolin/MacPass/issues/3&quot; data-hovercard-type=&quot;pull_request&quot; data-hovercard-url=&quot;/orestesgaolin/MacPass/pull/3/hovercard&quot; href=&quot;https://github.com/orestesgaolin/MacPass/pull/3&quot;&gt;#3&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Full Changelog&lt;/strong&gt;: &lt;a class=&quot;commit-link&quot; href=&quot;https://github.com/orestesgaolin/MacPass/compare/0.8.5...0.8.6-rc2&quot;&gt;&lt;tt&gt;0.8.5...0.8.6-rc2&lt;/tt&gt;&lt;/a&gt;&lt;/p&gt;</description>
+      <sparkle:fullReleaseNotesLink>https://github.com/orestesgaolin/MacPass/releases</sparkle:fullReleaseNotesLink>
+      <link>https://github.com/orestesgaolin/MacPass/releases/tag/0.8.6-rc2</link>
+      <enclosure
+        url="https://github.com/orestesgaolin/MacPass/releases/download/0.8.6-rc2/MacPass-0.8.6-rc2.dmg"
+        length="5087703"
+        type="application/octet-stream"
+        sparkle:version="46"
+        sparkle:shortVersionString="0.8.6-rc2"
+      />
+    </item>
+    <item>
+      <title>MacPass 0.8.6 (47)</title>
+      <pubDate>2026-07-17T13:16:55Z</pubDate>
+      <sparkle:version>47</sparkle:version>
+      <sparkle:shortVersionString>0.8.6</sparkle:shortVersionString>
+      <sparkle:minimumSystemVersion>10.14</sparkle:minimumSystemVersion>
+      <description>&lt;h2&gt;Changes&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;Features&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;select downloaded icon as entry icon &lt;a class=&quot;issue-link js-issue-link&quot; data-error-text=&quot;Failed to load title&quot; data-id=&quot;1331572366&quot; data-permission-text=&quot;Title is private&quot; data-url=&quot;https://github.com/MacPass/MacPass/issues/1236&quot; data-hovercard-type=&quot;issue&quot; data-hovercard-url=&quot;/MacPass/MacPass/issues/1236/hovercard&quot; href=&quot;https://github.com/MacPass/MacPass/issues/1236&quot;&gt;MacPass#1236&lt;/a&gt; (&lt;a class=&quot;issue-link js-issue-link&quot; data-error-text=&quot;Failed to load title&quot; data-id=&quot;4910999974&quot; data-permission-text=&quot;Title is private&quot; data-url=&quot;https://github.com/orestesgaolin/MacPass/issues/3&quot; data-hovercard-type=&quot;pull_request&quot; data-hovercard-url=&quot;/orestesgaolin/MacPass/pull/3/hovercard&quot; href=&quot;https://github.com/orestesgaolin/MacPass/pull/3&quot;&gt;#3&lt;/a&gt;)&lt;/li&gt;
+&lt;li&gt;add option to hide the Dock icon (&lt;a class=&quot;issue-link js-issue-link&quot; data-error-text=&quot;Failed to load title&quot; data-id=&quot;4911102381&quot; data-permission-text=&quot;Title is private&quot; data-url=&quot;https://github.com/orestesgaolin/MacPass/issues/4&quot; data-hovercard-type=&quot;pull_request&quot; data-hovercard-url=&quot;/orestesgaolin/MacPass/pull/4/hovercard&quot; href=&quot;https://github.com/orestesgaolin/MacPass/pull/4&quot;&gt;#4&lt;/a&gt;)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;strong&gt;Verification&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;This release was built with GitHub Actions and includes &lt;a href=&quot;https://docs.github.com/en/actions/security-for-github-actions/using-artifact-attestations/using-artifact-attestations-to-establish-provenance-for-builds&quot;&gt;SLSA build provenance attestations&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;To verify the artifacts:&lt;/p&gt;
+&lt;div class=&quot;highlight highlight-source-shell notranslate position-relative overflow-auto&quot; data-snippet-clipboard-copy-content=&quot;gh attestation verify MacPass-0.8.6.dmg --owner orestesgaolin&quot;&gt;&lt;pre&gt;gh attestation verify MacPass-0.8.6.dmg --owner orestesgaolin&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;strong&gt;Build Info&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Version&lt;/strong&gt;: 0.8.6&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Build&lt;/strong&gt;: 47&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Runner&lt;/strong&gt;: macOS 15 (arm64)&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Commit&lt;/strong&gt;: &lt;a class=&quot;commit-link&quot; data-hovercard-type=&quot;commit&quot; data-hovercard-url=&quot;https://github.com/orestesgaolin/MacPass/commit/8872f803006c4de6cd0a973fede11071abc267f7/hovercard&quot; href=&quot;https://github.com/orestesgaolin/MacPass/commit/8872f803006c4de6cd0a973fede11071abc267f7&quot;&gt;&lt;tt&gt;8872f80&lt;/tt&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;What&apos;s Changed&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;feat: select downloaded icon as entry&apos;s icon by &lt;a class=&quot;user-mention notranslate&quot; data-hovercard-type=&quot;user&quot; data-hovercard-url=&quot;/users/orestesgaolin/hovercard&quot; data-octo-click=&quot;hovercard-link-click&quot; data-octo-dimensions=&quot;link_type:self&quot; href=&quot;https://github.com/orestesgaolin&quot;&gt;@orestesgaolin&lt;/a&gt; in &lt;a class=&quot;issue-link js-issue-link&quot; data-error-text=&quot;Failed to load title&quot; data-id=&quot;4910999974&quot; data-permission-text=&quot;Title is private&quot; data-url=&quot;https://github.com/orestesgaolin/MacPass/issues/3&quot; data-hovercard-type=&quot;pull_request&quot; data-hovercard-url=&quot;/orestesgaolin/MacPass/pull/3/hovercard&quot; href=&quot;https://github.com/orestesgaolin/MacPass/pull/3&quot;&gt;#3&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;feat: add option to hide the Dock icon by &lt;a class=&quot;user-mention notranslate&quot; data-hovercard-type=&quot;user&quot; data-hovercard-url=&quot;/users/orestesgaolin/hovercard&quot; data-octo-click=&quot;hovercard-link-click&quot; data-octo-dimensions=&quot;link_type:self&quot; href=&quot;https://github.com/orestesgaolin&quot;&gt;@orestesgaolin&lt;/a&gt; in &lt;a class=&quot;issue-link js-issue-link&quot; data-error-text=&quot;Failed to load title&quot; data-id=&quot;4911102381&quot; data-permission-text=&quot;Title is private&quot; data-url=&quot;https://github.com/orestesgaolin/MacPass/issues/4&quot; data-hovercard-type=&quot;pull_request&quot; data-hovercard-url=&quot;/orestesgaolin/MacPass/pull/4/hovercard&quot; href=&quot;https://github.com/orestesgaolin/MacPass/pull/4&quot;&gt;#4&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;New Contributors&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a class=&quot;user-mention notranslate&quot; data-hovercard-type=&quot;user&quot; data-hovercard-url=&quot;/users/orestesgaolin/hovercard&quot; data-octo-click=&quot;hovercard-link-click&quot; data-octo-dimensions=&quot;link_type:self&quot; href=&quot;https://github.com/orestesgaolin&quot;&gt;@orestesgaolin&lt;/a&gt; made their first contribution in &lt;a class=&quot;issue-link js-issue-link&quot; data-error-text=&quot;Failed to load title&quot; data-id=&quot;4910999974&quot; data-permission-text=&quot;Title is private&quot; data-url=&quot;https://github.com/orestesgaolin/MacPass/issues/3&quot; data-hovercard-type=&quot;pull_request&quot; data-hovercard-url=&quot;/orestesgaolin/MacPass/pull/3/hovercard&quot; href=&quot;https://github.com/orestesgaolin/MacPass/pull/3&quot;&gt;#3&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Full Changelog&lt;/strong&gt;: &lt;a class=&quot;commit-link&quot; href=&quot;https://github.com/orestesgaolin/MacPass/compare/0.8.5...0.8.6&quot;&gt;&lt;tt&gt;0.8.5...0.8.6&lt;/tt&gt;&lt;/a&gt;&lt;/p&gt;</description>
+      <sparkle:fullReleaseNotesLink>https://github.com/orestesgaolin/MacPass/releases</sparkle:fullReleaseNotesLink>
+      <link>https://github.com/orestesgaolin/MacPass/releases/tag/0.8.6</link>
+      <enclosure
+        url="https://github.com/orestesgaolin/MacPass/releases/download/0.8.6/MacPass-0.8.6.dmg"
+        length="5087826"
+        type="application/octet-stream"
+        sparkle:version="47"
+        sparkle:shortVersionString="0.8.6"
+      />
+    </item>
+    <item>
+      <title>MacPass 0.8.5 (43)</title>
+      <pubDate>2026-03-16T21:46:23Z</pubDate>
+      <sparkle:version>43</sparkle:version>
+      <sparkle:shortVersionString>0.8.5</sparkle:shortVersionString>
+      <sparkle:minimumSystemVersion>10.14</sparkle:minimumSystemVersion>
+      <description>&lt;h2&gt;Changes&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;Features&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;add MacPassHTTP plugin support and update related configurations&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;strong&gt;Verification&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;This release was built with GitHub Actions and includes &lt;a href=&quot;https://docs.github.com/en/actions/security-for-github-actions/using-artifact-attestations/using-artifact-attestations-to-establish-provenance-for-builds&quot;&gt;SLSA build provenance attestations&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;To verify the artifacts:&lt;/p&gt;
+&lt;div class=&quot;highlight highlight-source-shell notranslate position-relative overflow-auto&quot; data-snippet-clipboard-copy-content=&quot;gh attestation verify MacPass-0.8.5.dmg --owner orestesgaolin&quot;&gt;&lt;pre&gt;gh attestation verify MacPass-0.8.5.dmg --owner orestesgaolin&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;strong&gt;Build Info&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Version&lt;/strong&gt;: 0.8.5&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Build&lt;/strong&gt;: 43&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Runner&lt;/strong&gt;: macOS 15 (arm64)&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Commit&lt;/strong&gt;: &lt;a class=&quot;commit-link&quot; data-hovercard-type=&quot;commit&quot; data-hovercard-url=&quot;https://github.com/orestesgaolin/MacPass/commit/b09c36efda3493af6a0a6c3a60099c9dd611112b/hovercard&quot; href=&quot;https://github.com/orestesgaolin/MacPass/commit/b09c36efda3493af6a0a6c3a60099c9dd611112b&quot;&gt;&lt;tt&gt;b09c36e&lt;/tt&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Full Changelog&lt;/strong&gt;: &lt;a class=&quot;commit-link&quot; href=&quot;https://github.com/orestesgaolin/MacPass/compare/0.8.4...0.8.5&quot;&gt;&lt;tt&gt;0.8.4...0.8.5&lt;/tt&gt;&lt;/a&gt;&lt;/p&gt;</description>
+      <sparkle:fullReleaseNotesLink>https://github.com/orestesgaolin/MacPass/releases</sparkle:fullReleaseNotesLink>
+      <link>https://github.com/orestesgaolin/MacPass/releases/tag/0.8.5</link>
+      <enclosure
+        url="https://github.com/orestesgaolin/MacPass/releases/download/0.8.5/MacPass-0.8.5.dmg"
+        length="5076298"
+        type="application/octet-stream"
+        sparkle:version="43"
+        sparkle:shortVersionString="0.8.5"
+      />
+    </item>
+    <item>
+      <title>MacPass 0.8.5-rc1 (42)</title>
+      <pubDate>2026-03-05T00:28:53Z</pubDate>
+      <sparkle:version>42</sparkle:version>
+      <sparkle:shortVersionString>0.8.5-rc1</sparkle:shortVersionString>
+      <sparkle:minimumSystemVersion>10.14</sparkle:minimumSystemVersion>
+      <description>&lt;h2&gt;Changes&lt;/h2&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;strong&gt;Verification&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;This release was built with GitHub Actions and includes &lt;a href=&quot;https://docs.github.com/en/actions/security-for-github-actions/using-artifact-attestations/using-artifact-attestations-to-establish-provenance-for-builds&quot;&gt;SLSA build provenance attestations&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;To verify the artifacts:&lt;/p&gt;
+&lt;div class=&quot;highlight highlight-source-shell notranslate position-relative overflow-auto&quot; data-snippet-clipboard-copy-content=&quot;gh attestation verify MacPass-0.8.5-rc1.dmg --owner orestesgaolin&quot;&gt;&lt;pre&gt;gh attestation verify MacPass-0.8.5-rc1.dmg --owner orestesgaolin&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;strong&gt;Build Info&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Version&lt;/strong&gt;: 0.8.5-rc1&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Build&lt;/strong&gt;: 42&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Runner&lt;/strong&gt;: macOS 15 (arm64)&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Commit&lt;/strong&gt;: &lt;a class=&quot;commit-link&quot; data-hovercard-type=&quot;commit&quot; data-hovercard-url=&quot;https://github.com/orestesgaolin/MacPass/commit/c31db3dea46d5012b16a861141e56d8d5f4bd75d/hovercard&quot; href=&quot;https://github.com/orestesgaolin/MacPass/commit/c31db3dea46d5012b16a861141e56d8d5f4bd75d&quot;&gt;&lt;tt&gt;c31db3d&lt;/tt&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Full Changelog&lt;/strong&gt;: &lt;a class=&quot;commit-link&quot; href=&quot;https://github.com/orestesgaolin/MacPass/compare/0.8.4...0.8.5-rc1&quot;&gt;&lt;tt&gt;0.8.4...0.8.5-rc1&lt;/tt&gt;&lt;/a&gt;&lt;/p&gt;</description>
+      <sparkle:fullReleaseNotesLink>https://github.com/orestesgaolin/MacPass/releases</sparkle:fullReleaseNotesLink>
+      <link>https://github.com/orestesgaolin/MacPass/releases/tag/0.8.5-rc1</link>
+      <enclosure
+        url="https://github.com/orestesgaolin/MacPass/releases/download/0.8.5-rc1/MacPass-0.8.5-rc1.dmg"
+        length="5076394"
+        type="application/octet-stream"
+        sparkle:version="42"
+        sparkle:shortVersionString="0.8.5-rc1"
+      />
+    </item>
+  </channel>
+</rss>
