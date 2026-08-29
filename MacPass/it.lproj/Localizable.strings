@@ -861,8 +861,8 @@
 "FIELD_REFERENCE_MISSING_FORMAT" = "%@ da una voce mancante";
 "FIELD_REFERENCE_AMBIGUOUS_SUFFIX" = " (%lu corrispondenze; usata la prima)";
 "FIELD_REFERENCE_SOURCE_TOOLTIP_FORMAT" = "Riferimento salvato: %@";
-"FIELD_REFERENCE_RESOLVED_TOOLTIP" = "Riferimento al campo risolto";
-"SHOW_RESOLVED_FIELD_REFERENCE" = "Mostra valore risolto";
+"FIELD_REFERENCE_RESOLVED_TOOLTIP" = "Valore del campo di riferimento";
+"SHOW_RESOLVED_FIELD_REFERENCE" = "Mostra il valore del campo di riferimento";
 "EDIT_FIELD_REFERENCE_SOURCE" = "Modifica riferimento al campo";
 "NO_MATCHING_ENTRIES" = "Nessuna voce corrispondente";
 "UNTITLED" = "Senza titolo";

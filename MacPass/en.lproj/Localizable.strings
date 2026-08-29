@@ -225,8 +225,8 @@
 "FIELD_REFERENCE_MISSING_FORMAT" = "%@ from missing entry";
 "FIELD_REFERENCE_AMBIGUOUS_SUFFIX" = " (%lu matches; first used)";
 "FIELD_REFERENCE_SOURCE_TOOLTIP_FORMAT" = "Stored reference: %@";
-"FIELD_REFERENCE_RESOLVED_TOOLTIP" = "Resolved field reference";
-"SHOW_RESOLVED_FIELD_REFERENCE" = "Show resolved value";
+"FIELD_REFERENCE_RESOLVED_TOOLTIP" = "Value from referenced field";
+"SHOW_RESOLVED_FIELD_REFERENCE" = "Show referenced value";
 "EDIT_FIELD_REFERENCE_SOURCE" = "Edit field reference";
 "NO_MATCHING_ENTRIES" = "No matching entries";
 "UNTITLED" = "Untitled";

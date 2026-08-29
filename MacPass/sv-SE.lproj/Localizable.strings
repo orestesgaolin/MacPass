@@ -678,8 +678,8 @@
 "FIELD_REFERENCE_MISSING_FORMAT" = "%@ från en saknad post";
 "FIELD_REFERENCE_AMBIGUOUS_SUFFIX" = " (%lu träffar; den första används)";
 "FIELD_REFERENCE_SOURCE_TOOLTIP_FORMAT" = "Sparad referens: %@";
-"FIELD_REFERENCE_RESOLVED_TOOLTIP" = "Löst fältreferens";
-"SHOW_RESOLVED_FIELD_REFERENCE" = "Visa löst värde";
+"FIELD_REFERENCE_RESOLVED_TOOLTIP" = "Värde från refererat fält";
+"SHOW_RESOLVED_FIELD_REFERENCE" = "Visa värdet från det refererade fältet";
 "EDIT_FIELD_REFERENCE_SOURCE" = "Redigera fältreferens";
 "NO_MATCHING_ENTRIES" = "Inga matchande poster";
 "UNTITLED" = "Namnlös";

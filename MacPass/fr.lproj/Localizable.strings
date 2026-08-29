@@ -897,8 +897,8 @@
 "FIELD_REFERENCE_MISSING_FORMAT" = "%@ d’une entrée manquante";
 "FIELD_REFERENCE_AMBIGUOUS_SUFFIX" = " (%lu correspondances ; la première est utilisée)";
 "FIELD_REFERENCE_SOURCE_TOOLTIP_FORMAT" = "Référence enregistrée : %@";
-"FIELD_REFERENCE_RESOLVED_TOOLTIP" = "Référence de champ résolue";
-"SHOW_RESOLVED_FIELD_REFERENCE" = "Afficher la valeur résolue";
+"FIELD_REFERENCE_RESOLVED_TOOLTIP" = "Valeur du champ référencé";
+"SHOW_RESOLVED_FIELD_REFERENCE" = "Afficher la valeur du champ référencé";
 "EDIT_FIELD_REFERENCE_SOURCE" = "Modifier la référence de champ";
 "NO_MATCHING_ENTRIES" = "Aucune entrée correspondante";
 "UNTITLED" = "Sans titre";

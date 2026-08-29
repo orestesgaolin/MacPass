@@ -873,8 +873,8 @@
 "FIELD_REFERENCE_MISSING_FORMAT" = "%@ із відсутнього запису";
 "FIELD_REFERENCE_AMBIGUOUS_SUFFIX" = " (збігів: %lu; використано перший)";
 "FIELD_REFERENCE_SOURCE_TOOLTIP_FORMAT" = "Збережене посилання: %@";
-"FIELD_REFERENCE_RESOLVED_TOOLTIP" = "Розв’язане посилання на поле";
-"SHOW_RESOLVED_FIELD_REFERENCE" = "Показати розв’язане значення";
+"FIELD_REFERENCE_RESOLVED_TOOLTIP" = "Значення з поля за посиланням";
+"SHOW_RESOLVED_FIELD_REFERENCE" = "Показати значення з поля за посиланням";
 "EDIT_FIELD_REFERENCE_SOURCE" = "Змінити посилання на поле";
 "NO_MATCHING_ENTRIES" = "Немає відповідних записів";
 "UNTITLED" = "Без назви";

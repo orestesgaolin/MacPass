@@ -939,8 +939,8 @@
 "FIELD_REFERENCE_MISSING_FORMAT" = "%@ z chybějící položky";
 "FIELD_REFERENCE_AMBIGUOUS_SUFFIX" = " (%lu shod; použita první)";
 "FIELD_REFERENCE_SOURCE_TOOLTIP_FORMAT" = "Uložený odkaz: %@";
-"FIELD_REFERENCE_RESOLVED_TOOLTIP" = "Vyřešený odkaz na pole";
-"SHOW_RESOLVED_FIELD_REFERENCE" = "Zobrazit vyřešenou hodnotu";
+"FIELD_REFERENCE_RESOLVED_TOOLTIP" = "Hodnota z odkazovaného pole";
+"SHOW_RESOLVED_FIELD_REFERENCE" = "Zobrazit hodnotu z odkazovaného pole";
 "EDIT_FIELD_REFERENCE_SOURCE" = "Upravit odkaz na pole";
 "NO_MATCHING_ENTRIES" = "Žádné odpovídající položky";
 "UNTITLED" = "Bez názvu";

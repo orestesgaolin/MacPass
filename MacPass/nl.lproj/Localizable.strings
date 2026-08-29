@@ -771,8 +771,8 @@
 "FIELD_REFERENCE_MISSING_FORMAT" = "%@ van ontbrekend item";
 "FIELD_REFERENCE_AMBIGUOUS_SUFFIX" = " (%lu overeenkomsten; eerste gebruikt)";
 "FIELD_REFERENCE_SOURCE_TOOLTIP_FORMAT" = "Opgeslagen verwijzing: %@";
-"FIELD_REFERENCE_RESOLVED_TOOLTIP" = "Opgeloste veldverwijzing";
-"SHOW_RESOLVED_FIELD_REFERENCE" = "Opgeloste waarde tonen";
+"FIELD_REFERENCE_RESOLVED_TOOLTIP" = "Waarde uit het veld waarnaar wordt verwezen";
+"SHOW_RESOLVED_FIELD_REFERENCE" = "Waarde uit het veld waarnaar wordt verwezen tonen";
 "EDIT_FIELD_REFERENCE_SOURCE" = "Veldverwijzing bewerken";
 "NO_MATCHING_ENTRIES" = "Geen overeenkomende items";
 "UNTITLED" = "Naamloos";

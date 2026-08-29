@@ -942,8 +942,8 @@
 "FIELD_REFERENCE_MISSING_FORMAT" = "%@ aus fehlendem Eintrag";
 "FIELD_REFERENCE_AMBIGUOUS_SUFFIX" = " (%lu Treffer; erster verwendet)";
 "FIELD_REFERENCE_SOURCE_TOOLTIP_FORMAT" = "Gespeicherte Referenz: %@";
-"FIELD_REFERENCE_RESOLVED_TOOLTIP" = "Aufgelöste Feldreferenz";
-"SHOW_RESOLVED_FIELD_REFERENCE" = "Aufgelösten Wert anzeigen";
+"FIELD_REFERENCE_RESOLVED_TOOLTIP" = "Wert aus referenziertem Feld";
+"SHOW_RESOLVED_FIELD_REFERENCE" = "Wert des referenzierten Felds anzeigen";
 "EDIT_FIELD_REFERENCE_SOURCE" = "Feldreferenz bearbeiten";
 "NO_MATCHING_ENTRIES" = "Keine passenden Einträge";
 "UNTITLED" = "Unbenannt";
