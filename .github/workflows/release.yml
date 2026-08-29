@@ -44,6 +44,9 @@ jobs:
           brew tap orestesgaolin/tap
           brew install changelog_cli
 
+      - name: Verify KeePassKit Dependency Declaration
+        run: bash scripts/verify_keepasskit_dependency.sh --declaration-only
+
       - name: Fetch Dependencies
         env:
           GITHUB_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -51,6 +54,9 @@ jobs:
           # Resolve, checkout sources, and download binary deps (Sparkle)
           # without building anything — Carthage's build is broken on arm64 Xcode 16
           carthage bootstrap --no-build
+
+      - name: Verify KeePassKit Checkout
+        run: bash scripts/verify_keepasskit_dependency.sh
 
       - name: Fix TransformerKit Compatibility
         run: |

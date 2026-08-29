@@ -3,25 +3,26 @@
 "142-bE-IMZ.title" = "取得";
 
 /* Class = "NSTextFieldCell"; title = "Match"; ObjectID = "9ce-da-syF"; */
-"9ce-da-syF.title" = "一致";
+"9ce-da-syF.title" = "エントリーを絞り込む";
 
 /* Class = "NSTextFieldCell"; title = "Key"; ObjectID = "K1t-OZ-ACe"; */
-"K1t-OZ-ACe.title" = "鍵";
+"K1t-OZ-ACe.title" = "参照元エントリー";
 
 /* Class = "NSButtonCell"; title = "Use"; ObjectID = "Kqx-qm-nMG"; */
 "Kqx-qm-nMG.title" = "使用";
+"CNL-cE-11r.title" = "キャンセル";
 
 /* Class = "NSTextFieldCell"; placeholderString = "Reference"; ObjectID = "dr9-x8-kKk"; */
-"dr9-x8-kKk.placeholderString" = "参考";
+"dr9-x8-kKk.placeholderString" = "値";
 
 /* Class = "NSTextFieldCell"; placeholderString = "Value"; ObjectID = "fNP-ye-2bD"; */
-"fNP-ye-2bD.placeholderString" = "値";
+"fNP-ye-2bD.placeholderString" = "絞り込み";
 
 /* Class = "NSTextFieldCell"; title = "Reference String"; ObjectID = "gik-Ha-hRd"; */
-"gik-Ha-hRd.title" = "参照文字列";
+"gik-Ha-hRd.title" = "値のプレビュー";
 
 /* Class = "NSTextFieldCell"; title = "Reference"; ObjectID = "r1V-VE-ngy"; */
-"r1V-VE-ngy.title" = "参考";
+"r1V-VE-ngy.title" = "フィールド";
 
 /* Class = "NSMenuItem"; title = "Matching"; ObjectID = "yT1-XL-k6a"; */
 "yT1-XL-k6a.title" = "一致";

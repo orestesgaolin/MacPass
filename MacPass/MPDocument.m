@@ -516,8 +516,14 @@ NSString *const MPDocumentGroupKey                            = @"MPDocumentGrou
   }
   NSData *keyFileData = keyFileURL ? [NSData dataWithContentsOfURL:keyFileURL] : nil;
   self.compositeKey = [[KPKCompositeKey alloc] init];
-  [self.compositeKey addKey:[KPKKey keyWithPassword:password]];
-  [self.compositeKey addKey:[KPKKey keyWithKeyFileData:keyFileData]];
+  KPKKey *passwordKey = [KPKKey keyWithPassword:password];
+  KPKKey *fileKey = [KPKKey keyWithKeyFileData:keyFileData];
+  if(passwordKey != nil) {
+    [self.compositeKey addKey:passwordKey];
+  }
+  if(fileKey != nil) {
+    [self.compositeKey addKey:fileKey];
+  }
   
   self.tree.metaData.masterKeyChanged = NSDate.date;
   /* Key change is not undoable so just recored the change as done */

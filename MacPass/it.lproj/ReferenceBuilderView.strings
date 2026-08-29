@@ -3,25 +3,26 @@
 "142-bE-IMZ.title" = "Ottieni";
 
 /* Class = "NSTextFieldCell"; title = "Match"; ObjectID = "9ce-da-syF"; */
-"9ce-da-syF.title" = "Corrispondenza";
+"9ce-da-syF.title" = "Filtra voci";
 
 /* Class = "NSTextFieldCell"; title = "Key"; ObjectID = "K1t-OZ-ACe"; */
-"K1t-OZ-ACe.title" = "Chiave";
+"K1t-OZ-ACe.title" = "Voce di origine";
 
 /* Class = "NSButtonCell"; title = "Use"; ObjectID = "Kqx-qm-nMG"; */
 "Kqx-qm-nMG.title" = "Usa";
+"CNL-cE-11r.title" = "Annulla";
 
 /* Class = "NSTextFieldCell"; placeholderString = "Reference"; ObjectID = "dr9-x8-kKk"; */
-"dr9-x8-kKk.placeholderString" = "Referenza";
+"dr9-x8-kKk.placeholderString" = "Valore";
 
 /* Class = "NSTextFieldCell"; placeholderString = "Value"; ObjectID = "fNP-ye-2bD"; */
-"fNP-ye-2bD.placeholderString" = "Valore";
+"fNP-ye-2bD.placeholderString" = "Filtra";
 
 /* Class = "NSTextFieldCell"; title = "Reference String"; ObjectID = "gik-Ha-hRd"; */
-"gik-Ha-hRd.title" = "Stringa di referenza";
+"gik-Ha-hRd.title" = "Anteprima valore";
 
 /* Class = "NSTextFieldCell"; title = "Reference"; ObjectID = "r1V-VE-ngy"; */
-"r1V-VE-ngy.title" = "Referenza";
+"r1V-VE-ngy.title" = "Campo";
 
 /* Class = "NSMenuItem"; title = "Matching"; ObjectID = "yT1-XL-k6a"; */
 "yT1-XL-k6a.title" = "Matching";

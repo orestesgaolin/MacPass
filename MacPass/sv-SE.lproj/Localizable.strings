@@ -669,3 +669,17 @@
 "PASSWORD_INPUT_UNLOCK_WITH_TOUCH_ID" = "Lås upp med Touch ID";
 "PASSWORD_INPUT_UNLOCK_METHOD" = "Upplåsningsmetod";
 "PASSWORD_INPUT_REMOVE_KEY_FILE" = "Ta bort nyckelfil";
+"INSERT_FIELD_REFERENCE" = "Infoga fältreferens…";
+"FIELD_REFERENCE_REPLACE_TITLE" = "Ersätt befintligt värde?";
+"FIELD_REFERENCE_REPLACE_MESSAGE" = "Fältet innehåller redan ett värde. Ersätt det med den valda fältreferensen?";
+"REPLACE" = "Ersätt";
+"FIELD_REFERENCES" = "Fältreferenser";
+"FIELD_REFERENCE_FORMAT" = "%@ från ”%@”";
+"FIELD_REFERENCE_MISSING_FORMAT" = "%@ från en saknad post";
+"FIELD_REFERENCE_AMBIGUOUS_SUFFIX" = " (%lu träffar; den första används)";
+"FIELD_REFERENCE_SOURCE_TOOLTIP_FORMAT" = "Sparad referens: %@";
+"FIELD_REFERENCE_RESOLVED_TOOLTIP" = "Värde från refererat fält";
+"SHOW_RESOLVED_FIELD_REFERENCE" = "Visa värdet från det refererade fältet";
+"EDIT_FIELD_REFERENCE_SOURCE" = "Redigera fältreferens";
+"NO_MATCHING_ENTRIES" = "Inga matchande poster";
+"UNTITLED" = "Namnlös";

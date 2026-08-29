@@ -975,3 +975,17 @@
 "PASSWORD_INPUT_UNLOCK_WITH_TOUCH_ID" = "Desbloquear con Touch ID";
 "PASSWORD_INPUT_UNLOCK_METHOD" = "Método de desbloqueo";
 "PASSWORD_INPUT_REMOVE_KEY_FILE" = "Eliminar archivo de claves";
+"INSERT_FIELD_REFERENCE" = "Insertar referencia de campo…";
+"FIELD_REFERENCE_REPLACE_TITLE" = "¿Reemplazar el valor existente?";
+"FIELD_REFERENCE_REPLACE_MESSAGE" = "Este campo ya contiene un valor. ¿Reemplazarlo por la referencia de campo seleccionada?";
+"REPLACE" = "Reemplazar";
+"FIELD_REFERENCES" = "Referencias de campo";
+"FIELD_REFERENCE_FORMAT" = "%@ de «%@»";
+"FIELD_REFERENCE_MISSING_FORMAT" = "%@ de una entrada ausente";
+"FIELD_REFERENCE_AMBIGUOUS_SUFFIX" = " (%lu coincidencias; se usa la primera)";
+"FIELD_REFERENCE_SOURCE_TOOLTIP_FORMAT" = "Referencia guardada: %@";
+"FIELD_REFERENCE_RESOLVED_TOOLTIP" = "Valor del campo referenciado";
+"SHOW_RESOLVED_FIELD_REFERENCE" = "Mostrar el valor del campo referenciado";
+"EDIT_FIELD_REFERENCE_SOURCE" = "Editar referencia de campo";
+"NO_MATCHING_ENTRIES" = "No hay entradas coincidentes";
+"UNTITLED" = "Sin título";

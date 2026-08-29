@@ -107,7 +107,7 @@ NSString *const MPPluginRepositoryDidUpdateAvailablePluginsNotification = @"com.
 
 - (void)_fetchRepositoryDataCompletionHandler:(void (^)(NSArray<MPPluginRepositoryItem *> * _Nonnull))completionHandler {
   NSString *urlString = NSBundle.mainBundle.infoDictionary[MPBundlePluginRepositoryURLKey];
-  if(!urlString) {
+  if(urlString.length == 0) {
     [self _fetchLocalFallbackRepositoryData:completionHandler];
     return;
   }

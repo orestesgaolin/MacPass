@@ -97,6 +97,8 @@ typedef NS_ENUM(NSUInteger, MPInpspectorEditorIndex) {
 @property (nonatomic, assign) MPEntryTab activeTab;
 @property (nonatomic, readonly) KPKEntry *representedEntry;
 @property (strong) MPTOTPViewController *totpViewController;
+@property (strong) NSMutableSet<NSString *> *rawReferenceFields;
+@property (strong) NSMutableDictionary<NSString *, NSButton *> *referenceButtons;
 
 @property (strong) MPTemporaryFileStorage *quicklookStorage;
 
@@ -128,6 +130,8 @@ typedef NS_ENUM(NSUInteger, MPInpspectorEditorIndex) {
     _addCustomFieldContextMenuDelegate.viewController = self;
     
     _attributeEditorViewControllers = [[NSMutableArray alloc] init];
+    _rawReferenceFields = [[NSMutableSet alloc] init];
+    _referenceButtons = [[NSMutableDictionary alloc] init];
     _activeTab = MPEntryTabGeneral;
   }
   return self;
@@ -140,12 +144,27 @@ typedef NS_ENUM(NSUInteger, MPInpspectorEditorIndex) {
   return nil;
 }
 
+- (void)_unbindReferenceValueBindings {
+  if(!self.isViewLoaded) {
+    return;
+  }
+  for(NSTextField *textField in @[ self.titleTextField, self.usernameTextField, self.passwordTextField, self.URLTextField ]) {
+    if([textField infoForBinding:NSValueBinding] != nil) {
+      [textField unbind:NSValueBinding];
+    }
+  }
+}
+
 - (void)setRepresentedObject:(id)representedObject {
   if(self.representedObject) {
     [NSNotificationCenter.defaultCenter removeObserver:self name:KPKWillChangeEntryNotification object:self.representedEntry];
     [NSNotificationCenter.defaultCenter removeObserver:self name:KPKDidChangeEntryNotification object:self.representedEntry];
   }
+  /* Detach the bindings while their nested representedObject key paths still
+   * point at the object they originally registered with. */
+  [self _unbindReferenceValueBindings];
   super.representedObject = representedObject;
+  [self.rawReferenceFields removeAllObjects];
   
   [self _updateEditors];
   
@@ -154,6 +173,8 @@ typedef NS_ENUM(NSUInteger, MPInpspectorEditorIndex) {
     [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(_willChangeEntry:) name:KPKWillChangeEntryNotification object:self.representedEntry];
     [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(_didChangeEntry:) name:KPKDidChangeEntryNotification object:self.representedEntry];
   }
+  [self _updateReferencePresentation];
+  [self _updateReferenceToolTips];
 }
 
 - (void)viewDidLoad {
@@ -215,9 +236,14 @@ typedef NS_ENUM(NSUInteger, MPInpspectorEditorIndex) {
     
   [self _setupAttributeEditors];
   [self _updateEditors];
+  [self _setupReferencePresentationControls];
   
   [self _setupCustomFieldsButton];
   [self _setupViewBindings];
+  [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(_didChangePotentialReferenceSource:) name:KPKDidChangeEntryNotification object:nil];
+  [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(_didChangePotentialReferenceSource:) name:KPKDidChangeAttributeNotification object:nil];
+  [self _updateReferencePresentation];
+  [self _updateReferenceToolTips];
 }
 
 - (void)registerNotificationsForDocument:(MPDocument *)document {
@@ -379,14 +405,82 @@ typedef NS_ENUM(NSUInteger, MPInpspectorEditorIndex) {
 #pragma mark Popovers
 
 - (IBAction)showReferenceBuilder:(id)sender {
-  NSView *location;
+  KPKEntry *destinationEntry = self.representedEntry;
+  NSView *location = nil;
+  NSString *insertionKey = nil;
+  KPKAttribute *insertionAttribute = nil;
+  NSString *originalValue = nil;
+  NSRange insertionRange = NSMakeRange(NSNotFound, 0);
   if([sender isKindOfClass:NSView.class]) {
     location = sender;
   }
   else if([sender isKindOfClass:NSMenuItem.class]) {
-    location = [sender representedObject];
+    id representedObject = [sender representedObject];
+    if([representedObject isKindOfClass:NSDictionary.class]) {
+      location = representedObject[@"textField"];
+      insertionKey = representedObject[@"key"];
+      insertionAttribute = representedObject[@"attribute"];
+      originalValue = representedObject[@"originalValue"];
+      insertionRange = [representedObject[@"range"] rangeValue];
+    }
+    else {
+      location = representedObject;
+    }
   }
-  [self _showPopopver:[[MPReferenceBuilderViewController alloc] init] atView:location onEdge:NSMinYEdge];
+  if(location == nil) {
+    location = self.passwordTextField;
+  }
+
+  /* End field editing before opening the popover. In particular, leaving the
+   * title field editor active allows it to restore its old value when the
+   * reference popover closes and the resolved presentation unbinds the field. */
+  [self.view.window makeFirstResponder:nil];
+  [self commitEditing];
+  if(originalValue != nil && insertionAttribute != nil && ![insertionAttribute.value isEqualToString:originalValue]) {
+    [self.observer willChangeModelProperty];
+    insertionAttribute.value = originalValue;
+    [self.observer didChangeModelProperty];
+  }
+  else if(originalValue != nil && insertionKey.length > 0 && ![[self.representedEntry valueForKey:insertionKey] isEqualToString:originalValue]) {
+    [self setValue:originalValue forKeyPath:[NSString stringWithFormat:@"representedObject.%@", insertionKey]];
+  }
+
+  MPReferenceBuilderViewController *builder = [[MPReferenceBuilderViewController alloc] init];
+  builder.representedObject = destinationEntry;
+  builder.valueBeingReplaced = originalValue;
+  if(insertionKey != nil) {
+    builder.preferredFieldKey = @{ NSStringFromSelector(@selector(title)): kKPKReferenceTitleKey,
+                                   NSStringFromSelector(@selector(username)): kKPKReferenceUsernameKey,
+                                   NSStringFromSelector(@selector(password)): kKPKReferencePasswordKey,
+                                   NSStringFromSelector(@selector(url)): kKPKReferenceURLKey }[insertionKey];
+  }
+  if((insertionKey.length > 0 || insertionAttribute != nil) && insertionRange.location != NSNotFound) {
+    __weak typeof(self) weakSelf = self;
+    builder.completionHandler = ^(NSString *reference) {
+      typeof(self) strongSelf = weakSelf;
+      if(strongSelf == nil || strongSelf.representedEntry != destinationEntry) {
+        return;
+      }
+      [strongSelf.view.window makeFirstResponder:nil];
+      [strongSelf commitEditing];
+      NSString *currentValue = insertionAttribute != nil ? insertionAttribute.value : [destinationEntry valueForKey:insertionKey];
+      if([currentValue isEqualToString:originalValue]) {
+        NSString *newValue = currentValue.length > 0
+                             ? reference
+                             : [currentValue stringByReplacingCharactersInRange:insertionRange withString:reference];
+        if(insertionAttribute != nil) {
+          [strongSelf.observer willChangeModelProperty];
+          insertionAttribute.value = newValue;
+          [strongSelf.observer didChangeModelProperty];
+        }
+        else {
+          [strongSelf setValue:newValue forKeyPath:[NSString stringWithFormat:@"representedObject.%@", insertionKey]];
+        }
+        [strongSelf _updateReferenceToolTips];
+      }
+    };
+  }
+  [self _showPopopver:builder atView:location onEdge:NSMinYEdge];
 }
 
 - (IBAction)showAutotypeBuilder:(id)sender {
@@ -493,7 +587,130 @@ typedef NS_ENUM(NSUInteger, MPInpspectorEditorIndex) {
 #pragma mark -
 #pragma mark Entry Selection
 - (void)_updateEntryValues {
-  // TODO implement binding less model update
+  [self _updateReferencePresentation];
+}
+
+- (NSDictionary *)_valueBindingOptionsForTextField:(NSTextField *)textField {
+  NSString *placeholder = NSLocalizedString(@"NONE", "Placeholder text for input fields if no entry or group is selected");
+  if(textField == self.passwordTextField) {
+    return @{ NSNullPlaceholderBindingOption: placeholder, NSValueTransformerNameBindingOption: MPPrettyPasswordTransformerName };
+  }
+  return @{ NSNullPlaceholderBindingOption: placeholder };
+}
+
+- (void)_bindValueForTextField:(NSTextField *)textField modelKey:(NSString *)key {
+  if([textField infoForBinding:NSValueBinding] != nil) {
+    return;
+  }
+  [textField bind:NSValueBinding
+         toObject:self
+      withKeyPath:[NSString stringWithFormat:@"%@.%@", NSStringFromSelector(@selector(representedObject)), key]
+          options:[self _valueBindingOptionsForTextField:textField]];
+}
+
+- (NSButton *)_referenceButtonForKey:(NSString *)key {
+  NSButton *button = [[NSButton alloc] initWithFrame:NSZeroRect];
+  button.translatesAutoresizingMaskIntoConstraints = NO;
+  button.bezelStyle = NSBezelStyleTexturedRounded;
+  button.image = [NSImage imageNamed:NSImageNameRefreshFreestandingTemplate];
+  button.imagePosition = NSImageOnly;
+  button.target = self;
+  button.action = @selector(toggleReferenceSource:);
+  button.identifier = key;
+  button.hidden = YES;
+  [button.widthAnchor constraintEqualToConstant:32].active = YES;
+  self.referenceButtons[key] = button;
+  return button;
+}
+
+- (void)_wrapTextField:(NSTextField *)textField modelKey:(NSString *)key {
+  NSInteger index = [self.fieldsStackView.arrangedSubviews indexOfObject:textField];
+  NSAssert(index != NSNotFound, @"Reference field must be an arranged inspector subview");
+  [self.fieldsStackView removeArrangedSubview:textField];
+  [textField removeFromSuperview];
+
+  NSButton *button = [self _referenceButtonForKey:key];
+  NSStackView *row = [NSStackView stackViewWithViews:@[ textField, button ]];
+  row.orientation = NSUserInterfaceLayoutOrientationHorizontal;
+  row.alignment = NSLayoutAttributeCenterY;
+  row.distribution = NSStackViewDistributionFill;
+  row.spacing = 4;
+  row.detachesHiddenViews = YES;
+  row.translatesAutoresizingMaskIntoConstraints = NO;
+  [textField setContentHuggingPriority:NSLayoutPriorityDefaultLow forOrientation:NSLayoutConstraintOrientationHorizontal];
+  [self.fieldsStackView insertArrangedSubview:row atIndex:index];
+  [row.widthAnchor constraintEqualToAnchor:self.fieldsStackView.widthAnchor].active = YES;
+}
+
+- (void)_setupReferencePresentationControls {
+  [self _wrapTextField:self.titleTextField modelKey:NSStringFromSelector(@selector(title))];
+  [self _wrapTextField:self.usernameTextField modelKey:NSStringFromSelector(@selector(username))];
+  [self _wrapTextField:self.URLTextField modelKey:NSStringFromSelector(@selector(url))];
+
+  NSStackView *passwordRow = (NSStackView *)self.passwordTextField.superview;
+  NSAssert([passwordRow isKindOfClass:NSStackView.class], @"Password editor must use a stack view");
+  NSButton *passwordButton = [self _referenceButtonForKey:NSStringFromSelector(@selector(password))];
+  [passwordRow insertArrangedSubview:passwordButton atIndex:1];
+}
+
+- (NSTextField *)_textFieldForModelKey:(NSString *)key {
+  if([key isEqualToString:NSStringFromSelector(@selector(title))]) return self.titleTextField;
+  if([key isEqualToString:NSStringFromSelector(@selector(username))]) return self.usernameTextField;
+  if([key isEqualToString:NSStringFromSelector(@selector(password))]) return self.passwordTextField;
+  if([key isEqualToString:NSStringFromSelector(@selector(url))]) return self.URLTextField;
+  return nil;
+}
+
+- (void)_updateReferencePresentation {
+  if(!self.isViewLoaded) {
+    return;
+  }
+  KPKEntry *entry = self.representedEntry;
+  for(NSString *key in @[ NSStringFromSelector(@selector(title)), NSStringFromSelector(@selector(username)), NSStringFromSelector(@selector(password)), NSStringFromSelector(@selector(url)) ]) {
+    NSTextField *textField = [self _textFieldForModelKey:key];
+    NSButton *button = self.referenceButtons[key];
+    NSString *rawValue = entry == nil ? @"" : [entry valueForKey:key];
+    BOOL hasReference = [KPKFieldReference referencesInString:rawValue ?: @""].count > 0;
+    BOOL showRaw = hasReference && [self.rawReferenceFields containsObject:key];
+    button.hidden = !hasReference;
+    button.state = showRaw ? NSControlStateValueOn : NSControlStateValueOff;
+    button.enabled = entry != nil && !entry.isHistory;
+    button.toolTip = showRaw
+                     ? NSLocalizedString(@"SHOW_RESOLVED_FIELD_REFERENCE", "Tooltip to show a resolved field reference")
+                     : NSLocalizedString(@"EDIT_FIELD_REFERENCE_SOURCE", "Tooltip to edit a field reference expression");
+
+    if(hasReference && !showRaw) {
+      if([textField infoForBinding:NSValueBinding] != nil) {
+        [textField unbind:NSValueBinding];
+      }
+      NSString *resolvedValue = [rawValue kpk_finalValueForEntry:entry options:KPKCommandEvaluationOptionSkipUserInteraction|KPKCommandEvaluationOptionReadOnly];
+      if(textField == self.passwordTextField) {
+        id prettyValue = [[NSValueTransformer valueTransformerForName:MPPrettyPasswordTransformerName] transformedValue:resolvedValue];
+        [textField setObjectValue:prettyValue ?: @""];
+      }
+      else {
+        textField.stringValue = resolvedValue ?: @"";
+      }
+      textField.editable = NO;
+      textField.selectable = YES;
+    }
+    else {
+      [self _bindValueForTextField:textField modelKey:key];
+      textField.editable = entry != nil && !entry.isHistory;
+    }
+  }
+}
+
+- (IBAction)toggleReferenceSource:(NSButton *)sender {
+  NSString *key = sender.identifier;
+  if([self.rawReferenceFields containsObject:key]) {
+    [self.rawReferenceFields removeObject:key];
+  }
+  else {
+    [self.rawReferenceFields addObject:key];
+  }
+  [self _updateReferencePresentation];
+  [self _updateReferenceToolTips];
 }
 
 - (void)_setupViewBindings {
@@ -525,26 +742,11 @@ typedef NS_ENUM(NSUInteger, MPInpspectorEditorIndex) {
   
   /* general */
   NSDictionary *nullPlaceholderBindingOptionsDict = @{ NSNullPlaceholderBindingOption: NSLocalizedString(@"NONE", "Placeholder text for input fields if no entry or group is selected")};
-  NSDictionary *prettyPasswordBindingOptionsDict = @{ NSNullPlaceholderBindingOption: nullPlaceholderBindingOptionsDict[NSNullPlaceholderBindingOption], NSValueTransformerNameBindingOption : MPPrettyPasswordTransformerName };
-  
-  [self.titleTextField bind:NSValueBinding
-                   toObject:self
-                withKeyPath:[NSString stringWithFormat:@"%@.%@", NSStringFromSelector(@selector(representedObject)), NSStringFromSelector(@selector(title))]
-                    options:nullPlaceholderBindingOptionsDict];
-  [self.passwordTextField bind:NSValueBinding
-                      toObject:self
-                   withKeyPath:[NSString stringWithFormat:@"%@.%@", NSStringFromSelector(@selector(representedObject)), NSStringFromSelector(@selector(password))]
-                       options:prettyPasswordBindingOptionsDict];
-  
-  [self.usernameTextField bind:NSValueBinding
-                      toObject:self
-                   withKeyPath:[NSString stringWithFormat:@"%@.%@", NSStringFromSelector(@selector(representedObject)), NSStringFromSelector(@selector(username))]
-                       options:nullPlaceholderBindingOptionsDict];
-  
-  [self.URLTextField bind:NSValueBinding
-                 toObject:self
-              withKeyPath:[NSString stringWithFormat:@"%@.%@", NSStringFromSelector(@selector(representedObject)), NSStringFromSelector(@selector(url))]
-                  options:nullPlaceholderBindingOptionsDict];
+
+  [self _bindValueForTextField:self.titleTextField modelKey:NSStringFromSelector(@selector(title))];
+  [self _bindValueForTextField:self.passwordTextField modelKey:NSStringFromSelector(@selector(password))];
+  [self _bindValueForTextField:self.usernameTextField modelKey:NSStringFromSelector(@selector(username))];
+  [self _bindValueForTextField:self.URLTextField modelKey:NSStringFromSelector(@selector(url))];
 
   [self.expiresCheckButton bind:NSTitleBinding
                        toObject:self
@@ -690,7 +892,96 @@ typedef NS_ENUM(NSUInteger, MPInpspectorEditorIndex) {
     }
 #pragma clang diagnostic pop
   }
+  if(!self.representedEntry.isHistory) {
+    [menu addItem:NSMenuItem.separatorItem];
+    NSMenuItem *insertReferenceItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"INSERT_FIELD_REFERENCE", "Menu item to insert a reference to another entry")
+                                                                    action:@selector(showReferenceBuilder:)
+                                                             keyEquivalent:@""];
+    insertReferenceItem.target = self;
+    NSString *insertionKey = [self _modelKeyForTextField:textField];
+    NSInteger customFieldIndex = MPCustomFieldIndexFromTag(textField.tag);
+    KPKAttribute *insertionAttribute = customFieldIndex >= 0 && customFieldIndex < [_customFieldsController.arrangedObjects count]
+                                     ? _customFieldsController.arrangedObjects[customFieldIndex]
+                                     : nil;
+    NSMutableDictionary *insertionInfo = [@{ @"textField": textField,
+                                             @"key": insertionKey ?: @"",
+                                             @"originalValue": view.string ?: @"",
+                                             @"range": [NSValue valueWithRange:view.selectedRange] } mutableCopy];
+    if(insertionAttribute != nil) {
+      insertionInfo[@"attribute"] = insertionAttribute;
+    }
+    insertReferenceItem.representedObject = insertionInfo;
+    insertReferenceItem.enabled = insertionKey != nil || insertionAttribute != nil;
+    [menu addItem:insertReferenceItem];
+  }
+  NSArray<NSString *> *referenceDescriptions = [self _referenceDescriptionsForString:view.string];
+  if(referenceDescriptions.count > 0) {
+    NSMenuItem *referencesItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"FIELD_REFERENCES", "Menu containing resolved field references") action:NULL keyEquivalent:@""];
+    NSMenu *referencesMenu = [[NSMenu alloc] initWithTitle:referencesItem.title];
+    for(NSString *description in referenceDescriptions) {
+      NSMenuItem *item = [[NSMenuItem alloc] initWithTitle:description action:NULL keyEquivalent:@""];
+      item.enabled = NO;
+      [referencesMenu addItem:item];
+    }
+    referencesItem.submenu = referencesMenu;
+    [menu addItem:referencesItem];
+  }
   return menu;
+}
+
+- (NSString *)_modelKeyForTextField:(NSTextField *)textField {
+  if(textField == self.titleTextField) return NSStringFromSelector(@selector(title));
+  if(textField == self.usernameTextField) return NSStringFromSelector(@selector(username));
+  if(textField == self.passwordTextField) return NSStringFromSelector(@selector(password));
+  if(textField == self.URLTextField) return NSStringFromSelector(@selector(url));
+  return nil;
+}
+
+- (NSString *)_nameForReferenceField:(KPKReferenceField)field {
+  switch(field) {
+    case KPKReferenceFieldTitle: return NSLocalizedString(@"TITLE", "Title field");
+    case KPKReferenceFieldUsername: return NSLocalizedString(@"USERNAME", "Username field");
+    case KPKReferenceFieldPassword: return NSLocalizedString(@"PASSWORD", "Password field");
+    case KPKReferenceFieldUrl: return NSLocalizedString(@"URL", "URL field");
+    case KPKReferenceFieldNotes: return NSLocalizedString(@"NOTES", "Notes field");
+    case KPKReferenceFieldUUID: return NSLocalizedString(@"UUID", "UUID field");
+    case KPKReferenceFieldOther: return NSLocalizedString(@"CUSTOM_ATTRIBUTE", "Custom field");
+  }
+  return @"";
+}
+
+- (NSArray<NSString *> *)_referenceDescriptionsForString:(NSString *)string {
+  NSMutableArray<NSString *> *descriptions = [[NSMutableArray alloc] init];
+  if(self.representedEntry.tree == nil) {
+    return descriptions;
+  }
+  for(KPKFieldReference *reference in [KPKFieldReference referencesInString:string ?: @""]) {
+    KPKFieldReferenceResolution *resolution = [KPKReferenceBuilder resolveReference:reference inTree:self.representedEntry.tree excludingEntry:self.representedEntry];
+    NSString *fieldName = [self _nameForReferenceField:reference.wantedField];
+    if(resolution.selectedEntry == nil) {
+      [descriptions addObject:[NSString stringWithFormat:NSLocalizedString(@"FIELD_REFERENCE_MISSING_FORMAT", "Unresolved field reference description"), fieldName]];
+      continue;
+    }
+    NSString *entryTitle = resolution.selectedEntry.title.length > 0 ? resolution.selectedEntry.title : NSLocalizedString(@"UNTITLED", "Fallback title for an entry without a title");
+    NSString *description = [NSString stringWithFormat:NSLocalizedString(@"FIELD_REFERENCE_FORMAT", "Resolved field reference description"), fieldName, entryTitle];
+    if(resolution.status == KPKFieldReferenceResolutionStatusResolvedAmbiguous) {
+      description = [description stringByAppendingFormat:NSLocalizedString(@"FIELD_REFERENCE_AMBIGUOUS_SUFFIX", "Ambiguous reference match count suffix"), resolution.matchingEntries.count];
+    }
+    [descriptions addObject:description];
+  }
+  return descriptions;
+}
+
+- (void)_updateReferenceToolTips {
+  if(!self.isViewLoaded) {
+    return;
+  }
+  for(NSTextField *textField in @[ self.titleTextField, self.usernameTextField, self.passwordTextField, self.URLTextField ]) {
+    NSString *key = [self _modelKeyForTextField:textField];
+    NSString *rawValue = key.length > 0 ? [self.representedEntry valueForKey:key] : @"";
+    NSArray<NSString *> *descriptions = [self _referenceDescriptionsForString:rawValue];
+    textField.toolTip = descriptions.count > 0 ? [descriptions componentsJoinedByString:@"\n"] : nil;
+  }
 }
 
 /*- (NSArray<NSString *> *)control:(NSControl *)control textView:(NSTextView *)textView completions:(NSArray<NSString *> *)words forPartialWordRange:(NSRange)charRange indexOfSelectedItem:(NSInteger *)index {
@@ -768,6 +1059,38 @@ typedef NS_ENUM(NSUInteger, MPInpspectorEditorIndex) {
   }
   NSLog(@"didChangeEntry:%@", notification.object);
   [self _updateEntryValues];
+  [self _updateReferenceToolTips];
+}
+
+- (void)_refreshReferencePresentationForChangedObject:(id)changedObject {
+  KPKEntry *changedEntry = [changedObject isKindOfClass:KPKEntry.class] ? changedObject : nil;
+  if([changedObject isKindOfClass:KPKAttribute.class]) {
+    for(KPKEntry *entry in self.representedEntry.tree.allEntries) {
+      if([entry.attributes indexOfObjectIdenticalTo:changedObject] != NSNotFound) {
+        changedEntry = entry;
+        break;
+      }
+    }
+  }
+  if(changedEntry.tree == nil || changedEntry.tree != self.representedEntry.tree) {
+    return;
+  }
+  [self _updateReferencePresentation];
+  [self _updateReferenceToolTips];
+}
+
+- (void)_didChangePotentialReferenceSource:(NSNotification *)notification {
+  if(!NSThread.isMainThread) {
+    return;
+  }
+  id changedObject = notification.object;
+  if([changedObject isKindOfClass:KPKAttribute.class]) {
+    dispatch_async(dispatch_get_main_queue(), ^{
+      [self _refreshReferencePresentationForChangedObject:changedObject];
+    });
+    return;
+  }
+  [self _refreshReferencePresentationForChangedObject:changedObject];
 }
 
 - (void)_didChangeAttribute:(NSNotification *)notification {

@@ -216,6 +216,20 @@
 
 /* Submenu to copy attributes as reference */
 "COPY_AS_REFERENCE" = "Copy Reference To…";
+"INSERT_FIELD_REFERENCE" = "Insert Field Reference…";
+"FIELD_REFERENCE_REPLACE_TITLE" = "Replace Existing Value?";
+"FIELD_REFERENCE_REPLACE_MESSAGE" = "This field already contains a value. Replace it with the selected field reference?";
+"REPLACE" = "Replace";
+"FIELD_REFERENCES" = "Field References";
+"FIELD_REFERENCE_FORMAT" = "%@ from “%@”";
+"FIELD_REFERENCE_MISSING_FORMAT" = "%@ from missing entry";
+"FIELD_REFERENCE_AMBIGUOUS_SUFFIX" = " (%lu matches; first used)";
+"FIELD_REFERENCE_SOURCE_TOOLTIP_FORMAT" = "Stored reference: %@";
+"FIELD_REFERENCE_RESOLVED_TOOLTIP" = "Value from referenced field";
+"SHOW_RESOLVED_FIELD_REFERENCE" = "Show referenced value";
+"EDIT_FIELD_REFERENCE_SOURCE" = "Edit field reference";
+"NO_MATCHING_ENTRIES" = "No matching entries";
+"UNTITLED" = "Untitled";
 
 /* Context menu sub-menu to copy attributes as reference */
 "COPY_AS_REFERENCE_MENU" = "Copy as Reference menu";

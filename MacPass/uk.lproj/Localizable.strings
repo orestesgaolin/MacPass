@@ -864,3 +864,17 @@
 "PASSWORD_INPUT_UNLOCK_WITH_TOUCH_ID" = "Відімкнути за допомогою Touch ID";
 "PASSWORD_INPUT_UNLOCK_METHOD" = "Спосіб відімкнення";
 "PASSWORD_INPUT_REMOVE_KEY_FILE" = "Видалити файл ключа";
+"INSERT_FIELD_REFERENCE" = "Вставити посилання на поле…";
+"FIELD_REFERENCE_REPLACE_TITLE" = "Замінити наявне значення?";
+"FIELD_REFERENCE_REPLACE_MESSAGE" = "Це поле вже містить значення. Замінити його вибраним посиланням на поле?";
+"REPLACE" = "Замінити";
+"FIELD_REFERENCES" = "Посилання на поля";
+"FIELD_REFERENCE_FORMAT" = "%@ із «%@»";
+"FIELD_REFERENCE_MISSING_FORMAT" = "%@ із відсутнього запису";
+"FIELD_REFERENCE_AMBIGUOUS_SUFFIX" = " (збігів: %lu; використано перший)";
+"FIELD_REFERENCE_SOURCE_TOOLTIP_FORMAT" = "Збережене посилання: %@";
+"FIELD_REFERENCE_RESOLVED_TOOLTIP" = "Значення з поля за посиланням";
+"SHOW_RESOLVED_FIELD_REFERENCE" = "Показати значення з поля за посиланням";
+"EDIT_FIELD_REFERENCE_SOURCE" = "Змінити посилання на поле";
+"NO_MATCHING_ENTRIES" = "Немає відповідних записів";
+"UNTITLED" = "Без назви";
