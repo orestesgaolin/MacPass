@@ -16,7 +16,7 @@ The implementation is ready for manual testing when the forked KeePassKit builds
 - The second presentation feedback pass refreshes on KeePassKit attribute changes, keeps table badges and resolved/raw inspector state synchronized, asks before replacing non-empty values, defaults the builder to the destination field type, and uses a compact vertical builder layout with explicit Cancel and Use actions.
 - The full MacPass suite runs but retains unrelated legacy failures in database v1 loading, database search, Auto-Type delay timing, key mapping, and plugin-version comparison.
 - KeePassKit is committed and published at `b80b507e5387c02fb1060451645ea1cd6cc4bc36`, and both Carthage files pin that immutable revision from `orestesgaolin/KeePassKit`.
-- CI and release builds verify the declared fork, immutable revision, checked-out origin, and checked-out SHA before building.
+- CI and release builds verify the declared fork, immutable revision, and expected field-reference API before building. Git origin and SHA are also checked when checkout metadata is available; Carthage strips that metadata on hosted runners.
 
 ## Repository strategy
 
