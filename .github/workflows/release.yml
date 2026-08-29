@@ -416,6 +416,8 @@ jobs:
             END_REF="HEAD"
           fi
 
+          printf '%s' "$PREV_TAG" > /tmp/previous-release-tag
+
           echo "Generating changelog: ${PREV_TAG:-beginning}..${END_REF}"
 
           CHANGELOG_ARGS=(-P markdown -e "$END_REF")
@@ -438,12 +440,14 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          # Build release body: changelog + attestation info
+          set -euo pipefail
+
+          # Keep the changelog visible and collapse verification/build metadata.
           cp /tmp/changelog.md /tmp/release-body.md
 
           cat >> /tmp/release-body.md << 'EOF'
 
-          ----
+          <details>
 
           **Verification**
 
@@ -463,10 +467,22 @@ jobs:
           - **Commit**: ${{ github.sha }}
           EOF
 
-          # Create release with changelog + attestation info
+          PREV_TAG=$(cat /tmp/previous-release-tag)
+          if [ -n "$PREV_TAG" ]; then
+            {
+              echo
+              echo "**Full Changelog**: $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/compare/$PREV_TAG...${{ github.ref_name }}"
+            } >> /tmp/release-body.md
+          fi
+
+          cat >> /tmp/release-body.md << 'EOF'
+
+          </details>
+          EOF
+
+          # The body is fully composed above so nothing is appended outside <details>.
           gh release create "${{ github.ref_name }}" \
             --title "MacPass ${{ env.VERSION }} (${{ env.BUILD_NUMBER }})" \
-            --generate-notes \
             --notes-file /tmp/release-body.md \
             "${{ env.DMG_PATH }}" \
             "${{ env.DMG_PATH }}.sha256"
