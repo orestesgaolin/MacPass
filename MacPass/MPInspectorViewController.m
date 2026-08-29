@@ -228,6 +228,7 @@ typedef NS_ENUM(NSUInteger, MPContentTab) {
   if(entry == nil || originalValue == nil || insertionRange.location == NSNotFound || NSMaxRange(insertionRange) > originalValue.length) {
     return;
   }
+  [self.view.window makeFirstResponder:nil];
   [self commitEditing];
   if(![entry.notes isEqualToString:originalValue]) {
     [self setValue:originalValue forKeyPath:@"representedObject.notes"];
@@ -244,6 +245,8 @@ typedef NS_ENUM(NSUInteger, MPContentTab) {
     if(strongSelf == nil || currentEntry != entry || ![currentEntry.notes isEqualToString:originalValue]) {
       return;
     }
+    [strongSelf.view.window makeFirstResponder:nil];
+    [strongSelf commitEditing];
     NSString *newValue = originalValue.length > 0
                          ? reference
                          : [originalValue stringByReplacingCharactersInRange:insertionRange withString:reference];
@@ -300,7 +303,7 @@ typedef NS_ENUM(NSUInteger, MPContentTab) {
   NSButton *button = [[NSButton alloc] initWithFrame:NSZeroRect];
   button.translatesAutoresizingMaskIntoConstraints = NO;
   button.bordered = NO;
-  button.image = [NSImage imageNamed:NSImageNameFollowLinkFreestandingTemplate];
+  button.image = [NSImage imageNamed:NSImageNameRefreshFreestandingTemplate];
   button.imagePosition = NSImageOnly;
   button.target = self;
   button.action = @selector(toggleNotesReferenceSource:);

@@ -431,8 +431,10 @@ typedef NS_ENUM(NSUInteger, MPInpspectorEditorIndex) {
     location = self.passwordTextField;
   }
 
-  /* Commit the field editor before opening the popover. The captured string is
-   * the authoritative value for the selection range used by the menu action. */
+  /* End field editing before opening the popover. In particular, leaving the
+   * title field editor active allows it to restore its old value when the
+   * reference popover closes and the resolved presentation unbinds the field. */
+  [self.view.window makeFirstResponder:nil];
   [self commitEditing];
   if(originalValue != nil && insertionAttribute != nil && ![insertionAttribute.value isEqualToString:originalValue]) {
     [self.observer willChangeModelProperty];
@@ -459,6 +461,8 @@ typedef NS_ENUM(NSUInteger, MPInpspectorEditorIndex) {
       if(strongSelf == nil || strongSelf.representedEntry != destinationEntry) {
         return;
       }
+      [strongSelf.view.window makeFirstResponder:nil];
+      [strongSelf commitEditing];
       NSString *currentValue = insertionAttribute != nil ? insertionAttribute.value : [destinationEntry valueForKey:insertionKey];
       if([currentValue isEqualToString:originalValue]) {
         NSString *newValue = currentValue.length > 0
@@ -608,7 +612,7 @@ typedef NS_ENUM(NSUInteger, MPInpspectorEditorIndex) {
   NSButton *button = [[NSButton alloc] initWithFrame:NSZeroRect];
   button.translatesAutoresizingMaskIntoConstraints = NO;
   button.bezelStyle = NSBezelStyleTexturedRounded;
-  button.image = [NSImage imageNamed:NSImageNameFollowLinkFreestandingTemplate];
+  button.image = [NSImage imageNamed:NSImageNameRefreshFreestandingTemplate];
   button.imagePosition = NSImageOnly;
   button.target = self;
   button.action = @selector(toggleReferenceSource:);
