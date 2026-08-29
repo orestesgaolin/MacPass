@@ -333,8 +333,12 @@
   KPKKey* passwordKey = [KPKKey keyWithPassword:password];
   KPKKey* fileKey = [KPKKey keyWithKeyFileData:keyFileData];
   KPKCompositeKey* compositeKey = [[KPKCompositeKey alloc] init];
-  [compositeKey addKey:passwordKey];
-  [compositeKey addKey:fileKey];
+  if(passwordKey != nil) {
+    [compositeKey addKey:passwordKey];
+  }
+  if(fileKey != nil) {
+    [compositeKey addKey:fileKey];
+  }
   /* After the completion handler finished we no longer have a windowController set */
   NSString* documentKey = [self biometricKeyForCurrentDocument];
   BOOL result = self.completionHandler(compositeKey, keyURL, cancel, &error);

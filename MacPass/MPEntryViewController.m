@@ -55,6 +55,7 @@
 
 #define STATUS_BAR_ANIMATION_TIME 0.15
 #define EXPIRED_ENTRY_REFRESH_SECONDS 60
+#define MP_FIELD_REFERENCE_BADGE_TAG 73013
 
 NSString *const MPEntryTableIndexColumnIdentifier = @"MPEntryTableIndexColumnIdentifier";
 NSString *const MPEntryTableUserNameColumnIdentifier = @"MPUserNameColumnIdentifier";
@@ -97,6 +98,38 @@ NSString *const _MPTableMonoSpacedStringCellView = @"MonospacedStringCell";
 @end
 
 @implementation MPEntryViewController
+
+static BOOL MPStringContainsFieldReference(NSString *value) {
+  return [KPKFieldReference referencesInString:value ?: @""].count > 0;
+}
+
+static NSString *MPResolvedEntryValue(KPKEntry *entry, NSString *value) {
+  return [value ?: @"" kpk_finalValueForEntry:entry options:KPKCommandEvaluationOptionSkipUserInteraction|KPKCommandEvaluationOptionReadOnly];
+}
+
+static void MPConfigureFieldReferenceBadge(NSTableCellView *cell, BOOL visible) {
+  NSImageView *badge = [cell viewWithTag:MP_FIELD_REFERENCE_BADGE_TAG];
+  if(!visible && badge == nil) {
+    cell.textField.toolTip = nil;
+    return;
+  }
+  if(badge == nil) {
+    badge = [[NSImageView alloc] initWithFrame:NSZeroRect];
+    badge.tag = MP_FIELD_REFERENCE_BADGE_TAG;
+    badge.translatesAutoresizingMaskIntoConstraints = NO;
+    badge.image = [NSImage imageNamed:NSImageNameFollowLinkFreestandingTemplate];
+    badge.imageScaling = NSImageScaleProportionallyDown;
+    [cell addSubview:badge];
+    [NSLayoutConstraint activateConstraints:@[
+      [badge.trailingAnchor constraintEqualToAnchor:cell.trailingAnchor constant:-4],
+      [badge.centerYAnchor constraintEqualToAnchor:cell.centerYAnchor],
+      [badge.widthAnchor constraintEqualToConstant:12],
+      [badge.heightAnchor constraintEqualToConstant:12]
+    ]];
+  }
+  badge.hidden = !visible;
+  cell.textField.toolTip = visible ? NSLocalizedString(@"FIELD_REFERENCE_RESOLVED_TOOLTIP", "Tooltip for a resolved field reference") : nil;
+}
 
 - (NSString *)nibName {
   return @"EntryView";
@@ -143,6 +176,14 @@ NSString *const _MPTableMonoSpacedStringCellView = @"MonospacedStringCell";
                                          selector:@selector(_didBecomFirstResponder:)
                                              name:MPDidActivateViewNotification
                                            object:_entryTable];
+  [NSNotificationCenter.defaultCenter addObserver:self
+                                         selector:@selector(_didChangeAnyEntry:)
+                                             name:KPKDidChangeEntryNotification
+                                           object:nil];
+  [NSNotificationCenter.defaultCenter addObserver:self
+                                         selector:@selector(_didChangeAnyEntry:)
+                                             name:KPKDidChangeAttributeNotification
+                                           object:nil];
   
   /*
    NSView *clipView = self.entryTable.enclosingScrollView.contentView;
@@ -255,6 +296,14 @@ NSString *const _MPTableMonoSpacedStringCellView = @"MonospacedStringCell";
   }
 }
 
+- (void)setNilValueForKey:(NSString *)key {
+  if([key isEqualToString:NSStringFromSelector(@selector(displayClearTextPasswords))]) {
+    self.displayClearTextPasswords = NO;
+    return;
+  }
+  [super setNilValueForKey:key];
+}
+
 - (NSResponder *)reconmendedFirstResponder {
   return self.entryTable;
 }
@@ -311,6 +360,7 @@ NSString *const _MPTableMonoSpacedStringCellView = @"MonospacedStringCell";
   }
 }
 - (NSView *)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row {
+  KPKEntry *entry = self.entryArrayController.arrangedObjects[row];
   BOOL isTitleColumn = [tableColumn.identifier isEqualToString:MPEntryTableTitleColumnIdentifier];
   BOOL isGroupColumn = [tableColumn.identifier isEqualToString:MPEntryTableParentColumnIdentifier];
   BOOL isPasswordColum = [tableColumn.identifier isEqualToString:MPEntryTablePasswordColumnIdentifier];
@@ -330,18 +380,17 @@ NSString *const _MPTableMonoSpacedStringCellView = @"MonospacedStringCell";
     [view.textField unbind:NSValueBinding];
     [view.imageView unbind:NSValueBinding];
     if( isTitleColumn ) {
-      NSString *titleKeyPath = [NSString stringWithFormat:@"%@.%@",
-                                NSStringFromSelector(@selector(objectValue)),
-                                NSStringFromSelector(@selector(title))];
       NSString *iconImageKeyPath = [NSString stringWithFormat:@"%@.%@",
                                     NSStringFromSelector(@selector(objectValue)),
                                     NSStringFromSelector(@selector(iconImage))];
-      [view.textField bind:NSValueBinding toObject:view withKeyPath:titleKeyPath options:nil];
+      BOOL hasReference = MPStringContainsFieldReference(entry.title);
+      view.textField.stringValue = MPResolvedEntryValue(entry, entry.title);
+      MPConfigureFieldReferenceBadge(view, hasReference);
       [view.imageView bind:NSValueBinding toObject:view withKeyPath:iconImageKeyPath options:nil];
     }
     else {
-      KPKEntry *entry = self.entryArrayController.arrangedObjects[row];
       NSAssert(entry.parent != nil, @"Entry needs to have a parent");
+      MPConfigureFieldReferenceBadge(view, NO);
       
       NSString *parentTitleKeyPath = [NSString stringWithFormat:@"%@.%@.%@",
                                       NSStringFromSelector(@selector(objectValue)),
@@ -357,11 +406,10 @@ NSString *const _MPTableMonoSpacedStringCellView = @"MonospacedStringCell";
   }
   else if(isPasswordColum && !displayClearTextPasswords) {
     view = [tableView makeViewWithIdentifier:_MPTableSecurCellView owner:self];
-    NSString *passwordKeyPath = [NSString stringWithFormat:@"%@.%@",
-                                 NSStringFromSelector(@selector(objectValue)),
-                                 NSStringFromSelector(@selector(password))];
-    NSDictionary *options = @{ NSValueTransformerBindingOption : [NSValueTransformer valueTransformerForName:MPStringLengthValueTransformerName] };
-    [view.textField bind:NSValueBinding toObject:view withKeyPath:passwordKeyPath options:options];
+    [view.textField unbind:NSValueBinding];
+    NSString *resolvedPassword = MPResolvedEntryValue(entry, entry.password);
+    view.textField.stringValue = resolvedPassword.length > 0 ? @"12345678" : @"";
+    MPConfigureFieldReferenceBadge(view, MPStringContainsFieldReference(entry.password));
   }
   else {
     if(isPasswordColum) {
@@ -372,6 +420,7 @@ NSString *const _MPTableMonoSpacedStringCellView = @"MonospacedStringCell";
     }
     [view.textField unbind:NSValueBinding];
     view.textField.stringValue = @"";
+    MPConfigureFieldReferenceBadge(view, NO);
     if(!isModifedColumn && !isCreatedColumn) {
       /* clean up old formatter that might be left */
       view.textField.formatter = nil;
@@ -408,24 +457,17 @@ NSString *const _MPTableMonoSpacedStringCellView = @"MonospacedStringCell";
       return view;
     }
     else if(isURLColumn) {
-      NSString *urlKeyPath = [NSString stringWithFormat:@"%@.%@",
-                              NSStringFromSelector(@selector(objectValue)),
-                              NSStringFromSelector(@selector(url))];
-      [view.textField bind:NSValueBinding toObject:view withKeyPath:urlKeyPath options:nil];
+      view.textField.stringValue = MPResolvedEntryValue(entry, entry.url);
+      MPConfigureFieldReferenceBadge(view, MPStringContainsFieldReference(entry.url));
     }
     else if(isUsernameColumn) {
-      NSString *usernameKeyPath = [NSString stringWithFormat:@"%@.%@",
-                                   NSStringFromSelector(@selector(objectValue)),
-                                   NSStringFromSelector(@selector(username))];
-      
-      [view.textField bind:NSValueBinding toObject:view withKeyPath:usernameKeyPath options:nil];
+      view.textField.stringValue = MPResolvedEntryValue(entry, entry.username);
+      MPConfigureFieldReferenceBadge(view, MPStringContainsFieldReference(entry.username));
     }
     else if(isNotesColumn) {
-      NSDictionary *options = @{ NSValueTransformerNameBindingOption : MPStripLineBreaksTransformerName };
-      NSString *notesKeyPath = [NSString stringWithFormat:@"%@.%@",
-                                NSStringFromSelector(@selector(objectValue)),
-                                NSStringFromSelector(@selector(notes))];
-      [view.textField bind:NSValueBinding toObject:view withKeyPath:notesKeyPath options:options];
+      NSString *notes = MPResolvedEntryValue(entry, entry.notes);
+      view.textField.stringValue = [[notes componentsSeparatedByCharactersInSet:NSCharacterSet.newlineCharacterSet] componentsJoinedByString:@" "];
+      MPConfigureFieldReferenceBadge(view, MPStringContainsFieldReference(entry.notes));
     }
     else if(isAttachmentColumn) {
       NSString *binariesCountKeyPath = [NSString stringWithFormat:@"%@.%@.@count",
@@ -440,10 +482,8 @@ NSString *const _MPTableMonoSpacedStringCellView = @"MonospacedStringCell";
       [view.textField bind:NSValueBinding toObject:view withKeyPath:historyCountKeyPath options:nil];
     }
     else if(isPasswordColum) {
-      NSString *passwordKeyPath = [NSString stringWithFormat:@"%@.%@",
-                                   NSStringFromSelector(@selector(objectValue)),
-                                   NSStringFromSelector(@selector(password))];
-      [view.textField bind:NSValueBinding toObject:view withKeyPath:passwordKeyPath options:nil];
+      view.textField.stringValue = MPResolvedEntryValue(entry, entry.password);
+      MPConfigureFieldReferenceBadge(view, MPStringContainsFieldReference(entry.password));
     }
     else if(isTOPTColumn) {
       NSString *TOTPKeyPath = [NSString stringWithFormat:@"%@.%@", NSStringFromSelector(@selector(objectValue)), NSStringFromSelector(@selector(timeOTP))];
@@ -451,6 +491,43 @@ NSString *const _MPTableMonoSpacedStringCellView = @"MonospacedStringCell";
     }
   }
   return view;
+}
+
+- (void)_refreshForChangedObject:(id)changedObject {
+  if(!self.isViewLoaded || self.entryTable.numberOfRows == 0) {
+    return;
+  }
+  KPKEntry *displayedEntry = [self.entryArrayController.arrangedObjects firstObject];
+  KPKEntry *changedEntry = [changedObject isKindOfClass:KPKEntry.class] ? changedObject : nil;
+  if([changedObject isKindOfClass:KPKAttribute.class]) {
+    for(KPKEntry *entry in displayedEntry.tree.allEntries) {
+      if([entry.attributes indexOfObjectIdenticalTo:changedObject] != NSNotFound) {
+        changedEntry = entry;
+        break;
+      }
+    }
+  }
+  if(changedEntry.tree == nil || displayedEntry.tree != changedEntry.tree) {
+    return;
+  }
+  [self.entryTable reloadData];
+}
+
+- (void)_didChangeAnyEntry:(NSNotification *)notification {
+  /* NSDocument copies the tree on a worker queue while saving. KeePassKit's
+   * copy initializers emit change notifications for those detached entries;
+   * they are not presentation changes and must never reach AppKit. */
+  if(!NSThread.isMainThread) {
+    return;
+  }
+  id changedObject = notification.object;
+  if([changedObject isKindOfClass:KPKAttribute.class]) {
+    dispatch_async(dispatch_get_main_queue(), ^{
+      [self _refreshForChangedObject:changedObject];
+    });
+    return;
+  }
+  [self _refreshForChangedObject:changedObject];
 }
 
 - (void)tableView:(NSTableView *)tableView didRemoveRowView:(NSTableRowView *)rowView forRow:(NSInteger)row {

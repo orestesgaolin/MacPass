@@ -30,10 +30,16 @@ jobs:
       - name: Install Carthage
         run: brew install carthage
 
+      - name: Verify KeePassKit dependency declaration
+        run: bash scripts/verify_keepasskit_dependency.sh --declaration-only
+
       - name: Fetch dependencies
         env:
           GITHUB_ACCESS_TOKEN: ${{ github.token }}
         run: carthage bootstrap --no-build
+
+      - name: Verify KeePassKit checkout
+        run: bash scripts/verify_keepasskit_dependency.sh
 
       - name: Fix TransformerKit compatibility
         run: ./scripts/fix_transformerkit.sh

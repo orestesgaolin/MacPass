@@ -852,3 +852,17 @@
 "PASSWORD_INPUT_UNLOCK_WITH_TOUCH_ID" = "Sblocca con Touch ID";
 "PASSWORD_INPUT_UNLOCK_METHOD" = "Metodo di sblocco";
 "PASSWORD_INPUT_REMOVE_KEY_FILE" = "Rimuovi file chiave";
+"INSERT_FIELD_REFERENCE" = "Inserisci riferimento al campo…";
+"FIELD_REFERENCE_REPLACE_TITLE" = "Sostituire il valore esistente?";
+"FIELD_REFERENCE_REPLACE_MESSAGE" = "Questo campo contiene già un valore. Sostituirlo con il riferimento al campo selezionato?";
+"REPLACE" = "Sostituisci";
+"FIELD_REFERENCES" = "Riferimenti ai campi";
+"FIELD_REFERENCE_FORMAT" = "%@ da “%@”";
+"FIELD_REFERENCE_MISSING_FORMAT" = "%@ da una voce mancante";
+"FIELD_REFERENCE_AMBIGUOUS_SUFFIX" = " (%lu corrispondenze; usata la prima)";
+"FIELD_REFERENCE_SOURCE_TOOLTIP_FORMAT" = "Riferimento salvato: %@";
+"FIELD_REFERENCE_RESOLVED_TOOLTIP" = "Riferimento al campo risolto";
+"SHOW_RESOLVED_FIELD_REFERENCE" = "Mostra valore risolto";
+"EDIT_FIELD_REFERENCE_SOURCE" = "Modifica riferimento al campo";
+"NO_MATCHING_ENTRIES" = "Nessuna voce corrispondente";
+"UNTITLED" = "Senza titolo";

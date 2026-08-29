@@ -22,13 +22,22 @@
 
 #import "MPViewController.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface MPReferenceBuilderViewController : MPViewController
 @property (weak) IBOutlet NSPopUpButton *valuePopUpButton;
 @property (weak) IBOutlet NSPopUpButton *searchKeyPopUpButton;
 @property (weak) IBOutlet NSTextField *searchStringTextField;
 @property (weak) IBOutlet NSTextField *referenceStringTextField;
+@property (nonatomic, copy, nullable) NSString *preferredFieldKey;
+@property (nonatomic, copy, nullable) NSString *valueBeingReplaced;
+@property (nonatomic, copy, nullable) void (^completionHandler)(NSString *reference);
 
 - (IBAction)updateReference:(id)sender;
 - (IBAction)updateKey:(id)sender;
+- (IBAction)cancelReference:(id)sender;
+- (IBAction)useReference:(id)sender;
 
 @end
+
+NS_ASSUME_NONNULL_END

@@ -888,3 +888,17 @@
 "PASSWORD_INPUT_UNLOCK_WITH_TOUCH_ID" = "Разблокировать с Touch ID";
 "PASSWORD_INPUT_UNLOCK_METHOD" = "Способ разблокировки";
 "PASSWORD_INPUT_REMOVE_KEY_FILE" = "Удалить файл ключа";
+"INSERT_FIELD_REFERENCE" = "Вставить ссылку на поле…";
+"FIELD_REFERENCE_REPLACE_TITLE" = "Заменить существующее значение?";
+"FIELD_REFERENCE_REPLACE_MESSAGE" = "Это поле уже содержит значение. Заменить его выбранной ссылкой на поле?";
+"REPLACE" = "Заменить";
+"FIELD_REFERENCES" = "Ссылки на поля";
+"FIELD_REFERENCE_FORMAT" = "%@ из «%@»";
+"FIELD_REFERENCE_MISSING_FORMAT" = "%@ из отсутствующей записи";
+"FIELD_REFERENCE_AMBIGUOUS_SUFFIX" = " (совпадений: %lu; используется первое)";
+"FIELD_REFERENCE_SOURCE_TOOLTIP_FORMAT" = "Сохранённая ссылка: %@";
+"FIELD_REFERENCE_RESOLVED_TOOLTIP" = "Разрешённая ссылка на поле";
+"SHOW_RESOLVED_FIELD_REFERENCE" = "Показать разрешённое значение";
+"EDIT_FIELD_REFERENCE_SOURCE" = "Изменить ссылку на поле";
+"NO_MATCHING_ENTRIES" = "Нет совпадающих записей";
+"UNTITLED" = "Без названия";

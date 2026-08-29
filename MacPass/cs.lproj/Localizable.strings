@@ -930,3 +930,17 @@
 "PASSWORD_INPUT_UNLOCK_WITH_TOUCH_ID" = "Odemknout pomocí Touch ID";
 "PASSWORD_INPUT_UNLOCK_METHOD" = "Způsob odemknutí";
 "PASSWORD_INPUT_REMOVE_KEY_FILE" = "Odebrat soubor klíče";
+"INSERT_FIELD_REFERENCE" = "Vložit odkaz na pole…";
+"FIELD_REFERENCE_REPLACE_TITLE" = "Nahradit existující hodnotu?";
+"FIELD_REFERENCE_REPLACE_MESSAGE" = "Toto pole již obsahuje hodnotu. Nahradit ji vybraným odkazem na pole?";
+"REPLACE" = "Nahradit";
+"FIELD_REFERENCES" = "Odkazy na pole";
+"FIELD_REFERENCE_FORMAT" = "%@ z „%@“";
+"FIELD_REFERENCE_MISSING_FORMAT" = "%@ z chybějící položky";
+"FIELD_REFERENCE_AMBIGUOUS_SUFFIX" = " (%lu shod; použita první)";
+"FIELD_REFERENCE_SOURCE_TOOLTIP_FORMAT" = "Uložený odkaz: %@";
+"FIELD_REFERENCE_RESOLVED_TOOLTIP" = "Vyřešený odkaz na pole";
+"SHOW_RESOLVED_FIELD_REFERENCE" = "Zobrazit vyřešenou hodnotu";
+"EDIT_FIELD_REFERENCE_SOURCE" = "Upravit odkaz na pole";
+"NO_MATCHING_ENTRIES" = "Žádné odpovídající položky";
+"UNTITLED" = "Bez názvu";

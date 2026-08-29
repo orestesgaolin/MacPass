@@ -762,3 +762,17 @@
 "PASSWORD_INPUT_UNLOCK_WITH_TOUCH_ID" = "Ontgrendel met Touch ID";
 "PASSWORD_INPUT_UNLOCK_METHOD" = "Ontgrendelmethode";
 "PASSWORD_INPUT_REMOVE_KEY_FILE" = "Sleutelbestand verwijderen";
+"INSERT_FIELD_REFERENCE" = "Veldverwijzing invoegen…";
+"FIELD_REFERENCE_REPLACE_TITLE" = "Bestaande waarde vervangen?";
+"FIELD_REFERENCE_REPLACE_MESSAGE" = "Dit veld bevat al een waarde. Vervangen door de geselecteerde veldverwijzing?";
+"REPLACE" = "Vervangen";
+"FIELD_REFERENCES" = "Veldverwijzingen";
+"FIELD_REFERENCE_FORMAT" = "%@ van ‘%@’";
+"FIELD_REFERENCE_MISSING_FORMAT" = "%@ van ontbrekend item";
+"FIELD_REFERENCE_AMBIGUOUS_SUFFIX" = " (%lu overeenkomsten; eerste gebruikt)";
+"FIELD_REFERENCE_SOURCE_TOOLTIP_FORMAT" = "Opgeslagen verwijzing: %@";
+"FIELD_REFERENCE_RESOLVED_TOOLTIP" = "Opgeloste veldverwijzing";
+"SHOW_RESOLVED_FIELD_REFERENCE" = "Opgeloste waarde tonen";
+"EDIT_FIELD_REFERENCE_SOURCE" = "Veldverwijzing bewerken";
+"NO_MATCHING_ENTRIES" = "Geen overeenkomende items";
+"UNTITLED" = "Naamloos";

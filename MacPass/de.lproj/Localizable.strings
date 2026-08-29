@@ -933,3 +933,17 @@
 "PASSWORD_INPUT_UNLOCK_WITH_TOUCH_ID" = "Mit Touch ID entsperren";
 "PASSWORD_INPUT_UNLOCK_METHOD" = "Entsperrmethode";
 "PASSWORD_INPUT_REMOVE_KEY_FILE" = "Schlüsseldatei entfernen";
+"INSERT_FIELD_REFERENCE" = "Feldreferenz einfügen…";
+"FIELD_REFERENCE_REPLACE_TITLE" = "Vorhandenen Wert ersetzen?";
+"FIELD_REFERENCE_REPLACE_MESSAGE" = "Dieses Feld enthält bereits einen Wert. Durch die ausgewählte Feldreferenz ersetzen?";
+"REPLACE" = "Ersetzen";
+"FIELD_REFERENCES" = "Feldreferenzen";
+"FIELD_REFERENCE_FORMAT" = "%@ aus „%@“";
+"FIELD_REFERENCE_MISSING_FORMAT" = "%@ aus fehlendem Eintrag";
+"FIELD_REFERENCE_AMBIGUOUS_SUFFIX" = " (%lu Treffer; erster verwendet)";
+"FIELD_REFERENCE_SOURCE_TOOLTIP_FORMAT" = "Gespeicherte Referenz: %@";
+"FIELD_REFERENCE_RESOLVED_TOOLTIP" = "Aufgelöste Feldreferenz";
+"SHOW_RESOLVED_FIELD_REFERENCE" = "Aufgelösten Wert anzeigen";
+"EDIT_FIELD_REFERENCE_SOURCE" = "Feldreferenz bearbeiten";
+"NO_MATCHING_ENTRIES" = "Keine passenden Einträge";
+"UNTITLED" = "Unbenannt";

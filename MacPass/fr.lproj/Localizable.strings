@@ -888,3 +888,17 @@
 "PASSWORD_INPUT_UNLOCK_WITH_TOUCH_ID" = "Déverrouiller avec Touch ID";
 "PASSWORD_INPUT_UNLOCK_METHOD" = "Méthode de déverrouillage";
 "PASSWORD_INPUT_REMOVE_KEY_FILE" = "Supprimer le fichier clé";
+"INSERT_FIELD_REFERENCE" = "Insérer une référence de champ…";
+"FIELD_REFERENCE_REPLACE_TITLE" = "Remplacer la valeur existante ?";
+"FIELD_REFERENCE_REPLACE_MESSAGE" = "Ce champ contient déjà une valeur. La remplacer par la référence de champ sélectionnée ?";
+"REPLACE" = "Remplacer";
+"FIELD_REFERENCES" = "Références de champ";
+"FIELD_REFERENCE_FORMAT" = "%@ de « %@ »";
+"FIELD_REFERENCE_MISSING_FORMAT" = "%@ d’une entrée manquante";
+"FIELD_REFERENCE_AMBIGUOUS_SUFFIX" = " (%lu correspondances ; la première est utilisée)";
+"FIELD_REFERENCE_SOURCE_TOOLTIP_FORMAT" = "Référence enregistrée : %@";
+"FIELD_REFERENCE_RESOLVED_TOOLTIP" = "Référence de champ résolue";
+"SHOW_RESOLVED_FIELD_REFERENCE" = "Afficher la valeur résolue";
+"EDIT_FIELD_REFERENCE_SOURCE" = "Modifier la référence de champ";
+"NO_MATCHING_ENTRIES" = "Aucune entrée correspondante";
+"UNTITLED" = "Sans titre";

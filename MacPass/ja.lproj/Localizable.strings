@@ -888,3 +888,17 @@
 "PASSWORD_INPUT_UNLOCK_WITH_TOUCH_ID" = "Touch ID でロック解除";
 "PASSWORD_INPUT_UNLOCK_METHOD" = "ロック解除方法";
 "PASSWORD_INPUT_REMOVE_KEY_FILE" = "キーファイルを削除";
+"INSERT_FIELD_REFERENCE" = "フィールド参照を挿入…";
+"FIELD_REFERENCE_REPLACE_TITLE" = "既存の値を置き換えますか？";
+"FIELD_REFERENCE_REPLACE_MESSAGE" = "このフィールドには既に値があります。選択したフィールド参照で置き換えますか？";
+"REPLACE" = "置き換える";
+"FIELD_REFERENCES" = "フィールド参照";
+"FIELD_REFERENCE_FORMAT" = "「%@」の%@";
+"FIELD_REFERENCE_MISSING_FORMAT" = "存在しないエントリーの%@";
+"FIELD_REFERENCE_AMBIGUOUS_SUFFIX" = "（%lu件一致、最初を使用）";
+"FIELD_REFERENCE_SOURCE_TOOLTIP_FORMAT" = "保存された参照: %@";
+"FIELD_REFERENCE_RESOLVED_TOOLTIP" = "解決済みフィールド参照";
+"SHOW_RESOLVED_FIELD_REFERENCE" = "解決済みの値を表示";
+"EDIT_FIELD_REFERENCE_SOURCE" = "フィールド参照を編集";
+"NO_MATCHING_ENTRIES" = "一致するエントリーがありません";
+"UNTITLED" = "名称未設定";
